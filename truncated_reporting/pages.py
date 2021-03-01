@@ -3,17 +3,26 @@ from ._builtin import Page, WaitPage
 from .models import Constants
 
 
-class MyPage(Page):
+class Decision(Page):
+    form_model = 'player'
+    form_fields = ['wtp_lottery_1']
+
     def vars_for_template(self):
-        return dict(ball_colors=['red'] * 36 + ['blue'] * 37) # etc
+        
+        if self.player.treatment in ['BEST', 'RANDOM']:
+            return {
+                'subsample': self.player.get_subsample(),
+                
+            }
+        elif self.player.treatment == 'FULL':
+            probs_scaled = [int(p * 100) for p in Constants.lottery_1.values()]
+            payoffs = list(Constants.lottery_1.keys())
+            lottery_item = zip(payoffs, probs_scaled)
+
+            return {
+            'probs_scaled': probs_scaled,
+            'payoffs': payoffs
+            }
 
 
-class ResultsWaitPage(WaitPage):
-    pass
-
-
-class Results(Page):
-    pass
-
-
-page_sequence = [MyPage, ResultsWaitPage, Results]
+page_sequence = [Decision]

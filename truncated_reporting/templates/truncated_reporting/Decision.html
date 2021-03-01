@@ -1,0 +1,108 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Please decide
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+  <div class="row" >
+    <div class="col-sm">
+        <p>
+        <b>
+        Below you see information on the lottery that you can buy.
+        {% if player.treatment == 'BEST' or player.treatment == 'RANDOM' %}
+
+            {% if player.treatment == 'BEST' %}
+            In addition, you see the {{Constants.draws}} highest out of 
+            {{Constants.sample_size}} random draws.
+            {% else %}
+            In addition, you see {{Constants.draws}} random draws out of 
+            {{Constants.sample_size}} random draws.
+            {% endif %}
+        {% endif %}
+        </b>
+        </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+        {% if player.treatment == 'FULL' %}
+            <table class="table" style="text-align: center">
+            <thead >
+                <tr class="table-primary">
+                    <th colspan="4">Lottery</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <th class="table-primary"> Probability </th>
+                {% for prob in probs_scaled %}
+                        <td> {{prob}} %</td>
+                {% endfor %}
+                </tr>
+                <tr>
+                <th class="table-primary"> Payoff </th>
+                {% for payoff in payoffs %}
+                        <td> {{payoff}} Euro</td>
+                {% endfor %}
+                </tr>
+            </tbody>
+            </table>
+        {% else %}
+            <table class="table" style="text-align: center">
+            <thead >
+                <tr class="table-primary">
+                  <th>Lottery</th>
+                </tr>
+                <tr>
+                  <th> {{Constants.trunacted_text_lottery_1}} </th>
+                </tr>
+            </thead>
+            </table>
+
+        {% endif %}
+
+    </div>
+    {% if player.treatment == 'BEST' or player.treatment == 'RANDOM' %}
+    <div class="col-sm">
+        <table class="table" style="text-align: center">
+        <thead >
+            <tr class="table-primary">
+            <th>#</th>
+            <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for draw in subsample %}
+                <tr>
+                    <td> Draw {{ forloop.counter }} </td>
+                    <td> {{draw}} Euro </td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+        </table>
+    </div>
+    {% endif %}
+  </div>
+  <div class="row">
+    <div class="col-sm">
+    {% formfields %}
+    {% next_button %}
+
+    </div>  
+  </div>
+</div>
+
+
+
+
+{% endblock %}
+
+{% block style %}
+
+{% endblock %}
