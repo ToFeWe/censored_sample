@@ -7,7 +7,6 @@
 
 {% block content %}
 
-<div class="container">
 
   <div class="row" >
     <div class="col-sm">
@@ -39,15 +38,16 @@
             </thead>
             <tbody>
                 <tr>
-                <th class="table-primary"> Probability </th>
-                {% for prob in probs_scaled %}
-                        <td> {{prob}} %</td>
-                {% endfor %}
-                </tr>
-                <tr>
                 <th class="table-primary"> Payoff </th>
                 {% for payoff in payoffs %}
                         <td> {{payoff}} Euro</td>
+                {% endfor %}
+                </tr>
+
+                <tr>
+                <th class="table-primary"> Probability </th>
+                {% for prob in probs_scaled %}
+                        <td> {{prob}} %</td>
                 {% endfor %}
                 </tr>
             </tbody>
@@ -96,7 +96,6 @@
 
     </div>  
   </div>
-</div>
 
 
 
