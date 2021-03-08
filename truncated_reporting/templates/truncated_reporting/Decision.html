@@ -33,7 +33,7 @@
             <table class="table" style="text-align: center">
             <thead >
                 <tr class="table-primary">
-                    <th colspan="4">Lottery</th>
+                    <th colspan="{{colspan_table}}">Lottery</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,7 +59,7 @@
                   <th>Lottery</th>
                 </tr>
                 <tr>
-                  <th> {{Constants.trunacted_text_lottery_1}} </th>
+                  <th> {{trunc_text}} </th>
                 </tr>
             </thead>
             </table>
@@ -96,6 +96,38 @@
 
     </div>  
   </div>
+<div class="row">
+    <div class="col">
+<br>
+<p>
+  <button type="button" id="instruct_btn" onclick=ShowInstruct()> Zeige Instruktionen </button><br>
+</p>
+<p>
+<div id='instruct' class="instructions well well-lg" xmlns="http://www.w3.org/1999/html"
+  style="display: none;border-style: solid;">
+    
+    {% include "truncated_reporting/explanation.html" %}
+
+</div>
+</div>
+</div>
+</p>
+
+<script>
+  // Show/Hide Instructions
+  function ShowInstruct() {
+    var instruct = document.getElementById("instruct");
+    var btn = document.getElementById("instruct_btn");
+
+    if (instruct.style.display === "none") {
+      instruct.style.display = "block";
+      btn.innerHTML = "Verstecke Instruktionen";
+    } else {
+      instruct.style.display = "none";
+      btn.innerHTML = "Zeige Instruktionen";
+    }
+  }    
+</script>
 
 
 
