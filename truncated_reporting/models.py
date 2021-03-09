@@ -154,7 +154,7 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     
     lottery = models.StringField()
-    wtp_lottery = models.CurrencyField(label="Wieviel sind Sie bereit für diese Lotterie zu bezahlen?", min=0)
+    wtp_lottery = models.CurrencyField(label="", min=0)
     treatment = models.StringField()
     all_draws = models.LongStringField()
     subsample = models.LongStringField()

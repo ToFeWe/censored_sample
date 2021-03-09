@@ -17,10 +17,10 @@
 
             {% if player.treatment == 'BEST' %}
             Außerdem sehen Sie die höchsten {{Constants.draws}} Werte aus 
-            ingesamt {{Constants.sample_size}} zufälligen Ziehungen.
+            ingesamt {{Constants.sample_size}} zufälligen Lotterieziehungen.
             {% else %}
             Außerdem sehen Sie die {{Constants.draws}} zufällige Werte aus 
-            ingesamt {{Constants.sample_size}} zufälligen Ziehungen.
+            ingesamt {{Constants.sample_size}} zufälligen Lotterieziehungen.
             {% endif %}
         {% endif %}
         </b>
@@ -59,7 +59,7 @@
                   <th>Lotterie</th>
                 </tr>
                 <tr>
-                  <th> {{trunc_text}} </th>
+                  <td> {{trunc_text}} </td>
                 </tr>
             </thead>
             </table>
@@ -72,15 +72,15 @@
         <table class="table" style="text-align: center">
         <thead >
             <tr class="table-primary">
-            <th>#</th>
-            <th>Wert</th>
+              <th class="w-50">#</th>
+              <th class="w-50">Wert</th>
             </tr>
         </thead>
         <tbody>
             {% for draw in subsample %}
                 <tr>
-                    <td> Zug {{ forloop.counter }} </td>
-                    <td> {{draw}} Taler </td>
+                    <td class="w-50"> Zug {{ forloop.counter }} </td>
+                    <td class="w-50"> {{draw}} Taler </td>
                 </tr>
             {% endfor %}
 
@@ -91,16 +91,28 @@
   </div>
   <div class="row">
     <div class="col-sm">
-    {% formfield player.wtp_lottery%}
-    {% next_button %}
 
     </div>  
+    <div class="col-sm">
+        <table class="table borderless" style="text-align: center">
+        <tr>
+          <td class="w-50"> <b>Wieviel sind Sie bereit für diese Lotterie zu bezahlen? </b></td>
+          <td class="w-50"> {% formfield player.wtp_lottery%}  </td>
+        </tr>
+        <tr>
+          <td colspan="2"> {% next_button %} </td>
+        </tr>
+        </table>
+        
+        
+    </div>  
+
   </div>
 <div class="row">
     <div class="col">
 <br>
 <p>
-  <button type="button" id="instruct_btn" onclick=ShowInstruct()> Zeige Instruktionen </button><br>
+  <button class="btn btn-secondary" type="button" id="instruct_btn" onclick=ShowInstruct()> Zeige Instruktionen </button><br>
 </p>
 <p>
 <div id='instruct' class="instructions well well-lg" xmlns="http://www.w3.org/1999/html"
@@ -129,11 +141,11 @@
   }    
 </script>
 
+<style>
+  .borderless tr, .borderless td, .borderless th {
+    border: none !important;
+   }
+</style>
 
-
-
-{% endblock %}
-
-{% block style %}
 
 {% endblock %}
