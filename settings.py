@@ -5,20 +5,27 @@ SESSION_CONFIGS = [
        name='truncated_reporting_BEST',
        display_name="truncated_reporting_BEST",
        num_demo_participants=10,
-       treatment='BEST',
+       treatment_list=['BEST'],
        app_sequence=['truncated_reporting']
     ),
     dict(
        name='truncated_reporting_RANDOM',
        display_name="truncated_reporting_RANDOM",
        num_demo_participants=10,
-       treatment='RANDOM',
+       treatment_list=['RANDOM'],
        app_sequence=['truncated_reporting']
     ),
     dict(
        name='truncated_reporting_CYCLE',
        display_name="truncated_reporting_CYCLE",
        num_demo_participants=10,
+       app_sequence=['truncated_reporting']
+    ),
+    dict(
+       name='truncated_reporting_PILOT',
+       display_name="truncated_reporting_PILOT",
+       num_demo_participants=10,
+       treatment_list = ['FULL', 'BEST'],
        app_sequence=['truncated_reporting']
     ),
 ]
@@ -34,11 +41,12 @@ SESSION_CONFIG_DEFAULTS = dict(
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'de'
 
 # e.g. EUR, GBP, CNY, JPY
 REAL_WORLD_CURRENCY_CODE = 'EUR'
-USE_POINTS = False
+USE_POINTS = True
+POINTS_CUSTOM_NAME = "Taler"
 
 ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable

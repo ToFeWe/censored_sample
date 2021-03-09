@@ -2,7 +2,7 @@
 {% load otree static %}
 
 {% block title %}
-    Please decide
+    Bitte entscheiden Sie sich
 {% endblock %}
 
 {% block content %}
@@ -12,15 +12,15 @@
     <div class="col-sm">
         <p>
         <b>
-        Below you see information on the lottery that you can buy.
+        Unten sehen Sie Informationen über die Lotterie, die Sie kaufen können.
         {% if player.treatment == 'BEST' or player.treatment == 'RANDOM' %}
 
             {% if player.treatment == 'BEST' %}
-            In addition, you see the {{Constants.draws}} highest out of 
-            {{Constants.sample_size}} random draws.
+            Außerdem sehen Sie die höchsten {{Constants.draws}} Werte aus 
+            ingesamt {{Constants.sample_size}} zufälligen Ziehungen.
             {% else %}
-            In addition, you see {{Constants.draws}} random draws out of 
-            {{Constants.sample_size}} random draws.
+            Außerdem sehen Sie die {{Constants.draws}} zufällige Werte aus 
+            ingesamt {{Constants.sample_size}} zufälligen Ziehungen.
             {% endif %}
         {% endif %}
         </b>
@@ -33,19 +33,19 @@
             <table class="table" style="text-align: center">
             <thead >
                 <tr class="table-primary">
-                    <th colspan="{{colspan_table}}">Lottery</th>
+                    <th colspan="{{colspan_table}}">Lotterie</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                <th class="table-primary"> Payoff </th>
+                <th class="table-primary"> Auszahlung </th>
                 {% for payoff in payoffs %}
                         <td> {{payoff}} Euro</td>
                 {% endfor %}
                 </tr>
 
                 <tr>
-                <th class="table-primary"> Probability </th>
+                <th class="table-primary"> Wahrscheinlichkeit </th>
                 {% for prob in probs_scaled %}
                         <td> {{prob}} %</td>
                 {% endfor %}
@@ -56,7 +56,7 @@
             <table class="table" style="text-align: center">
             <thead >
                 <tr class="table-primary">
-                  <th>Lottery</th>
+                  <th>Lotterie</th>
                 </tr>
                 <tr>
                   <th> {{trunc_text}} </th>
@@ -73,14 +73,14 @@
         <thead >
             <tr class="table-primary">
             <th>#</th>
-            <th>Value</th>
+            <th>Wert</th>
             </tr>
         </thead>
         <tbody>
             {% for draw in subsample %}
                 <tr>
-                    <td> Draw {{ forloop.counter }} </td>
-                    <td> {{draw}} Euro </td>
+                    <td> Zug {{ forloop.counter }} </td>
+                    <td> {{draw}} Taler </td>
                 </tr>
             {% endfor %}
 
@@ -91,7 +91,7 @@
   </div>
   <div class="row">
     <div class="col-sm">
-    {% formfields %}
+    {% formfield player.wtp_lottery%}
     {% next_button %}
 
     </div>  

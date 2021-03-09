@@ -24,6 +24,7 @@ class Constants(BaseConstants):
     name_in_url = 'truncated_reporting'
     players_per_group = None
 
+    # TODO: Make function for trunc_text?
     all_lotteries = {
         'lottery_1' : { 
             'dist': {
@@ -31,22 +32,79 @@ class Constants(BaseConstants):
                 90: 0.09,
                 100: 0.01,
             },
-            'trunc_text': "The lottery pays with 10 % at least 90 Euro, 100 Euro is possible."
+            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 90 oder 100 Taler. Die Wahrscheinlichkeit mindestens 90 Taler zu bekommen beträgt 10%."
         },
-        'lottery_2': { 
+        'lottery_2': {  
             'dist': {
                 0: 0.8,
                 80: 0.19,
                 100: 0.01,
             },
-            'trunc_text': "The lottery pays with 20 % at least 80 Euro, 100 Euro is possible."
+            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 80 oder 100 Taler. Die Wahrscheinlichkeit mindestens 80 Taler zu bekommen beträgt 20%."
         },
         'lottery_3': { 
             'dist': {
-                50: 0.5,
-                100: 0.5
+                0: 0.7,
+                70: 0.29,
+                100: 0.01,
             },
-            'trunc_text': "The lottery pays with 50 % at least 50 Euro, 100 Euro is possible."
+            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 70 oder 100 Taler. Die Wahrscheinlichkeit mindestens 70 Taler zu bekommen beträgt 20%."
+        },
+        'lottery_4': { 
+            'dist': {
+                0: 0.6,
+                60: 0.39,
+                100: 0.01,
+            },
+            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 60 oder 100 Taler. Die Wahrscheinlichkeit mindestens 60 Taler zu bekommen beträgt 20%."
+        },
+        'lottery_5': { 
+            'dist': {
+                0: 0.5,
+                50: 0.49,
+                100: 0.01,
+            },
+            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 50 oder 100 Taler. Die Wahrscheinlichkeit mindestens 50 Taler zu bekommen beträgt 20%."
+        },
+        'lottery_6': { 
+            'dist': {
+                0: 0.9,
+                90: 0.09,
+                110: 0.01,
+            },
+            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 90 oder 110 Taler. Die Wahrscheinlichkeit mindestens 90 Taler zu bekommen beträgt 10%."
+        },
+        'lottery_7': { 
+            'dist': {
+                0: 0.8,
+                90: 0.19,
+                110: 0.01,
+            },
+            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 90 oder 110 Taler. Die Wahrscheinlichkeit mindestens 90 Taler zu bekommen beträgt 20%."
+        },
+        'lottery_8': { 
+            'dist': {
+                0: 0.7,
+                90: 0.29,
+                120: 0.01,
+            },
+            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 90 oder 120 Taler. Die Wahrscheinlichkeit mindestens 90 Taler zu bekommen beträgt 30%."
+        },
+        'lottery_9': { 
+            'dist': {
+                0: 0.6,
+                90: 0.39,
+                130: 0.01,
+            },
+            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 90 oder 130 Taler. Die Wahrscheinlichkeit mindestens 90 Taler zu bekommen beträgt 40%."
+        },
+        'lottery_10': { 
+            'dist': {
+                0: 0.5,
+                90: 0.49,
+                140: 0.01,
+            },
+            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 90 oder 140 Taler. Die Wahrscheinlichkeit mindestens 90 Taler zu bekommen beträgt 50%."
         }
 
     }
@@ -59,13 +117,15 @@ class Constants(BaseConstants):
 
     all_treatments = ['FULL', 'TRUNCATED', 'RANDOM', 'BEST']
     
-
 class Subsession(BaseSubsession):
     
     def creating_session(self):
         all_players = self.get_players()
 
-        treatment_cycle = cycle(Constants.all_treatments)
+        # If the treatment is not specified in the session config,
+        # we balance across the session
+        treatments_to_cycle = self.session.config.get('treatment_list', Constants.all_treatments)
+        treatment_cycle = cycle(treatments_to_cycle)
 
         for p in all_players:
             # Create random lottery order for each participant
@@ -79,9 +139,7 @@ class Subsession(BaseSubsession):
             # Write lottery to database
             p.lottery = p.participant.vars['lottery_order'][self.round_number-1]
 
-            # If the treatment is not specified in the session config,
-            # we balance across the session
-            player_treatment = self.session.config.get('treatment', next(treatment_cycle))
+            player_treatment = next(treatment_cycle)
             assert player_treatment in Constants.all_treatments, "Unknown treatment indicator."
             p.treatment = player_treatment
             
@@ -96,10 +154,19 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     
     lottery = models.StringField()
-    wtp_lottery = models.CurrencyField(label="How much are you willing to pay to play this lottery?")
+    wtp_lottery = models.CurrencyField(label="Wieviel sind Sie bereit für diese Lotterie zu bezahlen?", min=0)
     treatment = models.StringField()
     all_draws = models.LongStringField()
     subsample = models.LongStringField()
+
+
+    def wtp_lottery_max(self):
+        """ 
+        Helper function to determine the maximum for the given 
+        round dynamically as it differs by lottery."""
+        
+        all_payoffs=  list(Constants.all_lotteries[self.lottery]['dist'].keys())
+        return max(all_payoffs)
 
     def set_all_draws(self, x):
         self.all_draws = json.dumps(x)
