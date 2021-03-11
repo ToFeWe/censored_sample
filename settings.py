@@ -9,6 +9,13 @@ SESSION_CONFIGS = [
        app_sequence=['truncated_reporting']
     ),
     dict(
+       name='truncated_reporting_FULL',
+       display_name="truncated_reporting_FULL",
+       num_demo_participants=10,
+       treatment_list=['FULL'],
+       app_sequence=['truncated_reporting']
+    ),
+    dict(
        name='truncated_reporting_RANDOM',
        display_name="truncated_reporting_RANDOM",
        num_demo_participants=10,
@@ -36,7 +43,7 @@ SESSION_CONFIGS = [
 # e.g. self.session.config['participation_fee']
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
+    real_world_currency_per_point=1/15, participation_fee=4.00, doc=""
 )
 
 # ISO-639 code

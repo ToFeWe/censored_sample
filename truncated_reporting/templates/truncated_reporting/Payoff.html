@@ -1,0 +1,100 @@
+{% extends "global/Page.html" %}
+
+{% load otree %}
+
+{% block title %}
+Vielen Dank für Ihre Teilnahme
+{% endblock %}
+{% block content %}
+<p>
+Das Experiment endet jetzt. Ein Zufallsmechanisum hat entschieden, dass Ihr Entscheidung für die folgende Lotterie 
+für Ihre Auszahlung genutzt wird:
+</p>
+    <table class="table" style="text-align: center">
+      <thead>
+        <tr class="table-primary">
+          <th colspan="{{colspan_table}}">Lotterie</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th class="table-primary"> Auszahlung </th>
+          {% for payoff in payoffs %}
+          <td> {{payoff}} Taler</td>
+          {% endfor %}
+        </tr>
+
+        <tr>
+          <th class="table-primary"> Wahrscheinlichkeit </th>
+          {% for prob in probs_scaled %}
+          <td> {{prob}} %</td>
+          {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+Der durch den Zufall bestimmte Preis beträgt {{relevant_price}}. Sie waren bereit maximal {{relevant_wtp}} für diese Lotterie zu bezahlen.
+
+{% if player.lottery_played %}
+
+Da der Preis nicht größer als Ihr Maximalpreis ist, wird Ihre zusätzliche Auszahlung durch einen Zufallszug aus der Lotterie bestimmt.
+Dieser Zufallszug beträgt {{player.payoff}}.
+{% else %}
+Da der Preis größer als Ihr Maximalpreis ist, spielen Sie die Lotterie nicht. Sie erhalten stattdessen den Preis als
+zusätzliche Auszahlung.
+
+{% endif %}
+<p>
+    <table class="table">
+      <thead>
+        <tr>
+          <th colspan="2" style="text-align: center"> Zusammenfassung </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th> Relevate Lotterie </th>
+          <td> Lotterie {{paid_lottery_round}} </td>
+        </tr>
+        <tr>
+          <th> Ihr Maximalpreis </th>
+          <td> {{relevant_wtp}} </td>
+        </tr>
+        <tr>
+          <th> Preis der Lotterie </th>
+          <td> {{relevant_price}} </td>
+        </tr>
+        {% if player.lottery_played %}
+          <tr>
+            <th> Auszahlung der Lotterie </th>
+            <td> {{player.payoff}} </td>
+          </tr>
+        {% endif %}
+          <tr>
+            <th> Zusätzlicher Verdienst in Euro </th>
+            <td> {{additional_money}} </td>
+          </tr>
+          <tr>
+            <th> Bonus für Ihr pünktliches Erscheinen </th>
+            <td> {{show_up}} </td>
+          </tr>
+          <tr>
+            <th> Gesamtauszahlung in Euro </th>
+            <th> {{total_money}} </th>
+          </tr>
+
+      </tbody>
+    </table>
+</p>
+<p>
+<h2>Bitte geben Sie den Betrag von {{total_money}} auf der Auszahlungseite ein. Wir werden Ihnen Ihr Geld im Anschluss an das Experiment überweisen.</h2>
+
+</p>
+<style>
+.blank_row
+{
+    height: 10px !important; /* overwrites any other rules */
+    background-color: #FFFFFF;
+}
+
+</style>
+{% endblock %}

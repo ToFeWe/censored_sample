@@ -128,16 +128,28 @@ class Subsession(BaseSubsession):
         treatment_cycle = cycle(treatments_to_cycle)
 
         for p in all_players:
-            # Create random lottery order for each participant
             if self.round_number == 1:
+                # Create random lottery order for each participant
                 p.participant.vars['lottery_order'] = random.sample(
                     list(
                         Constants.all_lotteries.keys()
                     ),
                     len(Constants.all_lotteries)
                 )
+                # Draw which round/lottery is paid
+                # Note: randint fully inclusive with bounds
+                p.participant.vars['paid_lottery'] = random.randint(1,Constants.num_rounds)
+
             # Write lottery to database
             p.lottery = p.participant.vars['lottery_order'][self.round_number-1]
+            
+            # Write paid round/lottery to database for each round
+            p.paid_lottery = p.participant.vars['paid_lottery']
+
+            # Determine random price for lottery
+            # Note randint is inclusive for upper and lower bound
+            ub_price = max(Constants.all_lotteries[p.lottery]['dist'].keys())
+            p.price_lottery = random.randint(0, ub_price)
 
             player_treatment = next(treatment_cycle)
             assert player_treatment in Constants.all_treatments, "Unknown treatment indicator."
@@ -155,6 +167,10 @@ class Player(BasePlayer):
     
     lottery = models.StringField()
     wtp_lottery = models.CurrencyField(label="", min=0)
+    price_lottery = models.CurrencyField()
+    paid_lottery = models.IntegerField() # Indicator which lottery round is paid
+    lottery_played = models.BooleanField() # True if the payoff was deterimned by lottery
+
     treatment = models.StringField()
     all_draws = models.LongStringField()
     subsample = models.LongStringField()
@@ -200,3 +216,25 @@ class Player(BasePlayer):
 
         self.set_all_draws(total_sample)
         self.set_subsample(subsample)
+    
+    def calc_payoff(self):
+        """
+
+        Helper function to determine final payoff.
+        """
+        player_in_paid_round = self.in_round(self.paid_lottery)
+        relevant_wtp_player = player_in_paid_round.wtp_lottery
+        relevant_price =  player_in_paid_round.price_lottery
+        
+        # If the wtp is below the price, the player
+        # receives the price
+        if relevant_price>relevant_wtp_player:
+            self.payoff = relevant_price
+            self.lottery_played = False
+        else:
+            # Else she plays the lottery
+            relevant_lottery_dist = Constants.all_lotteries[player_in_paid_round.lottery]['dist']
+            self.payoff = random.choices(population=list(relevant_lottery_dist.keys()),
+                                         weights=list(relevant_lottery_dist.values()),
+                                         k=1)[0]
+            self.lottery_played = True

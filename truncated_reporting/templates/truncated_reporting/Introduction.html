@@ -1,0 +1,23 @@
+{% extends "global/Page.html" %}
+
+{% load otree %}
+
+{% block title %}
+Herzlichen Willkommen
+{% endblock %}
+
+{% block content %}
+<p>
+Herzlich willkommen zum heutigen Experiment. <b>Für Ihr pünktliches erscheinen erhalten Sie 4,00 Euro.</b> 
+Durch Ihre Entscheidungen während des Experiments können Sie zusätzlich Geld verdienen.
+Bitte lesen Sie sich die unten aufgeführten Instruktionen gut durch. 
+Sollten Sie während des Experiments fragen haben, melden Sie sich mit Hilfe der Chatfunktion in der Webex-Konferenz beim Administrator.
+
+
+</p>
+{% include "truncated_reporting/explanation.html" %}
+<p>
+Bitte klicken Sie weiter "Weiter", sobald Sie die Instruktionen verstanden haben, um mit dem Experiment zu beginnen.
+</p>
+{% next_button %}
+{% endblock %}
