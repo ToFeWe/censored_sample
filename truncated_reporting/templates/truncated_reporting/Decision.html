@@ -2,126 +2,127 @@
 {% load otree static %}
 
 {% block title %}
-    Bitte entscheiden Sie sich
+Bitte entscheiden Sie sich
 {% endblock %}
 
 {% block content %}
 
 
-  <div class="row" >
-    <div class="col-sm">
-        <p>
-        <b>
+<div class="row">
+  <div class="col-sm">
+    <p>
+      <b>
         Unten sehen Sie Informationen über die Lotterie, die Sie kaufen können.
         {% if player.treatment == 'BEST' or player.treatment == 'RANDOM' %}
 
-            {% if player.treatment == 'BEST' %}
-            Außerdem sehen Sie die höchsten {{Constants.draws}} Werte aus 
-            ingesamt {{Constants.sample_size}} zufälligen Lotterieziehungen.
-            {% else %}
-            Außerdem sehen Sie die {{Constants.draws}} zufällige Werte aus 
-            ingesamt {{Constants.sample_size}} zufälligen Lotterieziehungen.
-            {% endif %}
-        {% endif %}
-        </b>
-        </p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm">
-        {% if player.treatment == 'FULL' %}
-            <table class="table" style="text-align: center">
-            <thead >
-                <tr class="table-primary">
-                    <th colspan="{{colspan_table}}">Lotterie</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <th class="table-primary"> Auszahlung </th>
-                {% for payoff in payoffs %}
-                        <td> {{payoff}} Euro</td>
-                {% endfor %}
-                </tr>
-
-                <tr>
-                <th class="table-primary"> Wahrscheinlichkeit </th>
-                {% for prob in probs_scaled %}
-                        <td> {{prob}} %</td>
-                {% endfor %}
-                </tr>
-            </tbody>
-            </table>
+        {% if player.treatment == 'BEST' %}
+        Außerdem sehen Sie die höchsten {{Constants.draws}} Werte aus
+        ingesamt {{Constants.sample_size}} zufälligen Lotterieziehungen.
         {% else %}
-            <table class="table" style="text-align: center">
-            <thead >
-                <tr class="table-primary">
-                  <th>Lotterie</th>
-                </tr>
-                <tr>
-                  <td> {{trunc_text}} </td>
-                </tr>
-            </thead>
-            </table>
-
+        Außerdem sehen Sie die {{Constants.draws}} zufällige Werte aus
+        ingesamt {{Constants.sample_size}} zufälligen Lotterieziehungen.
         {% endif %}
-
-    </div>
-    {% if player.treatment == 'BEST' or player.treatment == 'RANDOM' %}
-    <div class="col-sm">
-        <table class="table" style="text-align: center">
-        <thead >
-            <tr class="table-primary">
-              <th class="w-50">#</th>
-              <th class="w-50">Wert</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for draw in subsample %}
-                <tr>
-                    <td class="w-50"> Zug {{ forloop.counter }} </td>
-                    <td class="w-50"> {{draw}} Taler </td>
-                </tr>
-            {% endfor %}
-
-        </tbody>
-        </table>
-    </div>
-    {% endif %}
+        {% endif %}
+      </b>
+    </p>
   </div>
-  <div class="row">
-    <div class="col-sm">
-
-    </div>  
-    <div class="col-sm">
-        <table class="table borderless" style="text-align: center">
-        <tr>
-          <td class="w-50"> <b>Wieviel sind Sie bereit für diese Lotterie zu bezahlen? </b></td>
-          <td class="w-50"> {% formfield player.wtp_lottery%}  </td>
-        </tr>
-        <tr>
-          <td colspan="2"> {% next_button %} </td>
-        </tr>
-        </table>
-        
-        
-    </div>  
-
-  </div>
+</div>
 <div class="row">
-    <div class="col">
-<br>
-<p>
-  <button class="btn btn-secondary" type="button" id="instruct_btn" onclick=ShowInstruct()> Zeige Instruktionen </button><br>
-</p>
-<p>
-<div id='instruct' class="instructions well well-lg" xmlns="http://www.w3.org/1999/html"
-  style="display: none;border-style: solid;">
-    
-    {% include "truncated_reporting/explanation.html" %}
+  <div class="col-sm">
+    {% if player.treatment == 'FULL' %}
+    <table class="table" style="text-align: center">
+      <thead>
+        <tr class="table-primary">
+          <th colspan="{{colspan_table}}">Lotterie</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th class="table-primary"> Auszahlung </th>
+          {% for payoff in payoffs %}
+          <td> {{payoff}} Taler</td>
+          {% endfor %}
+        </tr>
+
+        <tr>
+          <th class="table-primary"> Wahrscheinlichkeit </th>
+          {% for prob in probs_scaled %}
+          <td> {{prob}} %</td>
+          {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+    {% else %}
+    <table class="table" style="text-align: center">
+      <thead>
+        <tr class="table-primary">
+          <th>Lotterie</th>
+        </tr>
+        <tr>
+          <td> {{trunc_text}} </t>
+        </tr>
+      </thead>
+    </table>
+
+    {% endif %}
+
+  </div>
+  {% if player.treatment == 'BEST' or player.treatment == 'RANDOM' %}
+  <div class="col-sm">
+    <table class="table" style="text-align: center">
+      <thead>
+        <tr class="table-primary">
+          <th class="w-50">#</th>
+          <th class="w-50">Wert</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for draw in subsample %}
+        <tr>
+          <td class="w-50"> Zug {{ forloop.counter }} </td>
+          <td class="w-50"> {{draw}} Taler </td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
+<div class="row">
+  <div class="col-sm">
+
+  </div>
+  <div class="col-sm">
+    <table class="table borderless" style="text-align: center">
+      <tr>
+        <td class="w-50"> <b>Wieviel sind Sie bereit für diese Lotterie zu bezahlen? </b></td>
+        <td class="w-50"> {% formfield player.wtp_lottery%} </td>
+      </tr>
+      <tr>
+        <td colspan="2"> {% next_button %} </td>
+      </tr>
+    </table>
+
+
+  </div>
 
 </div>
-</div>
+<div class="row">
+  <div class="col">
+    <br>
+    <p>
+      <button class="btn btn-secondary" type="button" id="instruct_btn" onclick=ShowInstruct()> Zeige Instruktionen
+      </button><br>
+    </p>
+    <p>
+    <div id='instruct' class="instructions well well-lg" xmlns="http://www.w3.org/1999/html"
+      style="display: none;border-style: solid;">
+
+      {% include "truncated_reporting/explanation.html" %}
+
+    </div>
+  </div>
 </div>
 </p>
 
@@ -138,13 +139,15 @@
       instruct.style.display = "none";
       btn.innerHTML = "Zeige Instruktionen";
     }
-  }    
+  }
 </script>
 
 <style>
-  .borderless tr, .borderless td, .borderless th {
+  .borderless tr,
+  .borderless td,
+  .borderless th {
     border: none !important;
-   }
+  }
 </style>
 
 
