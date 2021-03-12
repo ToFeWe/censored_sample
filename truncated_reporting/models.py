@@ -19,6 +19,19 @@ doc = """
 Your app description
 """
 
+def make_trunc_text(lottery):
+    """
+    A function to create a text that is displayed for
+    the given *lottery* in the truncated form
+
+    Args:
+        lottery (dict): Value: Payoff of the lottery
+                        Key: Probability
+
+    Returns:
+        String: Truncated description of the lottery
+    """
+
 
 class Constants(BaseConstants):
     name_in_url = 'truncated_reporting'
