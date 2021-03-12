@@ -9,7 +9,7 @@ from otree.api import (
     currency_range,
 )
 
-from itertools import cycle
+from itertools import accumulate, cycle
 import json
 import random
 
@@ -19,6 +19,19 @@ doc = """
 Your app description
 """
 
+def make_full_text(lottery):
+    # TODO: Add doc
+    dict_items_sorted = sorted(lottery.items(), key=lambda x:x[0]) # TODO: Should be default behavior?
+    dict_items_sorted_recaled = [(value, int(round(prob * 100))) for value, prob in dict_items_sorted]
+    if len(dict_items_sorted) != 3:
+        raise Exception("Only works for three part lotteries")
+    else:
+        out_string = (f"Die Auszahlung der Lotterie beträgt {dict_items_sorted_recaled[0][0]}, {dict_items_sorted_recaled[1][0]} oder {dict_items_sorted_recaled[2][0]} Taler. "
+                      f"Die Lotterie zahlt mit einer Wahrscheinlichkeit von {dict_items_sorted_recaled[0][1]}% genau {dict_items_sorted_recaled[0][0]} Taler, "
+                      f"mit {dict_items_sorted_recaled[1][1]}% genau {dict_items_sorted_recaled[1][0]}"
+                      f" Taler und mit {dict_items_sorted_recaled[2][1]}% genau {dict_items_sorted_recaled[2][0]} Taler.")
+
+        return out_string
 def make_trunc_text(lottery):
     """
     A function to create a text that is displayed for
@@ -26,58 +39,61 @@ def make_trunc_text(lottery):
 
     Args:
         lottery (dict): Value: Payoff of the lottery
-                        Key: Probability
+                        Key: Probabilities
 
     Returns:
         String: Truncated description of the lottery
     """
+    dict_items_sorted = sorted(lottery.items(), key=lambda x:x[0]) # TODO: Should be default behavior?
+    if len(dict_items_sorted) != 3:
+        raise Exception("Only works for three part lotteries")
+    else:
+        two_last_probs = dict_items_sorted[-1][1] + dict_items_sorted[-2][1]
+        accumulate_last_probs= int(round(two_last_probs * 100))
 
+        out_string = (f"Die Auszahlung der Lotterie beträgt {dict_items_sorted[0][0]}, {dict_items_sorted[1][0]} oder {dict_items_sorted[2][0]} Taler. "
+                      f"Die Wahrscheinlichkeit mindestens {dict_items_sorted[1][0]} Taler zu bekommen beträgt {accumulate_last_probs} %.")
+        return out_string
 
 class Constants(BaseConstants):
     name_in_url = 'truncated_reporting'
     players_per_group = None
 
-    # TODO: Make function for trunc_text?
     all_lotteries = {
         'lottery_1' : { 
             'dist': {
                 0: 0.9,
                 90: 0.09,
                 100: 0.01,
-            },
-            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 90 oder 100 Taler. Die Wahrscheinlichkeit mindestens 90 Taler zu bekommen beträgt 10%."
+            }
         },
         'lottery_2': {  
             'dist': {
                 0: 0.8,
                 80: 0.19,
                 100: 0.01,
-            },
-            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 80 oder 100 Taler. Die Wahrscheinlichkeit mindestens 80 Taler zu bekommen beträgt 20%."
+            }
         },
         'lottery_3': { 
             'dist': {
                 0: 0.7,
                 70: 0.29,
                 100: 0.01,
-            },
-            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 70 oder 100 Taler. Die Wahrscheinlichkeit mindestens 70 Taler zu bekommen beträgt 20%."
+            }
         },
         'lottery_4': { 
             'dist': {
                 0: 0.6,
                 60: 0.39,
                 100: 0.01,
-            },
-            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 60 oder 100 Taler. Die Wahrscheinlichkeit mindestens 60 Taler zu bekommen beträgt 20%."
+            }
         },
         'lottery_5': { 
             'dist': {
                 0: 0.5,
                 50: 0.49,
                 100: 0.01,
-            },
-            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 50 oder 100 Taler. Die Wahrscheinlichkeit mindestens 50 Taler zu bekommen beträgt 20%."
+            }
         },
         'lottery_6': { 
             'dist': {
@@ -85,39 +101,34 @@ class Constants(BaseConstants):
                 90: 0.09,
                 110: 0.01,
             },
-            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 90 oder 110 Taler. Die Wahrscheinlichkeit mindestens 90 Taler zu bekommen beträgt 10%."
         },
         'lottery_7': { 
             'dist': {
                 0: 0.8,
                 90: 0.19,
                 110: 0.01,
-            },
-            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 90 oder 110 Taler. Die Wahrscheinlichkeit mindestens 90 Taler zu bekommen beträgt 20%."
+            }
         },
         'lottery_8': { 
             'dist': {
                 0: 0.7,
                 90: 0.29,
                 120: 0.01,
-            },
-            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 90 oder 120 Taler. Die Wahrscheinlichkeit mindestens 90 Taler zu bekommen beträgt 30%."
+            }
         },
         'lottery_9': { 
             'dist': {
                 0: 0.6,
                 90: 0.39,
                 130: 0.01,
-            },
-            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 90 oder 130 Taler. Die Wahrscheinlichkeit mindestens 90 Taler zu bekommen beträgt 40%."
+            }
         },
         'lottery_10': { 
             'dist': {
                 0: 0.5,
                 90: 0.49,
                 140: 0.01,
-            },
-            'trunc_text': "Die Auszahlung der Lotterie beträgt 0, 90 oder 140 Taler. Die Wahrscheinlichkeit mindestens 90 Taler zu bekommen beträgt 50%."
+            }
         }
 
     }
