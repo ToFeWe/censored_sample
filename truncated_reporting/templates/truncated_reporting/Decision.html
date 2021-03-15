@@ -12,13 +12,13 @@ Bitte entscheiden Sie sich
       <b>
         Unten sehen Sie Informationen über die Lotterie, die Sie kaufen können.
         {% if player.treatment == 'BEST' or player.treatment == 'RANDOM' %}
-        {% if player.treatment == 'BEST' %}
-        Außerdem sehen Sie die höchsten {{Constants.draws}} Werte aus
-        ingesamt {{Constants.sample_size}} zufälligen Lotterieziehungen.
-        {% else %}
-        Außerdem sehen Sie die {{Constants.draws}} zufällige Werte aus
-        ingesamt {{Constants.sample_size}} zufälligen Lotterieziehungen.
-        {% endif %}
+          {% if player.treatment == 'BEST' %}
+          Außerdem sehen Sie die höchsten {{Constants.draws}} Werte aus
+          ingesamt {{Constants.sample_size}} zufälligen Lotterieziehungen.
+          {% else %}
+          Außerdem sehen Sie die {{Constants.draws}} zufällige Werte aus
+          ingesamt {{Constants.sample_size}} zufälligen Lotterieziehungen.
+          {% endif %}
         {% endif %}
       </b>
     </p>
@@ -74,7 +74,7 @@ Bitte entscheiden Sie sich
       <div class="col">
         <table class="table borderless" style="text-align: center">
           <tr>
-            <td class="w-50"> <b>Wieviel sind Sie bereit für diese Lotterie zu bezahlen? </b></td>
+            <td class="w-50"> <b>Wie viel sind Sie bereit für diese Lotterie zu bezahlen? </b></td>
             <td class="w-50 float-right"> {% formfield player.wtp_lottery%} </td>
           </tr>
           <tr>

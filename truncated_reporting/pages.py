@@ -7,6 +7,10 @@ class Introduction(Page):
     def is_displayed(self):
         return self.round_number == 1
 
+    def vars_for_template(self):
+        return {
+            'show_up': self.session.config['participation_fee']
+        }
 class Decision(Page):
     form_model = 'player'
     form_fields = ['wtp_lottery']
