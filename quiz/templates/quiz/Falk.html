@@ -1,0 +1,25 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Bitte beantworten Sie die folgenden Fragen (Seite 2 von 2)
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col">
+  <b>Sind Sie im Allgemeinen ein risikobereiter Mensch oder versuchen Sie, Risiken zu vermeiden?</b>
+    <table>
+    <tr>
+      <td class="align-top"> gar nicht risikobereit </td>
+      <td>{% formfield player.q_falk1 label=""%}<td>
+      <td class="align-top"> sehr risikobereit </td>    
+    </table>
+  </div>
+</div>
+#TODO add other falk questions
+    {% next_button %}
+
+{% endblock %}
+
+

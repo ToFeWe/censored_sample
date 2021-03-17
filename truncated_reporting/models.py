@@ -162,13 +162,13 @@ class Subsession(BaseSubsession):
                 )
                 # Draw which round/lottery is paid
                 # Note: randint fully inclusive with bounds
-                p.participant.vars['paid_lottery'] = random.randint(1,Constants.num_rounds)
+                p.participant.vars['paid_lottery_round'] = random.randint(1,Constants.num_rounds)
 
             # Write lottery to database
             p.lottery = p.participant.vars['lottery_order'][self.round_number-1]
             
             # Write paid round/lottery to database for each round
-            p.paid_lottery = p.participant.vars['paid_lottery']
+            p.paid_lottery_round = p.participant.vars['paid_lottery_round']
 
             # Determine random price for lottery
             # Note randint is inclusive for upper and lower bound
@@ -189,10 +189,27 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     
+    # Some attention/Comprehension checks
+    conversion_check = models.IntegerField(label=('Nehmen Sie an, dass Ihre zusätzliche Auszahlung 75 Taler beträgt.'
+                                                  ' Wie viel ist das umgerechnet in Euro?'))
+    
+    # Example lottery: 50% 0 Taler, 30% 50 Taler, 20 % 60 Taler
+    example_1_check = models.StringField(label=('Nehmen Sie an, die Lotterie zahlt mit einer Wahrscheinlichkeit von 50% genau 0 Taler, mit 30% genau 50 Taler und mit 20% genau 60 Taler. '
+                                                'Wie wird der tatsächliche Preis für die Lotterie bestimmt?'),
+                                         choices=['Der Preis wird zufällig ausgewählt und kann zwischen 0 und 60 Talern liegen.',
+                                                  'Der Preis wird zufällig ausgewählt und kann zwischen 10 und 50 Talern liegen.',
+                                                  'Der Preis liegt immer bei 22 Talern.'])
+
+    example_2_check = models.StringField(label=('Nehmen Sie folgende Situation an: Sie geben an, dass Sie bereit sind 24 Taler zu zahlen, um eine '
+                                                'Lotterie zu spielen. Der Preis der Lotterie liegt bei 20 Talern. Wie wird ihre zusätzliche Auszahlung bestimmt?'),
+                                         choices=['Die zusätzliche Auszahlung entspricht in diesem Fall dem Preis der Lotterie.',
+                                                  'Die zusätzliche Auszahlung wird durch einen Zufallszug aus der Lotterie bestimmt.'])
+
+
     lottery = models.StringField()
     wtp_lottery = models.CurrencyField(label="", min=0)
     price_lottery = models.CurrencyField()
-    paid_lottery = models.IntegerField() # Indicator which lottery round is paid
+    paid_lottery_round = models.IntegerField() # Indicator which lottery round is paid
     lottery_played = models.BooleanField() # True if the payoff was deterimned by lottery
 
     treatment = models.StringField()
@@ -246,7 +263,7 @@ class Player(BasePlayer):
 
         Helper function to determine final payoff.
         """
-        player_in_paid_round = self.in_round(self.paid_lottery)
+        player_in_paid_round = self.in_round(self.paid_lottery_round)
         relevant_wtp_player = player_in_paid_round.wtp_lottery
         relevant_price =  player_in_paid_round.price_lottery
         
@@ -262,3 +279,39 @@ class Player(BasePlayer):
                                          weights=list(relevant_lottery_dist.values()),
                                          k=1)[0]
             self.lottery_played = True
+
+    def save_payoff_info(self):
+        """
+        
+        Helper function to save the relevant payment information to
+        participant dict for the payment app to retrieve it.
+        """
+
+        player_in_paid_round = self.in_round(self.paid_lottery_round)
+        
+        # Info on the lottery show
+        paid_lottery_dist = Constants.all_lotteries[player_in_paid_round.lottery]['dist']
+        probs_scaled = [int(round(p * 100)) for p in paid_lottery_dist.values()]
+        payoffs = list(paid_lottery_dist.keys())
+        
+        # To display the table correctly for changing number of payoffs
+        colspan_table = len(payoffs)+1
+
+        # Some info on the relevant decision from the participant
+        relevant_wtp = player_in_paid_round.wtp_lottery
+        relevant_price = player_in_paid_round.price_lottery
+
+        all_payoff_info ={
+            'probs_scaled': probs_scaled,
+            'payoffs': payoffs,
+            'participant_payoff': self.participant.payoff,
+            'colspan_table': colspan_table,
+            'paid_lottery_round': self.paid_lottery_round,
+            'relevant_wtp': relevant_wtp,
+            'lottery_played': self.lottery_played,
+            'relevant_price': relevant_price,
+            'additional_money': self.payoff.to_real_world_currency(self.session),
+            'show_up': self.session.config['participation_fee'],
+            'total_money': self.participant.payoff_plus_participation_fee()
+        }
+        self.participant.vars['all_payoff_info'] = all_payoff_info

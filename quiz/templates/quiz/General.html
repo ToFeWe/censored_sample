@@ -1,0 +1,15 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Bitte beantworten Sie die folgenden Fragen (Seite 1 von 2)
+{% endblock %}
+
+{% block content %}
+<b>Vielen Dank für Ihre Teilnahme. Das Experiment endet jetzt. Bitte beantworten Sie noch die folgenden Fragen.
+Im Anschluss erhalten Sie Ihre Bezahlung.</b>
+
+    {% formfields %}
+    {% next_button %}
+
+{% endblock %}
