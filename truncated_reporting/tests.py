@@ -6,4 +6,9 @@ from .models import Constants
 
 class PlayerBot(Bot):
     def play_round(self):
-        pass
+        if self.round_number == 1:
+            yield pages.Introduction
+            yield pages.RogerThat, dict(conversion_check=5,
+                                        example_1_check='Der Preis wird zufällig ausgewählt und kann zwischen 0 und 60 Talern liegen.',
+                                        example_2_check='Die zusätzliche Auszahlung wird durch einen Zufallszug aus der Lotterie bestimmt.')
+        yield pages.Decision, dict(wtp_lottery=50)            

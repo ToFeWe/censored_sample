@@ -28,9 +28,7 @@ class Decision(Page):
     form_fields = ['wtp_lottery']
 
     def vars_for_template(self):
-        context = {
-        
-        }
+        context = dict()
         
         if self.player.treatment == "FULL":
             lottery_text = make_full_text(Constants.all_lotteries[self.player.lottery]['dist'])
