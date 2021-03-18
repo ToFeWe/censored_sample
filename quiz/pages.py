@@ -11,11 +11,9 @@ class General(Page):
 
 class Falk(Page):
     form_model = 'player'
-    form_fields = ['q_falk1']
-    # , 'q_falk2',
-    #                'q_falk3', 'q_falk4',
-    #                'q_falk5', 'q_falk6']
-
+    form_fields = ['q_falk_risk', 'q_falk_time',
+                   'q_falk_trust', 'q_falk_neg_rec',
+                   'q_falk_pos_rec', 'q_falk_altruism']
 
 
 page_sequence = [General, Falk]
