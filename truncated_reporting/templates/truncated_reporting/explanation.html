@@ -2,45 +2,42 @@
 
 <h3> Instruktionen </h3>
 <p>
-In dieser Studie geht es darum, dass Sie zehn unterschiedliche Lotterien bewerten.
-Genauer gesagt fragen wir Sie nach dem Maximalpreis, den Sie für die jeweilige Lotterie zu zahlen bereit wären.
+    In dieser Studie geht es darum, dass Sie zehn unterschiedliche Lotterien kaufen können.
+    <b>Genauer gesagt fragen wir Sie nach dem Maximalpreis, den Sie für die jeweilige Lotterie zu zahlen bereit wären.</b>
+    Am Ende des Experiments wird eine der Lotterien, die Sie bewertet haben, zufällig für die zusätzliche Auszahlung
+    ausgewählt.
 </p>
 <p>
-Am Ende des Experiments wird eine der Lotterien, die Sie bewertet haben, zufällig für die zusätzliche Auszahlung ausgewählt. Der tatsächliche Preis 
-dieser Lotterie wird durch den Zufall entschieden. Dazu wird ein Preis zufällig ausgewählt. Dieser zufällig ausgewählte Preis liegt zwischen 0 und dem maximalen Betrag, den die jeweilige Lotterie auszahlen kann.
-Sollte der Preis kleiner oder gleich Ihrem Maximalpreis sein, spielen Sie die Lotterie. Ihre Auszahlung wird dann durch einen Zufallszug aus dieser Lotterie bestimmt.
-Andernfalls erhalten Sie den zufällig ausgewählten Preis als Geldbetrag ausgezahlt.<br>
-<b>Bitte beachten Sie, dass Sie so einen Anreiz haben ihren echten Maximalpreis zu nennen (Wenn Sie einen tieferen Preis angeben, erhalten Sie die Lotterie zu selten).</b>
+    <b>Bitte geben Sie für jede Lotterie Ihren wahren Maximalpreis an.</b> Ein Auszahlungsmechanismus wird im Anschluss an das Experiment
+    Ihre genaue Auszahlung bestimmen.
+    Beachten Sie, dass Sie durch den verwendeten Auszahlungsmechanismus einen Anreiz haben ihren echten Maximalpreis zu nennen.
+    Wenn Sie einen tieferen Maximalpreis angeben, erhalten Sie die Lotterie zu selten. Die genauen Details zur Funktionsweise des
+    Auszahlungsmechanismus
+    können Sie sich bei Interesse am Ende der Seite einblenden lassen.
+</p>
 <p>
-Im Experiment verwenden wir eine fiktive Geldeinheit namens Taler.
-Im Anschluss an das Experiment werden die Taler in Euro umgerechnet und Ihnen ausgezahlt.
-<b>Dabei entsprechen 15 Taler einem Euro.</b>
+    Im Experiment verwenden wir eine fiktive Geldeinheit namens Taler.
+    Im Anschluss an das Experiment werden die Taler in Euro umgerechnet und Ihnen ausgezahlt.
+    Dabei entsprechen 8 Taler einem Euro.
 </p>
 
-<p>
-<h5>Beispiel 1:</h5>
-Die Lotterie zahlt mit einer Wahrscheinlichkeit von 40% genau 50 Taler und an­de­rn­falls nichts. Sie geben an, dass Sie bereit sind maximal 20 Taler zu bezahlen,
-um die Lotterie zu spielen. Im Anschluss wird eine Zufallszahl zwischen 0 und 50 gezogen, die den Preis von 15 Talern bestimmt. Da dieser Preis niedriger als Ihr 
-Maximalpreis ist, spielen Sie die Lotterie. Ein Zufallszug aus der Lotterie bestimmt ihre Auszahlung. 
-</p>
-<p>
-<h5>Beispiel 2:</h5>
-Die Lotterie zahlt mit einer Wahrscheinlichkeit von 20% genau 0 Taler, mit 30% genau 60 Taler und mit 50% genau 70 Taler. Sie geben an, dass Sie bereit sind maximal 30 Taler zu bezahlen,
-um die Lotterie zu spielen. Im Anschluss wird eine Zufallszahl zwischen 0 und 70 gezogen, die den Preis von 35 Talern bestimmt. Da dieser Preis größer als Ihr 
-Maximalpreis ist, spielen Sie die Lotterie nicht. Sie erhalten den Preis von 35 Talern als Auszahlung.
-</p>
 {% if player.treatment != "FULL" %}
 <p>
-<b>Beachten Sie:</b> 
+    <b>Beachten Sie:</b>
 
     {% if player.treatment == "TRUNCATED"%}
-    Sie erhalten nicht die volle Information über die jeweiligen Lotterien. Sie erhalten jedoch eine Beschreibung der Lotterien.
+    Sie erhalten nicht die volle Information über die jeweiligen Lotterien. Sie erhalten jedoch eine Beschreibung der
+    Lotterien.
     {% elif player.treatment == "RANDOM" %}
-    Sie erhalten nicht die volle Information über die jeweiligen Lotterien. Sie erhalten jedoch eine Beschreibung der Lotterien.
-    Außerdem werden Ihnen fünf Züge aus der jeweiligen Lotterie angezeigt. Diese wurden aus ingesamt 250 Zufallszügen zufällig ausgewählt.
+    Sie erhalten nicht die volle Information über die jeweiligen Lotterien. Sie erhalten jedoch eine Beschreibung der
+    Lotterien.
+    Außerdem werden Ihnen fünf Züge aus der jeweiligen Lotterie angezeigt. Diese wurden aus ingesamt 250 Zufallszügen
+    zufällig ausgewählt.
     {% else %}
-    Sie erhalten nicht die volle Information über die jeweiligen Lotterien. Sie erhalten jedoch eine Beschreibung der Lotterien.
-    Außerdem werden Ihnen fünf Züge aus der jeweiligen Lotterie angezeigt. Dies sind die fünf Züge mit der höchsten Auszahlung aus ingesamt 250 Zufallszügen.
+    Sie erhalten nicht die volle Information über die jeweiligen Lotterien. Sie erhalten jedoch eine Beschreibung der
+    Lotterien.
+    Außerdem werden Ihnen fünf Züge aus der jeweiligen Lotterie angezeigt. Dies sind die fünf Züge mit der höchsten
+    Auszahlung aus ingesamt 250 Zufallszügen.
     {% endif %}
 </p>
 {% endif %}

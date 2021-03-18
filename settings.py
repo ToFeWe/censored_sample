@@ -30,7 +30,7 @@ SESSION_CONFIGS = [
 # e.g. self.session.config['participation_fee']
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1/15, participation_fee=2.50, doc=""
+    real_world_currency_per_point=1/8, participation_fee=2.50, doc=""
 )
 
 # ISO-639 code

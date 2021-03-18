@@ -4,12 +4,12 @@
   <div class="col">
     <br>
     <p>
-      <button class="btn btn-secondary" type="button" id="instruct_btn" onclick=ShowInstruct()> Zeige Instruktionen
+      <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#Instruct" aria-expanded="false" aria-controls="Instruct"> Zeige Instruktionen
       </button><br>
     </p>
     <p>
-    <div id='instruct' class="instructions well well-lg" xmlns="http://www.w3.org/1999/html"
-      style="display: none;border-style: solid;">
+    <div class="collapse" id="Instruct">
+      <div class="card card-body">
       <p>
         <b>Hinweis</b>: Sollten Sie während des Experiments fragen haben, melden Sie sich mit Hilfe der Chatfunktion
         in der Webex-Konferenz beim Administrator.
@@ -17,22 +17,13 @@
       </p>
       {% include "truncated_reporting/explanation.html" %}
 
+      <h3> Details zum Auszahlungsmechanismus </h3>
+      {% include "truncated_reporting/payment_details.html" %}
+      {% include  "truncated_reporting/payment_examples.html" %}
+
+      </div>
     </div>
+
   </div>
 </div>
 
-<script>
-  // Show/Hide Instructions
-  function ShowInstruct() {
-    var instruct = document.getElementById("instruct");
-    var btn = document.getElementById("instruct_btn");
-
-    if (instruct.style.display === "none") {
-      instruct.style.display = "block";
-      btn.innerHTML = "Verstecke Instruktionen";
-    } else {
-      instruct.style.display = "none";
-      btn.innerHTML = "Zeige Instruktionen";
-    }
-  }
-</script>

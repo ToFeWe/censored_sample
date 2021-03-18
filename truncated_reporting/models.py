@@ -188,24 +188,6 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    
-    # Some attention/Comprehension checks
-    conversion_check = models.IntegerField(label=('Nehmen Sie an, dass Ihre zusätzliche Auszahlung 75 Taler beträgt.'
-                                                  ' Wie viel ist das umgerechnet in Euro?'))
-    
-    # Example lottery: 50% 0 Taler, 30% 50 Taler, 20 % 60 Taler
-    example_1_check = models.StringField(label=('Nehmen Sie an, die Lotterie zahlt mit einer Wahrscheinlichkeit von 50% genau 0 Taler, mit 30% genau 50 Taler und mit 20% genau 60 Taler. '
-                                                'Wie wird der tatsächliche Preis für die Lotterie bestimmt?'),
-                                         choices=['Der Preis wird zufällig ausgewählt und kann zwischen 0 und 60 Talern liegen.',
-                                                  'Der Preis wird zufällig ausgewählt und kann zwischen 10 und 50 Talern liegen.',
-                                                  'Der Preis liegt immer bei 22 Talern.'])
-
-    example_2_check = models.StringField(label=('Nehmen Sie folgende Situation an: Sie geben an, dass Sie bereit sind 24 Taler zu zahlen, um eine '
-                                                'Lotterie zu spielen. Der Preis der Lotterie liegt bei 20 Talern. Wie wird ihre zusätzliche Auszahlung bestimmt?'),
-                                         choices=['Die zusätzliche Auszahlung entspricht in diesem Fall dem Preis der Lotterie.',
-                                                  'Die zusätzliche Auszahlung wird durch einen Zufallszug aus der Lotterie bestimmt.'])
-
-
     lottery = models.StringField()
     wtp_lottery = models.CurrencyField(label="", min=0)
     price_lottery = models.CurrencyField()

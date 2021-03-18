@@ -53,9 +53,6 @@ class Player(BasePlayer):
     q_study_field = models.StringField(label='Was studieren Sie? / Was ist Ihre Tätigkeit?')
     q_semester = models.StringField(label='Falls Sie noch studieren: Im wievielten Semester studieren Sie?', blank=True)
     q_n_experiment = models.IntegerField(label='An wie vielen Experimenten haben Sie (ungefähr) bereits teilgenommen?', max=500, min=0)
-    q_similar_experiment = models.StringField(label='Haben Sie schon einmal an einem ähnlichen Experiment teilgenommen?',
-                                         choices=['Ja.', 'Nein.', 'Ich weiß es nicht.'])
-
 
     q_abitur = models.FloatField(label="Was war die Abschlussnote Ihres letzten Schulabschlusses (1,0 - 4,0)?", min=1.0, max=6.0)
     q_math = models.FloatField(label="Was war Ihre letzte Mathenote (1,0 - 6,0)?", min=1.0, max=6.0)

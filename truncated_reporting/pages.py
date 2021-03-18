@@ -12,17 +12,6 @@ class Introduction(Page):
             'show_up': self.session.config['participation_fee']
         }
 
-class RogerThat(Page):
-    form_model = 'player'
-    form_fields = ['conversion_check',
-                   'example_1_check',
-                   'example_2_check']
-
-
-    def is_displayed(self):
-        return self.round_number == 1
-
-
 class Decision(Page):
     form_model = 'player'
     form_fields = ['wtp_lottery']
@@ -56,4 +45,4 @@ class Decision(Page):
             self.player.save_payoff_info()
 
 
-page_sequence = [Introduction, RogerThat, Decision]
+page_sequence = [Introduction, Decision]

@@ -8,20 +8,45 @@ Herzlichen willkommen
 
 {% block content %}
 <p>
-  Herzlich willkommen zum heutigen Experiment. <b>Für Ihr pünktliches Erscheinen erhalten Sie {{show_up}}.</b> 
+  Herzlich willkommen zum heutigen Experiment. <b>Für Ihr pünktliches Erscheinen erhalten Sie {{show_up}}.</b>
   Durch Ihre Entscheidungen während des Experiments können Sie zusätzlich Geld verdienen.
-  Bitte lesen Sie sich die unten aufgeführten Instruktionen gut durch. 
-  Sollten Sie während des Experiments Fragen haben, melden Sie sich mit Hilfe der Chatfunktion in der Webex-Konferenz beim Administrator.
+  Bitte lesen Sie sich die unten aufgeführten Instruktionen gut durch.
+  Sollten Sie während des Experiments Fragen haben, melden Sie sich mit Hilfe der Chatfunktion in der Webex-Konferenz
+  beim Administrator.
 </p>
 
 <p>
- <b> Hinweis:</b> Sie bleiben für uns und für die anderen Experimentteilnehmer:innen völlig anonym.
-     Wir speichern keine Daten, die mit Ihrem Namen in Verbindung stehen.
+  <b> Hinweis:</b> Sie bleiben für uns und für die anderen Experimentteilnehmer:innen völlig anonym.
+  Wir speichern keine Daten, die mit Ihrem Namen in Verbindung stehen.
 
 </p>
 {% include "truncated_reporting/explanation.html" %}
 <p>
-Bitte klicken Sie weiter "Weiter", sobald Sie die Instruktionen verstanden haben, um mit dem Experiment zu beginnen.
+  Bitte klicken Sie weiter "Weiter", sobald Sie die Instruktionen verstanden haben, um mit dem Experiment zu beginnen.
 </p>
-{% next_button %}
+<table>
+  <tr>
+    <td class="align-top">
+      <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#paymentMechanism"
+        aria-expanded="false" aria-controls="paymentMechanism">
+        Details zum Auszahlungsmechanismus
+      </button>
+    </td>
+    <td>
+      {% next_button %}
+    </td>
+  </tr>
+</table>
+<div class="collapse" id="paymentMechanism">
+  <div class="card card-body">
+    {% include "truncated_reporting/payment_details.html" %}
+    {% include  "truncated_reporting/payment_examples.html" %}
+
+  </div>
+</div>
+
+
+
+
+
 {% endblock %}
