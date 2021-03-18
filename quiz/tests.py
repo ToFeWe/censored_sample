@@ -12,7 +12,6 @@ class PlayerBot(Bot):
                                   q_study_field='YOLO studies',
                                   q_semester=12,
                                   q_n_experiment=12,
-                                  q_similar_experiment='Ja.',
                                   q_abitur=1,
                                   q_math=1,
                                   q_budget=10,
