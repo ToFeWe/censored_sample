@@ -51,7 +51,7 @@ class Player(BasePlayer):
         label='Was ist Ihr höchster Bildungsabschluss?')
 
     q_study_field = models.StringField(label='Was studieren Sie? / Was ist Ihre Tätigkeit?')
-    q_semester = models.StringField(label='Falls Sie noch studieren: Im wievielten Semester studieren Sie?', blank=True)
+    q_semester = models.IntegerField(label='Falls Sie noch studieren: Im wievielten Semester studieren Sie?', blank=True, min=0)
     q_n_experiment = models.IntegerField(label='An wie vielen Experimenten haben Sie (ungefähr) bereits teilgenommen?', max=500, min=0)
 
     q_abitur = models.FloatField(label="Was war die Abschlussnote Ihres letzten Schulabschlusses (1,0 - 4,0)?", min=1.0, max=6.0)
