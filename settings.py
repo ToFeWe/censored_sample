@@ -45,9 +45,8 @@ SESSION_CONFIG_DEFAULTS = dict(
 ROOMS = [
     dict(
         name='DICELAB',
-        display_name='DICELAB',
-        participant_label_file='dicelab_otree_labels.txt'
-    )
+        display_name='DICELAB'
+        )
 ]
 
 # ISO-639 code
