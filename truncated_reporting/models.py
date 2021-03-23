@@ -56,7 +56,7 @@ def make_trunc_text(lottery):
         return out_string
 
 class Constants(BaseConstants):
-    name_in_url = 'truncated_reporting'
+    name_in_url = 'trunlot_experiment'
     players_per_group = None
 
     all_lotteries = {
