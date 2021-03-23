@@ -42,6 +42,14 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1/8, participation_fee=3, doc=""
 )
 
+ROOMS = [
+    dict(
+        name='DICELAB',
+        display_name='DICELAB',
+        participant_label_file='dicelab_otree_labels.txt'
+    )
+]
+
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
 LANGUAGE_CODE = 'de'
