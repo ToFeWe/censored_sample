@@ -8,9 +8,7 @@ class Introduction(Page):
         return self.round_number == 1
 
     def vars_for_template(self):
-        return {
-            'show_up': self.session.config['participation_fee']
-        }
+        return self.player.get_general_instructio_vars()
 
 class Decision(Page):
     form_model = 'player'
@@ -33,7 +31,9 @@ class Decision(Page):
                 
             }
             context.update(extend_dict)
-
+            
+        # get other variables for instructions
+        context.update(self.player.get_general_instructio_vars())
         return context
 
     def before_next_page(self):

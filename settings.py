@@ -21,7 +21,16 @@ SESSION_CONFIGS = [
        num_demo_participants=10,
        treatment_list = ['FULL', 'BEST'],
        app_sequence=['truncated_reporting', 'quiz', 'payment']
+    ),
+    dict(
+       name='BOT_PILOT_BOT',
+       display_name="BOT_PILOT_BOT",
+       num_demo_participants=10,
+       treatment_list = ['FULL', 'BEST'],
+       use_browser_bots=True,
+       app_sequence=['truncated_reporting', 'quiz', 'payment']
     )
+
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
@@ -30,7 +39,7 @@ SESSION_CONFIGS = [
 # e.g. self.session.config['participation_fee']
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1/8, participation_fee=2.50, doc=""
+    real_world_currency_per_point=1/8, participation_fee=3, doc=""
 )
 
 # ISO-639 code

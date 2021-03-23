@@ -41,8 +41,10 @@ Dieser Zufallszug beträgt {{participant_payoff}}.
 {% else %}
 Da der Preis größer als Ihr Maximalpreis ist, spielen Sie die Lotterie nicht. Sie erhalten stattdessen den Preis als
 zusätzliche Auszahlung.
-
 {% endif %}
+<p>
+  Beachten Sie, dass ein Euro umgerechnet {{exchange_rate}} Taler sind.
+</p>
 <p>
     <table class="table">
       <thead>
@@ -86,7 +88,7 @@ zusätzliche Auszahlung.
     </table>
 </p>
 <p>
-<h2>Bitte geben Sie den Betrag von {{total_money}} auf der Auszahlungseite ein. Wir werden Ihnen Ihr Geld im Anschluss an das Experiment überweisen.</h2>
+<h2>Bitte geben Sie den Betrag von <u>{{total_money}}</u> auf der Auszahlungsseite ein. Wir werden Ihre Eingaben überprüfen und Ihnen Ihr Geld im Anschluss an das Experiment überweisen.</h2>
 
 </p>
 <style>

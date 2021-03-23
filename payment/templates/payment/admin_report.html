@@ -1,0 +1,85 @@
+{% load otree %}
+
+<div class="container" style='max-width:970px'>
+    <p>
+    Generated: <strong>{% now "DATETIME_FORMAT" %}</strong>
+    </p>
+
+
+    <h3>Session</h3>
+    <table class="table">
+        <tr>
+            <th>Session config</th>
+            <td>{{ session.config.name }}</td>
+        </tr>
+
+        <tr>
+            <th>Session code</th>
+            <td style="font-family: 'Courier New'">{{ session.code }}</td>
+        </tr>
+
+        <tr>
+            <th>Experimenter name</th>
+            <td>{{ session.experimenter_name|default_if_none:"" }}</td>
+        </tr>
+
+    </table>
+
+    <h3>Participants</h3>
+
+
+    <table class="table table-striped">
+        <tr>
+            <th>Participant code</th>
+            <th>Participant label</th>
+            <th>ORSEE ID</th>
+            <th>Progress</th>
+            <th>Relevant Lottery</th>
+            <th>Relevant WTP</th>
+            <th>Relevant Price</th>
+            <th>Lottery played?</th>
+            <th>Participation fee</th>
+            <th>Additional payoff</th>
+            <th><b>Total</b></th>
+
+        </tr>
+
+        {% for p in participants %}
+        
+        <tr>
+            <td style="font-family: 'Courier New'">{{ p.code }}</td>
+            <td> {{ p.label|default_if_none:"" }}</td>
+            <td> {{p.vars.orsee_id|default_if_none:"" }}</td>
+            <td>{{ p.current_page_ }}</td>
+            <td>{{ p.vars.all_payoff_info.paid_lottery_round|default_if_none:""  }} </td>
+            <td>{{ p.vars.all_payoff_info.relevant_wtp|default_if_none:""  }} </td>
+            <td>{{ p.vars.all_payoff_info.relevant_price|default_if_none:""  }} </td>
+            <td>{{ p.vars.all_payoff_info.lottery_played|default_if_none:""  }} </td>
+            <td>{{ p.vars.all_payoff_info.show_up|default_if_none:""  }} </td>
+            <td>{{ p.vars.all_payoff_info.additional_money|default_if_none:""  }} </td>
+            <td><b>{{ p.vars.all_payoff_info.total_money|default_if_none:"" }}</b></td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <h3>Summary</h3>
+    <table class="table">
+        <tr>
+            <th>Total payments</th>
+            <td>{{total_payoff_all}} </td>
+        </tr>
+        <tr>
+            <th>Mean payment</th>
+            <td>{{mean_payoff_all}}</td>
+        </tr>
+    </table>
+
+
+    <h3>Notes/Signature</h3>
+    <div class="card bg-light">
+        <br/>
+        <br/>
+        <br/>
+    </div>
+</div>

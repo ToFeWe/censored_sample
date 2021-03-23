@@ -294,6 +294,15 @@ class Player(BasePlayer):
             'relevant_price': relevant_price,
             'additional_money': self.payoff.to_real_world_currency(self.session),
             'show_up': self.session.config['participation_fee'],
-            'total_money': self.participant.payoff_plus_participation_fee()
+            'total_money': self.participant.payoff_plus_participation_fee(),
+            'exchange_rate': int(1/self.session.config['real_world_currency_per_point'])
         }
         self.participant.vars['all_payoff_info'] = all_payoff_info
+
+    def get_general_instructio_vars(self):
+        context = {
+            'exchange_rate': int(1/self.session.config['real_world_currency_per_point']),
+            'show_up': self.session.config['participation_fee']
+        }
+
+        return context

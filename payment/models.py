@@ -24,7 +24,15 @@ class Constants(BaseConstants):
 
 
 class Subsession(BaseSubsession):
-    pass
+    def vars_for_admin_report(self):
+        participants = self.session.get_participants()
+        total_payoff_all = sum([p.payoff.to_real_world_currency(self.session) for p in participants])
+        mean_payoff_all = total_payoff_all/self.session.num_participants
+        return {
+            'participants': participants,
+            'total_payoff_all': total_payoff_all,
+            'mean_payoff_all': mean_payoff_all
+        }
 
 
 class Group(BaseGroup):
@@ -32,4 +40,4 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    pass
+    orsee_id = models.StringField(label="Bitte geben Sie Ihre Teilnehmer-ID ein:")

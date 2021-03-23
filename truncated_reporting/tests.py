@@ -34,7 +34,7 @@ class PlayerBot(Bot):
         expect(str(min_pay), 'in', self.html)
         middle_prob = Constants.all_lotteries[current_lottery]['dist'][
                         list(Constants.all_lotteries[current_lottery]['dist'].keys())[1]
-                        ]
+                      ]
         if self.player.treatment == 'FULL':
             expect(str(int(round(middle_prob*100)))+ '% genau', 'in', self.html)
         else:
