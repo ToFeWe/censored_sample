@@ -39,13 +39,15 @@ SESSION_CONFIGS = [
 # e.g. self.session.config['participation_fee']
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1/8, participation_fee=3, doc=""
+    real_world_currency_per_point=1/9, participation_fee=3, doc=""
 )
 
 ROOMS = [
     dict(
         name='DICELAB',
-        display_name='DICELAB'
+        display_name='DICELAB',
+        #participant_label_file='dicelab_otree_labels.txt',
+        #use_secure_urls=True
         )
 ]
 

@@ -28,7 +28,15 @@ class Subsession(BaseSubsession):
         participants = self.session.get_participants()
         total_payoff_all = sum([p.payoff.to_real_world_currency(self.session) for p in participants])
         mean_payoff_all = total_payoff_all/self.session.num_participants
+
+        
+        urls_with_id = [
+                p._start_url() + "/?participant_label=[TEILNEHMER-ID_EINFÜGEN]"
+             for p in participants
+        ]
+
         return {
+            'urls_with_id': urls_with_id,
             'participants': participants,
             'total_payoff_all': total_payoff_all,
             'mean_payoff_all': mean_payoff_all

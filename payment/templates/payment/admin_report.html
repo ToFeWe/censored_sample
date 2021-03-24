@@ -24,15 +24,22 @@
         </tr>
 
     </table>
+    <h3> URLS TO COPY</h3>
+    <table>
+    {% for url in urls_with_id %}
+        <tr>
+        
+            <td> http://{{ request.get_host }}{{url}} </td>
+        </tr>
+    {% endfor %}
+    </table>
 
     <h3>Participants</h3>
-
 
     <table class="table table-striped">
         <tr>
             <th>Participant code</th>
-            <th>Participant label</th>
-            <th>ORSEE ID</th>
+            <th>Participant label/ORSEE ID</th>
             <th>Progress</th>
             <th>Relevant Lottery</th>
             <th>Relevant WTP</th>
@@ -49,7 +56,6 @@
         <tr>
             <td style="font-family: 'Courier New'">{{ p.code }}</td>
             <td> {{ p.label|default_if_none:"" }}</td>
-            <td> {{p.vars.orsee_id|default_if_none:"" }}</td>
             <td>{{ p.current_page_ }}</td>
             <td>{{ p.vars.all_payoff_info.paid_lottery_round|default_if_none:""  }} </td>
             <td>{{ p.vars.all_payoff_info.relevant_wtp|default_if_none:""  }} </td>

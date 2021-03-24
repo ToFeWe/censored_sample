@@ -6,6 +6,7 @@
 Vielen Dank für Ihre Teilnahme
 {% endblock %}
 {% block content %}
+
 <p>
 Das Experiment endet jetzt. Ein Zufallsmechanisum hat entschieden, dass Ihre Entscheidung für die folgende Lotterie 
 für Ihre Auszahlung genutzt wird:
@@ -42,9 +43,7 @@ Dieser Zufallszug beträgt {{participant_payoff}}.
 Da der Preis größer als Ihr Maximalpreis ist, spielen Sie die Lotterie nicht. Sie erhalten stattdessen den Preis als
 zusätzliche Auszahlung.
 {% endif %}
-<p>
   Beachten Sie, dass ein Euro umgerechnet {{exchange_rate}} Taler sind.
-</p>
 <p>
     <table class="table">
       <thead>
@@ -88,8 +87,8 @@ zusätzliche Auszahlung.
     </table>
 </p>
 <p>
-<h2>Bitte geben Sie den Betrag von <u>{{total_money}}</u> auf der Auszahlungsseite ein. Wir werden Ihre Eingaben überprüfen und Ihnen Ihr Geld im Anschluss an das Experiment überweisen.</h2>
-
+<h2>Bitte klicken Sie hier um Ihre Auszahlung zu erhalten: </h2>
+<a href="https://{{payoff_link}}" class="btn btn-primary btn-block btn-lg" role="button">Zur Auszahlungsseite</a>
 </p>
 <style>
 .blank_row
