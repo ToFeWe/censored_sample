@@ -8,7 +8,8 @@ from otree.api import (
     Currency as c,
     currency_range,
 )
-
+from .exeception import PaymentKeyNotFound
+from .payout_url_generator import PayoutURLGenerator
 
 author = 'Your name here'
 
@@ -21,9 +22,17 @@ class Constants(BaseConstants):
     name_in_url = 'payment'
     players_per_group = None
     num_rounds = 1
+    baseURL_payment = "https://www3.hhu.de/lab/dice.php"
 
 
 class Subsession(BaseSubsession):
+    def creating_session(self):
+        payment_keys = ['expId', 'expShortName']
+        for k in payment_keys:
+            if k not in self.session.config.keys():
+                raise PaymentKeyNotFound(k)
+
+
     def vars_for_admin_report(self):
         participants = self.session.get_participants()
         total_payoff_all = sum([p.payoff.to_real_world_currency(self.session) for p in participants])
@@ -48,4 +57,19 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    orsee_id = models.StringField(label="Bitte geben Sie Ihre Teilnehmer-ID ein:")
+    orsee_id = models.StringField()
+
+    def create_paymentURL(self):
+        """
+        
+        Small helper function to create a payment URL.
+        """
+        expShortName = self.session.config['expShortName']
+        expId = self.session.config['expId']
+        pid = self.participant.label
+        final_payoff = float(self.participant.payoff_plus_participation_fee())
+        paymentURL = PayoutURLGenerator(expShortName,
+                                        expId,
+                                        pid,
+                                        final_payoff).getPayoutURL()
+        return paymentURL

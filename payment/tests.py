@@ -6,7 +6,8 @@ from .models import Constants
 
 class PlayerBot(Bot):
     def play_round(self):
-        yield pages.OrseeID, dict(orsee_id="lollo")
+        if self.participant.label is None:
+            yield pages.OrseeID, dict(orsee_id="lollo")
         
 
         price = self.participant.vars['all_payoff_info']['relevant_price']

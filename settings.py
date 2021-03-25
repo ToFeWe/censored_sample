@@ -5,6 +5,8 @@ SESSION_CONFIGS = [
        name='truncated_reporting_BEST',
        display_name="truncated_reporting_BEST",
        num_demo_participants=10,
+       expShortName='trunlot',
+       expId=1616578277,
        treatment_list=['BEST'],
        app_sequence=['truncated_reporting', 'quiz', 'payment']
     ),
@@ -12,6 +14,8 @@ SESSION_CONFIGS = [
        name='truncated_reporting_FULL',
        display_name="truncated_reporting_FULL",
        num_demo_participants=10,
+       expShortName='trunlot',
+       expId=1616578277,
        treatment_list=['FULL'],
        app_sequence=['truncated_reporting', 'quiz', 'payment']
     ),
@@ -19,6 +23,8 @@ SESSION_CONFIGS = [
        name='truncated_reporting_PILOT',
        display_name="truncated_reporting_PILOT",
        num_demo_participants=10,
+       expShortName='trunlot',
+       expId=1616578277,
        treatment_list = ['FULL', 'BEST'],
        app_sequence=['truncated_reporting', 'quiz', 'payment']
     ),
@@ -26,6 +32,8 @@ SESSION_CONFIGS = [
        name='BOT_PILOT_BOT',
        display_name="BOT_PILOT_BOT",
        num_demo_participants=10,
+       expShortName='trunlot',
+       expId=1616578277,
        treatment_list = ['FULL', 'BEST'],
        use_browser_bots=True,
        app_sequence=['truncated_reporting', 'quiz', 'payment']
