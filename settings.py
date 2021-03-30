@@ -2,43 +2,43 @@ from os import environ
 
 SESSION_CONFIGS = [
     dict(
-       name='truncated_reporting_BEST',
-       display_name="truncated_reporting_BEST",
+       name='PILOT_TRUNCATED_FULL',
+       display_name="PILOT_TRUNCATED_FULL",
        num_demo_participants=10,
        expShortName='trunlot',
        expId=1616578277,
-       treatment_list=['BEST'],
+       treatment_list = ['TRUNCATED', 'FULL'],
        app_sequence=['truncated_reporting', 'quiz', 'payment']
     ),
     dict(
-       name='truncated_reporting_FULL',
-       display_name="truncated_reporting_FULL",
+       name='PILOT_TRUNCATED_BEST',
+       display_name="PILOT_TRUNCATED_BEST",
        num_demo_participants=10,
        expShortName='trunlot',
        expId=1616578277,
-       treatment_list=['FULL'],
+       treatment_list = ['TRUNCATED', 'BEST'],
        app_sequence=['truncated_reporting', 'quiz', 'payment']
     ),
     dict(
-       name='truncated_reporting_PILOT',
-       display_name="truncated_reporting_PILOT",
+       name='BOT_TRUNCATED_FULL',
+       display_name="BOT_TRUNCATED_FULL",
        num_demo_participants=10,
-       expShortName='trunlot',
-       expId=1616578277,
-       treatment_list = ['FULL', 'BEST'],
-       app_sequence=['truncated_reporting', 'quiz', 'payment']
-    ),
-    dict(
-       name='BOT_PILOT_BOT',
-       display_name="BOT_PILOT_BOT",
-       num_demo_participants=10,
-       expShortName='trunlot',
-       expId=1616578277,
-       treatment_list = ['FULL', 'BEST'],
        use_browser_bots=True,
+       expShortName='trunlot',
+       expId=1616578277,
+       treatment_list = ['TRUNCATED', 'FULL'],
+       app_sequence=['truncated_reporting', 'quiz', 'payment']
+    ),
+    dict(
+       name='BOT_TRUNCATED_BEST',
+       display_name="BOT_TRUNCATED_BEST",
+       num_demo_participants=10,
+       use_browser_bots=True,
+       expShortName='trunlot',
+       expId=1616578277,
+       treatment_list = ['TRUNCATED', 'BEST'],
        app_sequence=['truncated_reporting', 'quiz', 'payment']
     )
-
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs

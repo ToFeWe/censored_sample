@@ -8,7 +8,7 @@ from otree.api import (
     Currency as c,
     currency_range,
 )
-from .exeception import PaymentKeyNotFound
+from .exception import PaymentKeyNotFound
 from .payout_url_generator import PayoutURLGenerator
 
 author = 'Your name here'
@@ -22,7 +22,6 @@ class Constants(BaseConstants):
     name_in_url = 'payment'
     players_per_group = None
     num_rounds = 1
-    baseURL_payment = "https://www3.hhu.de/lab/dice.php"
 
 
 class Subsession(BaseSubsession):
@@ -38,7 +37,7 @@ class Subsession(BaseSubsession):
         total_payoff_all = sum([p.payoff.to_real_world_currency(self.session) for p in participants])
         mean_payoff_all = total_payoff_all/self.session.num_participants
 
-        
+        # base url added directly in template
         urls_with_id = [
                 p._start_url() + "/?participant_label=[TEILNEHMER-ID_EINFÜGEN]"
              for p in participants
@@ -57,7 +56,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    orsee_id = models.StringField()
+    orsee_id = models.StringField(label="Bitte geben Sie Ihre Teilnehmer-ID ein:")
 
     def create_paymentURL(self):
         """
