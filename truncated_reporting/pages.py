@@ -1,7 +1,7 @@
 from otree.api import Currency as c, currency_range
 from ._builtin import Page, WaitPage
 from .models import Constants
-from .models import make_trunc_text, make_full_text
+from .models import make_trunc_text, make_full_text, get_highest_payoff_state
 
 class Introduction(Page):
     def is_displayed(self):
@@ -45,4 +45,50 @@ class Decision(Page):
             self.player.save_payoff_info()
 
 
-page_sequence = [Introduction, Decision]
+class Belief(Page):
+    form_model = 'player'
+    form_fields = ['belief', 'belief_sequence']
+
+    def vars_for_template(self):
+        context = dict()
+        
+        if self.player.treatment == "FULL":
+            lottery_text = make_full_text(Constants.all_lotteries[self.player.lottery_for_belief]['dist'])
+        else:
+            lottery_text = make_trunc_text(Constants.all_lotteries[self.player.lottery_for_belief]['dist'])
+        
+        context['lottery_text'] = lottery_text
+        
+        
+        if self.player.treatment in ['BEST', 'RANDOM']:
+            # Retrieve the sample he has seen in the first round
+            player_in_first_round = self.player.in_round(1)
+            extend_dict = {
+                'subsample': player_in_first_round.get_subsample(),
+                
+            }
+            context.update(extend_dict)
+            
+        # get other variables for instructions
+        context.update(self.player.get_general_instructio_vars())
+
+        # Get the highest payoff state for the given lottery
+        highest_payoff_state = get_highest_payoff_state(Constants.all_lotteries[
+                                                                    self.player.lottery_for_belief
+                                                                ]['dist'])
+        # GEt the highest possible prior a participant could report
+        max_value_slider = self.player.slider_max()
+
+        # Add both to context
+        context.update({
+            'highest_payoff_state': highest_payoff_state,
+            'max_value_slider': max_value_slider
+        })
+
+        return context
+
+    def is_displayed(self):
+        # Only shown in the last round and only if the probabilities have been censored
+        return ((self.round_number == Constants.num_rounds) and self.player.treatment in ['BEST','TRUNCATED'])
+
+page_sequence = [Introduction, Decision, Belief]

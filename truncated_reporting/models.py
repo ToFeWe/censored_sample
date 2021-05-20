@@ -12,6 +12,7 @@ from otree.api import (
 from itertools import accumulate, cycle
 import json
 import random
+import math
 
 author = 'Your name here'
 
@@ -19,9 +20,36 @@ doc = """
 Your app description
 """
 
+# TODO: Moves those functions to separate utils file
+def sort_lottery(lottery):
+    """
+    
+    Sorts a lottery by payoff state in an increasing order.
+
+    Args:
+        lottery (dict): Lottery that is being used.
+    """
+    dict_items_sorted = sorted(lottery.items(), key=lambda x:x[0])
+    return dict_items_sorted
+
+def get_highest_payoff_state(lottery):
+    """
+    Returns the highest payoff state for the given lottery.
+
+    Args:
+        lottery (dict): Lottery that is being used.
+    """
+    dict_items_sorted = sort_lottery(lottery)
+    dict_items_sorted_recaled = [(value, int(round(prob * 100))) for value, prob in dict_items_sorted] # TODO: Function?
+
+    if len(dict_items_sorted) != 3:
+        raise Exception("Only works for three part lotteries")
+    else:
+        return dict_items_sorted_recaled[2][0]
+
 def make_full_text(lottery):
     # TODO: Add doc
-    dict_items_sorted = sorted(lottery.items(), key=lambda x:x[0]) # TODO: Should be default behavior?
+    dict_items_sorted = sort_lottery(lottery)
     dict_items_sorted_recaled = [(value, int(round(prob * 100))) for value, prob in dict_items_sorted]
     if len(dict_items_sorted) != 3:
         raise Exception("Only works for three part lotteries")
@@ -44,7 +72,7 @@ def make_trunc_text(lottery):
     Returns:
         String: Truncated description of the lottery
     """
-    dict_items_sorted = sorted(lottery.items(), key=lambda x:x[0]) # TODO: Should be default behavior?
+    dict_items_sorted = sort_lottery(lottery)
     if len(dict_items_sorted) != 3:
         raise Exception("Only works for three part lotteries")
     else:
@@ -183,6 +211,14 @@ class Subsession(BaseSubsession):
             if p.treatment in ['RANDOM', 'BEST']:
                 p.draw_sample()
 
+
+            # In the last round of the experiment, we also ask for the belief over the probability
+            # for the first lottery that they have seen in the experiment.
+            if self.round_number == Constants.num_rounds:
+                # belief lottery will be the first lottery that he/she has seen
+                p.lottery_for_belief = p.participant.vars['lottery_order'][0]
+
+
 class Group(BaseGroup):
     pass
 
@@ -192,12 +228,17 @@ class Player(BasePlayer):
     wtp_lottery = models.CurrencyField(label="", min=0)
     price_lottery = models.CurrencyField()
     paid_lottery_round = models.IntegerField() # Indicator which lottery round is paid
-    lottery_played = models.BooleanField() # True if the payoff was deterimned by lottery
+    lottery_played = models.BooleanField() # True if the payoff was determined by lottery
 
     treatment = models.StringField()
     all_draws = models.LongStringField()
     subsample = models.LongStringField()
 
+
+    # Prior over censored interval
+    lottery_for_belief = models.StringField() # Lottery for which we ask the belief
+    belief = models.IntegerField(label="")
+    belief_sequence = models.LongStringField()
 
     def wtp_lottery_max(self):
         """ 
@@ -206,6 +247,17 @@ class Player(BasePlayer):
         
         all_payoffs=  list(Constants.all_lotteries[self.lottery]['dist'].keys())
         return max(all_payoffs)
+
+    def slider_max(self):
+        """
+
+        Retrieve the maximal value the slider should take for the belief elicitation.
+        """
+        relevant_lottery = Constants.all_lotteries[self.lottery_for_belief]['dist']
+        sorted_lottery = sort_lottery(relevant_lottery)
+        probability_lowest_state = sorted_lottery[0][1]
+        max_prob = int(round((1 - probability_lowest_state) * 100))
+        return max_prob
 
     def set_all_draws(self, x):
         self.all_draws = json.dumps(x)

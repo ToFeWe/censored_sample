@@ -6,67 +6,8 @@ Bitte entscheiden Sie sich
 {% endblock %}
 
 {% block content %}
-<div class="row">
-  <div class="col">
-    <p>
-      <b>
-        Unten sehen Sie Informationen über die Lotterie, die Sie kaufen können.
-        {% if player.treatment == 'BEST' or player.treatment == 'RANDOM' %}
-        {% if player.treatment == 'BEST' %}
-        Außerdem sehen Sie die höchsten {{Constants.draws}} Werte aus
-        ingesamt {{Constants.sample_size}} zufälligen Lotterieziehungen.
-        {% else %}
-        Außerdem sehen Sie die {{Constants.draws}} zufällige Werte aus
-        ingesamt {{Constants.sample_size}} zufälligen Lotterieziehungen.
-        {% endif %}
-        {% endif %}
-      </b>
-    </p>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col">
-    <table class="table" style="text-align: center">
-      <thead>
-        <tr class="table-primary">
-          <th>Lotterie</th>
-        </tr>
-        <tr>
-          <td> {{lottery_text}} </t>
-        </tr>
-      </thead>
-    </table>
-  </div>
-</div>
-{% if player.treatment == 'BEST' or player.treatment == 'RANDOM' %}
-<div class="row">
-  <div class="col">
-    <table class="table" style="text-align: center">
-      <thead>
-        <tr class="table-primary">
-          <th colspan="2">Lotteriezüge</th>
-
-        </tr>
-        <tr class="table-primary">
-          <th class="w-50">#</th>
-          <th class="w-50">Wert</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for draw in subsample %}
-        <tr>
-          <td class="w-60"> Zug {{ forloop.counter }} </td>
-          <td class="w-40"> {{draw}} Taler </td>
-        </tr>
-        {% endfor %}
-
-      </tbody>
-    </table>
-  </div>
-</div>
-
-{% endif %}
+  
+{% include "truncated_reporting/lottery_presentation.html" %}
 
 <div class="row">
   <div class="col">
