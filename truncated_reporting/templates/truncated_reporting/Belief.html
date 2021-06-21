@@ -2,48 +2,133 @@
 {% load otree static %}
 
 {% block title %}
-Bitte entscheiden Sie sich
+Ihre Einschätzung zu einer vergangenen Entscheidung
 {% endblock %}
 
-{% block content %}
-  
-{% include "truncated_reporting/lottery_presentation.html" %}
 
-<table class="w3-table w3-white" style="border-spacing: 0; width: 100%" cellpadding="5">
-  <br>
-  <tr>
-    <td  colspan="3">
-        Was denken Sie ist die tatsächliche Wahrscheinlichkeit, dass diese Lotterie eine Auszahlung von {{highest_payoff_state}} hat?
-    </td>
-  </tr>
-  <tr>
-          <td width="10%" align="center"> <strong> 0 %</strong></td>
-            <td width="80%"> 
-              <div class="form-group required">
-                 <div class="controls  field-belief">
-                    <input type="range" name="belief" id="id_belief_slider" class="slider2" style="width: 100%" min="0" max="{{max_value_slider}}" value="{{max_value_slider}}"/>
-                 </div>
+{% block content %}
+<p>
+  Wir sind nun an Ihrer Einschätzung zu einer vergangenen Lotterieentscheidung interessiert. Unten sehen Sie eine
+  Lotterie, zu
+  der Sie bereits Ihre Zahlungsbereitschaft angegeben haben. <b>Was denken Sie ist die tatsächliche Wahrscheinlichkeit,
+    dass diese Lotterie eine Auszahlung von
+    {{highest_payoff_state}} hat?</b> Bitte nutzen Sie den Schieberegler, um die Wahrscheinlichkeit anzugeben.
+</p>
+<p>
+  <b>Für Ihre Einschätzung können Sie einen zusätzlichen Bonus von <u>{{Constants.belief_bonus}} Taler</u> verdienen.
+  </b>
+  Geben Sie dazu den Wert an, der tatsächlich Ihrer Einschätzung entspricht. <b>Die Chance den Bonus zu erhalten richtet
+    sich daran wie gut Ihre Einschätzung ist.</b>
+  Die genaue Auszahlungsregel ist auf Anfrage am Ende des Experiments einsehbar.
+</p>
+
+<div class="card border-secondary mb-3 border-3 bg-light">
+  <div class="card-header border-secondary mb-3  border-3">
+    <h4 class="card-title"> Erinnerung an die vergangene Entscheidung</h4>
+  </div>
+  <div class="card-body border-secondary">
+    {% include "truncated_reporting/lottery_presentation.html" %}
+    <div class="row">
+      <div class="col">
+        <table class="table borderless" style="text-align: center">
+          <tr>
+            <td class="w-50 align-middle"> <b>Wie viel sind Sie bereit für diese Lotterie zu bezahlen? </b></td>
+            <td class="w-50 float-end">
+
+              <label class="col-form-label"></label>
+              <div class="controls">
+                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                  data-bs-content="Sie haben diese Entscheidung bereits getroffen. Wir sind jetzt an Ihrer Einschätzung interessiert, die Sie unten eingeben können.">
+
+                  <div class="input-group input-group-narrow">
+
+                    <input type="number" class="form-control" value="" disabled><span
+                      class="input-group-text">Taler</span>
+                  </div>
+                </span>
               </div>
             </td>
-          <td width="10%" align="center"> <strong> {{max_value_slider}} %</strong></td>
-  </tr>
-</table>
-<span id="click_slider">
-<b style="color: red">Bitte klicken Sie auf den Schieberegler, um die Wahrscheinlichkeit anzugeben. 
-Sie können Ihre Entscheidung im Anschluss noch verändern.</b>
-</span>
-<span id="slider_clicked" style="display:none;">
-Ich glaube, dass die Lotterie mit einer Wahrscheinlichkeit von <b style="color: red"> <span id="text_belief">XX %</span></b> genau {{highest_payoff_state}} Taler auszahlt.
-</span>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+                data-bs-content="Sie haben diese Entscheidung bereits getroffen. Wir sind jetzt an Ihrer Einschätzung interessiert, die Sie unten eingeben können.">
+                <button class="btn btn-secondary" type="button" disabled>Weiter</button>
+              </span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<div class="card border-secondary mb-3 border-3">
+  <div class="card-header border-secondary mb-3  border-3 ">
+    <h4 class="card-title"> Ihre Einschätzung</h4>
+  </div>
+  <table class="w3-table w3-white" style="border-spacing: 0; width: 100%" cellpadding="5">
+    <br>
+    <tr>
+      <td colspan="3">
+        Was denken Sie ist die tatsächliche Wahrscheinlichkeit, dass diese Lotterie eine Auszahlung von
+        {{highest_payoff_state}} hat?
+      </td>
+    </tr>
+    <tr>
+      <td width="10%" align="center"> <strong> 0 %</strong></td>
+      <td width="80%">
+        <div class="form-group required">
+          <div class="controls  field-belief">
+            <input type="range" name="belief" id="id_belief_slider" class="slider2" style="width: 100%" min="0"
+              max="{{max_value_slider}}" value="{{max_value_slider}}" />
+          </div>
+        </div>
+      </td>
+      <td width="10%" align="center"> <strong> {{max_value_slider}} %</strong></td>
+    </tr>
+
+    <tr>
+      <td colspan="3">
+
+        <span id="click_slider">
+          <h5 style="color: red">Bitte klicken Sie auf den Schieberegler, um die Wahrscheinlichkeit anzugeben.
+            Sie können Ihre Entscheidung im Anschluss noch verändern.</h5>
+        </span>
+        <span id="slider_clicked" style="display:none;">
+          <h5>Ich glaube, dass die Lotterie mit einer Wahrscheinlichkeit von <b style="color: red"> <span
+              id="text_belief">XX
+              %</span></b> genau {{highest_payoff_state}} Taler auszahlt.
+          </h5>
+        </span>
+
+      </td>
+    </tr>
+
+    <tr>
+      <td align="center" colspan="3">
+
+        {% next_button %}
+
+      </td>
+    </tr>
+  </table>
 
 
 
 
-{% next_button %} 
 
+
+
+</div>
 <input type="hidden" name="belief_sequence" id="belief_sequence" />
 
-{{form.errors}}
+{{ formfield_errors 'belief_sequence' }}
+{{ formfield_errors 'belief' }}
+
 
 {% endblock %}
 
@@ -51,6 +136,9 @@ Ich glaube, dass die Lotterie mit einer Wahrscheinlichkeit von <b style="color: 
 
 {% block styles %}
 <style>
+  .border-3 {
+    border-width: 2px !important;
+  }
 
   .borderless tr,
   .borderless td,
@@ -151,8 +239,16 @@ Ich glaube, dass die Lotterie mit einer Wahrscheinlichkeit von <b style="color: 
 
 {% block scripts %}
 
+<script>
+  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+  var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl)
+  })
+</script>
+
 
 <script>
+
   var range_input = document.getElementById('id_belief_slider');
   console.log(range_input.value)
   var all_numbers = "";
@@ -173,7 +269,7 @@ Ich glaube, dass die Lotterie mit einer Wahrscheinlichkeit von <b style="color: 
     document.getElementById("click_slider").style.display = "none";
     document.getElementById("slider_clicked").style.display = "block";
 
-    
+
 
     // Storing all numbers that the participant considered as a belief
     all_numbers = all_numbers + ";" + range_input.value.toString()
@@ -195,6 +291,3 @@ Ich glaube, dass die Lotterie mit einer Wahrscheinlichkeit von <b style="color: 
 </script>
 
 {% endblock %}
-
-
-

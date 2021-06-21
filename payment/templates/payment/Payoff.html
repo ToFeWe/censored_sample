@@ -70,6 +70,13 @@ zusätzliche Auszahlung.
             <td> {{participant_payoff}} </td>
           </tr>
         {% endif %}
+        {% if treatment == 'TRUNCATED' or treatment == 'BEST' %}
+
+          <tr>
+            <th> Zusätzlicher Verdienst für Ihre Einschätzung </th>
+            <td> {{belief_bonus_taler}} Taler </td>
+          </tr>
+        {% endif %}
           <tr>
             <th> Zusätzlicher Verdienst in Euro </th>
             <td> {{additional_money}} </td>

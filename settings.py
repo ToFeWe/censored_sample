@@ -38,7 +38,37 @@ SESSION_CONFIGS = [
        expId=1616578277,
        treatment_list = ['TRUNCATED', 'BEST'],
        app_sequence=['truncated_reporting', 'quiz', 'payment']
-    )
+    ),
+    dict(
+       name='SELF_TRUNCATED',
+       display_name="SELF_TRUNCATED",
+       num_demo_participants=10,
+       use_browser_bots=False,
+       expShortName='trunlot',
+       expId=1616578277,
+       treatment_list = ['TRUNCATED'],
+       app_sequence=['truncated_reporting', 'quiz', 'payment']
+    ),
+    dict(
+          name='SELF_BEST',
+          display_name="SELF_BEST",
+          num_demo_participants=10,
+          use_browser_bots=False,
+          expShortName='trunlot',
+          expId=1616578277,
+          treatment_list = ['BEST'],
+          app_sequence=['truncated_reporting', 'quiz', 'payment']
+       ),
+    dict(
+          name='SELF_FULL_BEST',
+          display_name="SELF_FULL_BEST",
+          num_demo_participants=10,
+          use_browser_bots=False,
+          expShortName='trunlot',
+          expId=1616578277,
+          treatment_list = ['FULL_BEST'],
+          app_sequence=['truncated_reporting', 'quiz', 'payment']
+       )
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs

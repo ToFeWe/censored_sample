@@ -33,6 +33,9 @@
     Lotterien.
     Außerdem werden Ihnen fünf Züge aus der jeweiligen Lotterie angezeigt. Diese wurden aus ingesamt 250 Zufallszügen
     zufällig ausgewählt.
+    {% elif player.treatment == "FULL_BEST" %}
+    Außerdem werden Ihnen fünf Züge aus der jeweiligen Lotterie angezeigt. Dies sind die fünf Züge mit der höchsten
+    Auszahlung aus ingesamt 250 Zufallszügen.
     {% else %}
     Sie erhalten nicht die volle Information über die jeweiligen Lotterien. Sie erhalten jedoch eine Beschreibung der
     Lotterien.

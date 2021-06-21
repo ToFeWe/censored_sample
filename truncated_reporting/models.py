@@ -13,6 +13,7 @@ from itertools import accumulate, cycle
 import json
 import random
 import math
+import numpy as np
 
 author = 'Your name here'
 
@@ -54,7 +55,7 @@ def make_full_text(lottery):
     if len(dict_items_sorted) != 3:
         raise Exception("Only works for three part lotteries")
     else:
-        out_string = (f"Die Auszahlung der Lotterie beträgt {dict_items_sorted_recaled[0][0]}, {dict_items_sorted_recaled[1][0]} oder {dict_items_sorted_recaled[2][0]} Taler. "
+        out_string = (f"Die Auszahlung der Lotterie beträgt {dict_items_sorted_recaled[0][0]}, {dict_items_sorted_recaled[1][0]} oder {dict_items_sorted_recaled[2][0]} Taler.<br>"
                       f"Die Lotterie zahlt mit einer Wahrscheinlichkeit von {dict_items_sorted_recaled[0][1]}% genau {dict_items_sorted_recaled[0][0]} Taler, "
                       f"mit {dict_items_sorted_recaled[1][1]}% genau {dict_items_sorted_recaled[1][0]}"
                       f" Taler und mit {dict_items_sorted_recaled[2][1]}% genau {dict_items_sorted_recaled[2][0]} Taler.")
@@ -79,7 +80,7 @@ def make_trunc_text(lottery):
         two_last_probs = dict_items_sorted[-1][1] + dict_items_sorted[-2][1]
         accumulate_last_probs= int(round(two_last_probs * 100))
 
-        out_string = (f"Die Auszahlung der Lotterie beträgt {dict_items_sorted[0][0]}, {dict_items_sorted[1][0]} oder {dict_items_sorted[2][0]} Taler. "
+        out_string = (f"Die Auszahlung der Lotterie beträgt {dict_items_sorted[0][0]}, {dict_items_sorted[1][0]} oder {dict_items_sorted[2][0]} Taler. <br>"
                       f"Die Wahrscheinlichkeit mindestens {dict_items_sorted[1][0]} Taler zu bekommen beträgt {accumulate_last_probs} %.")
         return out_string
 
@@ -167,8 +168,10 @@ class Constants(BaseConstants):
     sample_size = 250
     draws = 5
 
-    all_treatments = ['FULL', 'TRUNCATED', 'RANDOM', 'BEST']
+    all_treatments = ['FULL', 'TRUNCATED', 'RANDOM', 'BEST', 'FULL_BEST']
     
+    belief_bonus = 10
+
 class Subsession(BaseSubsession):
     
     def creating_session(self):
@@ -208,7 +211,7 @@ class Subsession(BaseSubsession):
             p.treatment = player_treatment
             
             # Draw sample if needed
-            if p.treatment in ['RANDOM', 'BEST']:
+            if p.treatment in ['RANDOM', 'BEST', 'FULL_BEST']:
                 p.draw_sample()
 
 
@@ -239,6 +242,7 @@ class Player(BasePlayer):
     lottery_for_belief = models.StringField() # Lottery for which we ask the belief
     belief = models.IntegerField(label="")
     belief_sequence = models.LongStringField()
+    belief_bonus_won = models.BooleanField()
 
     def wtp_lottery_max(self):
         """ 
@@ -282,12 +286,12 @@ class Player(BasePlayer):
         total_sample = random.choices(population=list(current_lottery_dist.keys()),
                                       weights=list(current_lottery_dist.values()),
                                       k=Constants.sample_size)
-        if self.treatment == 'BEST':
+        if self.treatment in ['BEST', 'FULL_BEST']:
             subsample = sorted(total_sample, reverse=True)[:Constants.draws]
         elif self.treatment == 'RANDOM':
             subsample = random.sample(total_sample, Constants.draws)
         else:
-            raise Exception(f'There is no sampeling in the treatment {self.treatment}.')
+            raise Exception(f'There is no sampling in the treatment {self.treatment}.')
 
         self.set_all_draws(total_sample)
         self.set_subsample(subsample)
@@ -313,6 +317,12 @@ class Player(BasePlayer):
                                          weights=list(relevant_lottery_dist.values()),
                                          k=1)[0]
             self.lottery_played = True
+
+        # Belief Bonus if in relevant treatment has to be added
+        # Note that this belief bonus was calculated in the same round.
+        if self.treatment in ['TRUNCATED', 'BEST']:
+            if self.belief_bonus_won:
+                self.payoff += c(Constants.belief_bonus)
 
     def save_payoff_info(self):
         """
@@ -347,14 +357,36 @@ class Player(BasePlayer):
             'additional_money': self.payoff.to_real_world_currency(self.session),
             'show_up': self.session.config['participation_fee'],
             'total_money': self.participant.payoff_plus_participation_fee(),
-            'exchange_rate': int(1/self.session.config['real_world_currency_per_point'])
+            'exchange_rate': int(1/self.session.config['real_world_currency_per_point']),
+            'treatment': self.treatment 
         }
+        # Add belief bonus from current round if needed
+        if self.treatment in ['BEST', 'TRUNCATED']:
+            all_payoff_info.update({'belief_bonus_taler': self.belief_bonus_won * Constants.belief_bonus })
+
+
         self.participant.vars['all_payoff_info'] = all_payoff_info
 
-    def get_general_instructio_vars(self):
+    def get_general_instruction_vars(self):
         context = {
             'exchange_rate': int(1/self.session.config['real_world_currency_per_point']),
             'show_up': self.session.config['participation_fee']
         }
 
         return context
+
+
+    def calc_belief_bonus(self):
+        """
+
+        Calculate the belief bonus given the BSR.
+        """
+        relevant_lottery = Constants.all_lotteries[self.lottery_for_belief]['dist']
+        sorted_lottery = sort_lottery(relevant_lottery)
+
+        probability_highest_state_scaled_up = sorted_lottery[-1][1] * 100
+        probability_lowest_state = sorted_lottery[0][1]
+
+        max_prob_can_report_scaled_up = int(round((1 - probability_lowest_state) * 100))
+        win_probability = 1 - abs((self.belief - probability_highest_state_scaled_up) / max_prob_can_report_scaled_up)
+        self.belief_bonus_won = np.random.choice([True, False], p=[win_probability, 1-win_probability])
