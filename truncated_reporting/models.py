@@ -80,7 +80,7 @@ def make_trunc_text(lottery):
         two_last_probs = dict_items_sorted[-1][1] + dict_items_sorted[-2][1]
         accumulate_last_probs= int(round(two_last_probs * 100))
 
-        out_string = (f"Die Auszahlung der Lotterie beträgt {dict_items_sorted[0][0]}, {dict_items_sorted[1][0]} oder {dict_items_sorted[2][0]} Taler. <br>"
+        out_string = (f"Die Auszahlung der Lotterie beträgt {dict_items_sorted[0][0]}, {dict_items_sorted[1][0]} oder {dict_items_sorted[2][0]} Taler. "
                       f"Die Wahrscheinlichkeit mindestens {dict_items_sorted[1][0]} Taler zu bekommen beträgt {accumulate_last_probs} %.")
         return out_string
 
