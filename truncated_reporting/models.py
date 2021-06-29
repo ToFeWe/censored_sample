@@ -170,7 +170,7 @@ class Constants(BaseConstants):
 
     all_treatments = ['FULL', 'TRUNCATED', 'RANDOM', 'BEST', 'FULL_BEST']
     
-    belief_bonus = 10
+    belief_bonus = 13
 
 class Subsession(BaseSubsession):
     
@@ -232,6 +232,12 @@ class Player(BasePlayer):
     price_lottery = models.CurrencyField()
     paid_lottery_round = models.IntegerField() # Indicator which lottery round is paid
     lottery_played = models.BooleanField() # True if the payoff was determined by lottery
+
+    # Fields to save the amount earn from the lottery potential lottery
+    # draw. Note that this field is zero if the lottery was not played
+    # as the price is the payoff in this case.
+    lottery_payment = models.CurrencyField()
+
 
     treatment = models.StringField()
     all_draws = models.LongStringField()
@@ -309,13 +315,15 @@ class Player(BasePlayer):
         # receives the price
         if relevant_price>relevant_wtp_player:
             self.payoff = relevant_price
+            self.lottery_payment = 0 #  No lottery payment in this case
             self.lottery_played = False
         else:
             # Else she plays the lottery
             relevant_lottery_dist = Constants.all_lotteries[player_in_paid_round.lottery]['dist']
-            self.payoff = random.choices(population=list(relevant_lottery_dist.keys()),
-                                         weights=list(relevant_lottery_dist.values()),
-                                         k=1)[0]
+            self.lottery_payment = random.choices(population=list(relevant_lottery_dist.keys()),
+                                                  weights=list(relevant_lottery_dist.values()),
+                                                  k=1)[0]
+            self.payoff = self.lottery_payment
             self.lottery_played = True
 
         # Belief Bonus if in relevant treatment has to be added
@@ -353,6 +361,7 @@ class Player(BasePlayer):
             'paid_lottery_round': self.paid_lottery_round,
             'relevant_wtp': relevant_wtp,
             'lottery_played': self.lottery_played,
+            'lottery_payment': self.lottery_payment,
             'relevant_price': relevant_price,
             'additional_money': self.payoff.to_real_world_currency(self.session),
             'show_up': self.session.config['participation_fee'],
