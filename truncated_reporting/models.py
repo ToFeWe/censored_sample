@@ -55,7 +55,7 @@ def make_full_text(lottery):
     if len(dict_items_sorted) != 3:
         raise Exception("Only works for three part lotteries")
     else:
-        out_string = (f"Die Auszahlung der Lotterie beträgt {dict_items_sorted_recaled[0][0]}, {dict_items_sorted_recaled[1][0]} oder {dict_items_sorted_recaled[2][0]} Taler.<br>"
+        out_string = (f"Die Auszahlung der Lotterie beträgt {dict_items_sorted_recaled[0][0]}, {dict_items_sorted_recaled[1][0]} oder {dict_items_sorted_recaled[2][0]} Taler. "
                       f"Die Lotterie zahlt mit einer Wahrscheinlichkeit von {dict_items_sorted_recaled[0][1]}% genau {dict_items_sorted_recaled[0][0]} Taler, "
                       f"mit {dict_items_sorted_recaled[1][1]}% genau {dict_items_sorted_recaled[1][0]}"
                       f" Taler und mit {dict_items_sorted_recaled[2][1]}% genau {dict_items_sorted_recaled[2][0]} Taler.")

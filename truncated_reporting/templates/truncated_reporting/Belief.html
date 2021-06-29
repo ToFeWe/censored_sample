@@ -33,12 +33,12 @@ Ihre Einschätzung zu einer vergangenen Entscheidung
         <table class="table borderless" style="text-align: center">
           <tr>
             <td class="w-50 align-middle"> <b>Wie viel sind Sie bereit für diese Lotterie zu bezahlen? </b></td>
-            <td class="w-50 float-end">
+            <td class="w-50 float-right">
 
               <label class="col-form-label"></label>
               <div class="controls">
-                <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
-                  data-bs-content="Sie haben diese Entscheidung bereits getroffen. Wir sind jetzt an Ihrer Einschätzung interessiert, die Sie unten eingeben können.">
+                <span class="d-inline-block" data-toggle="popover" data-trigger="hover"
+                  data-content="Sie haben diese Entscheidung bereits getroffen. Wir sind jetzt an Ihrer Einschätzung interessiert, die Sie unten eingeben können.">
 
                   <div class="input-group input-group-narrow">
 
@@ -51,9 +51,8 @@ Ihre Einschätzung zu einer vergangenen Entscheidung
           </tr>
           <tr>
             <td colspan="2">
-              <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
-                data-bs-content="Sie haben diese Entscheidung bereits getroffen. Wir sind jetzt an Ihrer Einschätzung interessiert, die Sie unten eingeben können.">
-                <button class="btn btn-secondary" type="button" disabled>Weiter</button>
+              <span class="d-inline-block" data-toggle="popover"  data-trigger="hover" data-content="Sie haben diese Entscheidung bereits getroffen. Wir sind jetzt an Ihrer Einschätzung interessiert, die Sie unten eingeben können.">
+                <button class="btn btn-secondary"  style="pointer-events: none;"  type="button" disabled>Weiter</button>
               </span>
             </td>
           </tr>
@@ -111,7 +110,7 @@ Ihre Einschätzung zu einer vergangenen Entscheidung
     <tr>
       <td align="center" colspan="3">
 
-        {% next_button %}
+        <button type="submit" class="btn btn-primary" id="confirm" disabled>Weiter</button>
 
       </td>
     </tr>
@@ -126,8 +125,10 @@ Ihre Einschätzung zu einer vergangenen Entscheidung
 </div>
 <input type="hidden" name="belief_sequence" id="belief_sequence" />
 
-{{ formfield_errors 'belief_sequence' }}
-{{ formfield_errors 'belief' }}
+{% if form.belief_sequence.errors %}{{ form.belief_sequence.errors.0 }}{% endif %}
+{% if form.belief.errors %}{{ form.belief.errors.0 }}{% endif %}
+
+
 
 
 {% endblock %}
@@ -240,10 +241,9 @@ Ihre Einschätzung zu einer vergangenen Entscheidung
 {% block scripts %}
 
 <script>
-  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-  var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-    return new bootstrap.Popover(popoverTriggerEl)
-  })
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
 </script>
 
 
