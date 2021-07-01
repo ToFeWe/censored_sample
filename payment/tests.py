@@ -17,6 +17,6 @@ class PlayerBot(Bot):
         else:
             expect("Da der Preis größer als Ihr Maximalpreis ist", "in", self.html)
 
-
+        # TODO maybe check belief bonus here too
         expect(str(self.participant.payoff_plus_participation_fee()), "in", self.html)
         yield Submission(pages.Payoff, check_html=False)

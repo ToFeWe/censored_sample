@@ -247,9 +247,13 @@ class Player(BasePlayer):
     # Prior over censored interval
     lottery_for_belief = models.StringField() # Lottery for which we ask the belief
     belief = models.IntegerField(label="")
-    belief_sequence = models.LongStringField()
+    belief_sequence = models.LongStringField(blank=True)
     belief_bonus_won = models.BooleanField()
 
+    # Also save the probability to win the belief bonus.
+    # Note that this is mostly for debugging purposes
+    win_probability = models.FloatField()
+    
     def wtp_lottery_max(self):
         """ 
         Helper function to determine the maximum for the given 
@@ -268,6 +272,15 @@ class Player(BasePlayer):
         probability_lowest_state = sorted_lottery[0][1]
         max_prob = int(round((1 - probability_lowest_state) * 100))
         return max_prob
+
+    def belief_max(self):
+        """
+        
+        A function to limit the belief reporting also internally.
+        """
+        max_for_html = self.slider_max()
+        return max_for_html
+
 
     def set_all_draws(self, x):
         self.all_draws = json.dumps(x)
@@ -397,5 +410,5 @@ class Player(BasePlayer):
         probability_lowest_state = sorted_lottery[0][1]
 
         max_prob_can_report_scaled_up = int(round((1 - probability_lowest_state) * 100))
-        win_probability = 1 - abs((self.belief - probability_highest_state_scaled_up) / max_prob_can_report_scaled_up)
-        self.belief_bonus_won = np.random.choice([True, False], p=[win_probability, 1-win_probability])
+        self.win_probability = 1 - abs((self.belief - probability_highest_state_scaled_up) / max_prob_can_report_scaled_up)
+        self.belief_bonus_won = np.random.choice([True, False], p=[self.win_probability, 1-self.win_probability])
