@@ -168,7 +168,7 @@ class Constants(BaseConstants):
     sample_size = 250
     draws = 5
 
-    all_treatments = ['FULL', 'TRUNCATED', 'RANDOM', 'BEST', 'FULL_BEST']
+    all_treatments = ['FULL', 'TRUNCATED', 'BEST', 'FULL_BEST']
     
     belief_bonus = 13
 
@@ -211,7 +211,7 @@ class Subsession(BaseSubsession):
             p.treatment = player_treatment
             
             # Draw sample if needed
-            if p.treatment in ['RANDOM', 'BEST', 'FULL_BEST']:
+            if p.treatment in ['BEST', 'FULL_BEST']:
                 p.draw_sample()
 
 
@@ -307,8 +307,6 @@ class Player(BasePlayer):
                                       k=Constants.sample_size)
         if self.treatment in ['BEST', 'FULL_BEST']:
             subsample = sorted(total_sample, reverse=True)[:Constants.draws]
-        elif self.treatment == 'RANDOM':
-            subsample = random.sample(total_sample, Constants.draws)
         else:
             raise Exception(f'There is no sampling in the treatment {self.treatment}.')
 
