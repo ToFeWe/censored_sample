@@ -7,6 +7,21 @@ import random
 class PlayerBot(Bot):
     def play_round(self):
         if self.round_number == 1:
+            if self.player.treatment == 'BEST':
+                expect('Sie erhalten nicht die volle Information', 'in', self.html)
+                expect('fünf Züge aus der jeweiligen Lotterie', 'in', self.html)
+            elif self.player.treatment == 'TRUNCATED':
+                expect('Sie erhalten nicht die volle Information', 'in', self.html)
+                expect('fünf Züge aus der jeweiligen Lotterie', 'not in', self.html)
+            elif self.player.treatment == 'FULL_BEST':
+                expect('Sie erhalten nicht die volle Information', 'not in', self.html)
+                expect('fünf Züge aus der jeweiligen Lotterie', 'in', self.html)
+            elif self.player.treatment == 'FULL':
+                expect('Sie erhalten nicht die volle Information', 'not in', self.html)
+                expect('fünf Züge aus der jeweiligen Lotterie', 'not in', self.html)
+            else:
+                raise Exception('what the fuck is this treatment?! ->', self.player.treatment)
+
             yield pages.Introduction
         
         current_lottery = self.player.lottery
@@ -35,7 +50,7 @@ class PlayerBot(Bot):
         middle_prob = Constants.all_lotteries[current_lottery]['dist'][
                         list(Constants.all_lotteries[current_lottery]['dist'].keys())[1]
                       ]
-        if self.player.treatment == 'FULL':
+        if self.player.treatment in ['FULL', 'FULL_BEST']:
             expect(str(int(round(middle_prob*100)))+ '% genau', 'in', self.html)
         else:
             expect(str(int(round(middle_prob*100))) + '% genau', 'not in', self.html)
@@ -65,8 +80,13 @@ class PlayerBot(Bot):
                     expect(self.player.belief_bonus_won, True)
                     expect(self.player.win_probability, 1)
                 else:
-                    yield pages.Belief, dict(belief=6)
-                    expected_win_prob = 1 - abs(6 - 1) / max_prob_scaled
-                    expect(self.player.win_probability, expected_win_prob)
-                    print(expected_win_prob)
-                
+                    if self.participant.id_in_session % 3:
+                        yield pages.Belief, dict(belief=7)
+                        expected_win_prob = 1 - abs(7 - 1) / max_prob_scaled
+                        expect(self.player.win_probability, expected_win_prob)
+                        print(expected_win_prob)
+                    else:
+                        yield pages.Belief, dict(belief=2)
+                        expected_win_prob = 1 - abs(2 - 1) / max_prob_scaled
+                        expect(self.player.win_probability, expected_win_prob)
+                        print(expected_win_prob)
