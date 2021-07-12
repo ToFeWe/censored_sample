@@ -3,7 +3,7 @@
     <p>
       <b>
         Unten sehen Sie Informationen über die Lotterie, die Sie kaufen können.
-        {% if player.treatment == 'BEST' or player.treatment == 'RANDOM' or player.treatment == 'FULL_BEST' %}
+        {% if player.treatment == 'BEST' or player.treatment == 'FULL_BEST' %}
           {% if player.treatment == 'BEST' or player.treatment == 'FULL_BEST' %}
             Außerdem sehen Sie die höchsten {{Constants.draws}} Werte aus
             ingesamt {{Constants.sample_size}} zufälligen Lotterieziehungen.
@@ -31,7 +31,7 @@
     </table>
   </div>
 </div>
-{% if player.treatment == 'BEST' or player.treatment == 'RANDOM' or player.treatment == 'FULL_BEST' %}
+{% if player.treatment == 'BEST' or player.treatment == 'FULL_BEST' %}
 <div class="row">
   <div class="col">
     <table class="table" style="text-align: center">
