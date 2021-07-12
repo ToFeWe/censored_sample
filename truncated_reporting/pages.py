@@ -62,7 +62,7 @@ class Belief(Page):
         context['lottery_text'] = lottery_text
         
         
-        if self.player.treatment in ['BEST', 'RANDOM']:
+        if self.player.treatment == 'BEST':
             # Retrieve the sample he has seen in the first round
             player_in_first_round = self.player.in_round(1)
             extend_dict = {

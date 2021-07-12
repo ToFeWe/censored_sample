@@ -10,8 +10,9 @@
 <p>
     <b>Bitte geben Sie für jede Lotterie Ihren wahren Maximalpreis an.</b> Ein Auszahlungsmechanismus wird im Anschluss an das Experiment
     Ihre genaue Auszahlung bestimmen.
-    <b>Beachten Sie, dass Sie durch den verwendeten Auszahlungsmechanismus einen Anreiz haben ihren echten Maximalpreis zu nennen.</b>
-    Wenn Sie einen tieferen Maximalpreis angeben, erhalten Sie die Lotterie zu selten. Die genauen Details zur Funktionsweise des
+    <b>Beachten Sie, dass Sie durch den verwendeten Auszahlungsmechanismus einen Anreiz haben Ihren echten Maximalpreis zu nennen.</b>
+    Wenn Sie einen tieferen Maximalpreis angeben, erhalten Sie die Lotterie zu selten. 
+    Wenn Sie einen höheren Maximalpreis angeben, erhalten Sie die Lotterie zu oft. Die genauen Details zur Funktionsweise des
     Auszahlungsmechanismus
     können Sie sich bei Interesse am Ende der Seite einblenden lassen.
 </p>
@@ -28,11 +29,6 @@
     {% if player.treatment == "TRUNCATED"%}
     Sie erhalten nicht die volle Information über die jeweiligen Lotterien. Sie erhalten jedoch eine Beschreibung der
     Lotterien.
-    {% elif player.treatment == "RANDOM" %}
-    Sie erhalten nicht die volle Information über die jeweiligen Lotterien. Sie erhalten jedoch eine Beschreibung der
-    Lotterien.
-    Außerdem werden Ihnen fünf Züge aus der jeweiligen Lotterie angezeigt. Diese wurden aus ingesamt 250 Zufallszügen
-    zufällig ausgewählt.
     {% elif player.treatment == "FULL_BEST" %}
     Außerdem werden Ihnen fünf Züge aus der jeweiligen Lotterie angezeigt. Dies sind die fünf Züge mit der höchsten
     Auszahlung aus ingesamt 250 Zufallszügen.
