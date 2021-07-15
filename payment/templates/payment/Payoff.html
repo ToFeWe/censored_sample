@@ -73,9 +73,27 @@ zusätzliche Auszahlung.
         {% if treatment == 'TRUNCATED' or treatment == 'BEST' %}
 
           <tr>
-            <th> Zusätzlicher Verdienst für Ihre Einschätzung </th>
-            <td> {{belief_bonus_taler}} Taler </td>
+            <th> Zusätzlicher Verdienst für Ihre Einschätzung               
+            </th>
+            <td> {{belief_bonus_taler}} Taler
+                <span class="d-inline-block" data-toggle="popover" data-trigger="hover" data-content="Klicken, um Erklärung einzublenden.">
+
+                  <span class="help" data-toggle="collapse" data-target="#collapseme" >
+                    ?
+                  </span>
+                </span>
+            </td>
           </tr>
+        <tr id="collapseme" class="collapse out">
+          <td  colspan="2"> 
+            Die Wahrscheinlichkeit die Bonuszahlung zu erhalten betrug p = {{win_probability|floatformat:-2}}. Dieser Wert liegt immer zwischen 0 und 1, wobei 
+            Sie bei einem Wert von 1 immer den Bonus bekommen und bei einem Wert von 0 den Bonus nie bekommen. Die genaue Formel ist unten eingeblendet. Sie stellt sicher,
+            dass es für Sie im besten Interesse war Ihre tatsächlich Ihrer Einschätzung anzugeben. <br><br>
+            <div class="text-center"><img width="100%"  src="{% static "/prob_explanation.PNG" %}" /></div>
+          </td>
+        </tr>
+
+          
         {% endif %}
           <tr>
             <th> Zusätzlicher Verdienst in Euro </th>
@@ -97,7 +115,35 @@ zusätzliche Auszahlung.
 <h2>Bitte klicken Sie hier um Ihre Auszahlung zu erhalten: </h2>
 <a href="{{paymentURL}}" class="btn btn-primary btn-block btn-lg" role="button">Zur Auszahlungsseite</a>
 </p>
+
+
+
+
+<script>
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
+</script>
+
 <style>
+
+.help {
+    color:#fff;
+    background-color:#0062cc;
+    width:16px;
+    height:16px;
+    display:inline-block;
+    border-radius:100%;
+    font-size:10px;
+    text-align:center;
+    text-decoration:none;
+    -webkit-box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
+    -moz-box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
+    box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
+}
+
 .blank_row
 {
     height: 10px !important; /* overwrites any other rules */

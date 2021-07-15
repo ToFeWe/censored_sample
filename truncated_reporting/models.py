@@ -378,7 +378,8 @@ class Player(BasePlayer):
             'show_up': self.session.config['participation_fee'],
             'total_money': self.participant.payoff_plus_participation_fee(),
             'exchange_rate': int(1/self.session.config['real_world_currency_per_point']),
-            'treatment': self.treatment 
+            'treatment': self.treatment,
+            'win_probability': self.win_probability
         }
         # Add belief bonus from current round if needed
         if self.treatment in ['BEST', 'TRUNCATED']:
