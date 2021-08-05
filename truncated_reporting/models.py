@@ -177,13 +177,26 @@ class Subsession(BaseSubsession):
     def creating_session(self):
         all_players = self.get_players()
 
-        # If the treatment is not specified in the session config,
-        # we balance across the session
-        treatments_to_cycle = self.session.config.get('treatment_list', Constants.all_treatments)
-        treatment_cycle = cycle(treatments_to_cycle)
+        # Determine treatment in the first round,
+        # the paid lottery and the lottery order.
+        # This info will be used below for each round.
+        if self.round_number == 1:
+            # If the treatment is not specified in the session config,
+            # we balance across the session
+            treatments_to_cycle = self.session.config.get('treatment_list', Constants.all_treatments)
 
-        for p in all_players:
-            if self.round_number == 1:
+            # Random shuffle the list before creating the cycle 
+            random.shuffle(treatments_to_cycle)
+            print(treatments_to_cycle)
+
+            # Create the cycle
+            treatment_cycle = cycle(treatments_to_cycle)
+
+            for p in all_players:
+                # Treatment is determined
+                p.participant.vars['treatment'] = next(treatment_cycle)
+
+                ## Randomly paid lottery is determined
                 # Create random lottery order for each participant
                 p.participant.vars['lottery_order'] = random.sample(
                     list(
@@ -195,7 +208,9 @@ class Subsession(BaseSubsession):
                 # Note: randint fully inclusive with bounds
                 p.participant.vars['paid_lottery_round'] = random.randint(1,Constants.num_rounds)
 
-            # Write lottery to database
+        # Write all info to the database for each round
+        for p in all_players:
+            # Write the current lottery to database
             p.lottery = p.participant.vars['lottery_order'][self.round_number-1]
             
             # Write paid round/lottery to database for each round
@@ -206,10 +221,11 @@ class Subsession(BaseSubsession):
             ub_price = max(Constants.all_lotteries[p.lottery]['dist'].keys())
             p.price_lottery = random.randint(0, ub_price)
 
-            player_treatment = next(treatment_cycle)
-            assert player_treatment in Constants.all_treatments, "Unknown treatment indicator."
-            p.treatment = player_treatment
-            
+
+            # Write treatment to database for each round
+            p.treatment = p.participant.vars['treatment']
+            assert p.treatment in Constants.all_treatments, "Unknown treatment indicator."
+
             # Draw sample if needed
             if p.treatment in ['BEST', 'FULL_BEST']:
                 p.draw_sample()
