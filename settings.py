@@ -3,7 +3,7 @@ from os import environ
 SESSION_CONFIGS = [
    dict(
          name='SELF_BEST_FULL_BEST',
-         display_name="SELF_EXPERIMENT",
+         display_name="SELF_BEST_FULL_BEST",
          num_demo_participants=50,
          use_browser_bots=False,
          expShortName='trunlot',
