@@ -2,23 +2,23 @@ from os import environ
 
 SESSION_CONFIGS = [
    dict(
-         name='SELF_BEST_FULL_BEST',
-         display_name="SELF_BEST_FULL_BEST",
+         name='SELF_2_x_BEST_FULL_BEST',
+         display_name="SELF_2_x_BEST_FULL_BEST",
          num_demo_participants=50,
          use_browser_bots=False,
          expShortName='trunlot',
          expId=1616578277,
-         treatment_list = ['FULL_BEST', 'BEST'],
+         treatment_list = ['FULL_BEST', 'BEST', 'BEST'],
          app_sequence=['truncated_reporting', 'quiz', 'payment']
       ),
    dict(
-         name='BOT_BEST_FULL_BEST',
-         display_name="BOT_BEST_FULL_BEST",
+         name='BOT_2_x_BEST_FULL_BEST',
+         display_name="BOT_2_x_BEST_FULL_BEST",
          num_demo_participants=50,
          use_browser_bots=True,
          expShortName='trunlot',
          expId=1616578277,
-         treatment_list = ['FULL_BEST', 'BEST'],
+         treatment_list = ['FULL_BEST', 'BEST', 'BEST'],
          app_sequence=['truncated_reporting', 'quiz', 'payment']
       ),
    dict(
