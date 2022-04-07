@@ -2,29 +2,28 @@
 {% load otree static %}
 
 {% block title %}
-Ihre Einschätzung zu einer vergangenen Entscheidung
+Your assessment of a past decision
 {% endblock %}
 
 
 {% block content %}
 <p>
-  Wir sind nun an Ihrer Einschätzung zu einer vergangenen Lotterieentscheidung interessiert. Unten sehen Sie eine
-  Lotterie, zu
-  der Sie bereits Ihre Zahlungsbereitschaft angegeben haben. <b>Was denken Sie ist die tatsächliche Wahrscheinlichkeit,
-    dass diese Lotterie eine Auszahlung von
-    {{highest_payoff_state}} Taler hat?</b> Bitte nutzen Sie den Schieberegler, um die Wahrscheinlichkeit anzugeben.
+  We are now interested in your assessment of a past lottery decision. Below is a lottery for which you have already
+    indicated your willingness to pay.
+    <b>What do you think is the actual probability that this lottery has a payoff of {{highest_payoff_state}} coins?</b>
+    Please use the slider to indicate the probability.
 </p>
 <p>
-  <b>Für Ihre Einschätzung können Sie einen zusätzlichen Bonus von <u>{{Constants.belief_bonus}} Taler</u> verdienen.
+  <b>For your assessment you can earn an additional bonus of <u>{{Constants.belief_bonus}} coins</u>.
   </b>
-  Geben Sie dazu den Wert an, der tatsächlich Ihrer Einschätzung entspricht. <b>Die Chance den Bonus zu erhalten richtet
-    sich daran wie gut Ihre Einschätzung ist.</b>
-  Die genaue Auszahlungsregel ist auf Anfrage am Ende des Experiments einsehbar.
+  Indicate the value that actually corresponds to your assessment. <b>The chance of receiving the bonus depends on how
+    good your assessment is.</b>
+  The exact payoff rule is available upon request at the end of the experiment.
 </p>
 
 <div class="card border-secondary mb-3 border-3 bg-light">
   <div class="card-header border-secondary mb-3  border-3">
-    <h4 class="card-title"> Erinnerung an die vergangene Entscheidung</h4>
+    <h4 class="card-title"> Reminder of the past decision</h4>
   </div>
   <div class="card-body border-secondary">
     {% include "truncated_reporting/lottery_presentation.html" %}
@@ -32,18 +31,18 @@ Ihre Einschätzung zu einer vergangenen Entscheidung
       <div class="col">
         <table class="table borderless" style="text-align: center">
           <tr>
-            <td class="w-50 align-middle"> <b>Wie viel sind Sie bereit für diese Lotterie zu bezahlen? </b></td>
+            <td class="w-50 align-middle"> <b>How much are you willing to pay for this lottery?</b></td>
             <td class="w-50 float-right">
 
               <label class="col-form-label"></label>
               <div class="controls">
                 <span class="d-inline-block" data-toggle="popover" data-trigger="hover"
-                  data-content="Sie haben diese Entscheidung bereits getroffen. Wir sind jetzt an Ihrer Einschätzung interessiert, die Sie unten eingeben können.">
+                  data-content="You have already made this decision. We are now interested in your assessment, which you can indicate below.">
 
                   <div class="input-group input-group-narrow">
 
                     <input type="number" class="form-control" value="" disabled><span
-                      class="input-group-text">Taler</span>
+                      class="input-group-text">coins</span>
                   </div>
                 </span>
               </div>
@@ -51,8 +50,8 @@ Ihre Einschätzung zu einer vergangenen Entscheidung
           </tr>
           <tr>
             <td colspan="2">
-              <span class="d-inline-block" data-toggle="popover"  data-trigger="hover" data-content="Sie haben diese Entscheidung bereits getroffen. Wir sind jetzt an Ihrer Einschätzung interessiert, die Sie unten eingeben können.">
-                <button class="btn btn-secondary"  style="pointer-events: none;"  type="button" disabled>Weiter</button>
+              <span class="d-inline-block" data-toggle="popover"  data-trigger="hover" data-content="You have already made this decision. We are now interested in your assessment, which you can indicate below.">
+                <button class="btn btn-secondary"  style="pointer-events: none;"  type="button" disabled>Next</button>
               </span>
             </td>
           </tr>
@@ -67,14 +66,13 @@ Ihre Einschätzung zu einer vergangenen Entscheidung
 
 <div class="card border-secondary mb-3 border-3">
   <div class="card-header border-secondary mb-3  border-3 ">
-    <h4 class="card-title"> Ihre Einschätzung</h4>
+    <h4 class="card-title"> Your assessment</h4>
   </div>
   <table class="w3-table w3-white" style="border-spacing: 0; width: 100%" cellpadding="5">
     <br>
     <tr>
       <td colspan="3">
-        Was denken Sie ist die tatsächliche Wahrscheinlichkeit, dass diese Lotterie eine Auszahlung von
-        {{highest_payoff_state}} hat?
+        What do you think is the actual probability that this lottery has a payoff of {{highest_payoff_state}} coins?
       </td>
     </tr>
     <tr>
@@ -94,13 +92,13 @@ Ihre Einschätzung zu einer vergangenen Entscheidung
       <td colspan="3">
 
         <span id="click_slider">
-          <h5 style="color: red">Bitte klicken Sie auf den Schieberegler, um die Wahrscheinlichkeit anzugeben.
-            Sie können Ihre Entscheidung im Anschluss noch verändern.</h5>
+          <h5 style="color: red">Please use the slider to indicate the probability.
+            You can still change your decision afterwards.</h5>
         </span>
         <span id="slider_clicked" style="display:none;">
-          <h5>Ich glaube, dass die Lotterie mit einer Wahrscheinlichkeit von <b style="color: red"> <span
+          <h5>I think that with a probability of <b style="color: red"> <span
               id="text_belief">XX
-              %</span></b> genau {{highest_payoff_state}} Taler auszahlt.
+              %</span></b> the lottery pays exactly {{highest_payoff_state}} coins.
           </h5>
         </span>
 
@@ -110,7 +108,7 @@ Ihre Einschätzung zu einer vergangenen Entscheidung
     <tr>
       <td align="center" colspan="3">
 
-        <button type="submit" class="btn btn-primary" id="confirm" disabled>Weiter</button>
+        <button type="submit" class="btn btn-primary" id="confirm" disabled>Next</button>
 
       </td>
     </tr>

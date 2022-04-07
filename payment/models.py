@@ -56,7 +56,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    orsee_id = models.StringField(label="Bitte geben Sie Ihre Teilnehmer-ID ein:")
+    orsee_id = models.StringField(label="Please enter your participant ID:")
 
     def create_paymentURL(self):
         """

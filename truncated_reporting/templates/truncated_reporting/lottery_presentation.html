@@ -2,14 +2,14 @@
   <div class="col">
     <p>
       <b>
-        Unten sehen Sie Informationen über die Lotterie, die Sie kaufen können.
+        Below you find information about the lottery that you can buy.
         {% if player.treatment == 'BEST' or player.treatment == 'FULL_BEST' %}
           {% if player.treatment == 'BEST' or player.treatment == 'FULL_BEST' %}
-            Außerdem sehen Sie die höchsten {{Constants.draws}} Werte aus
-            ingesamt {{Constants.sample_size}} zufälligen Lotterieziehungen.
+            Moreover, you see the highest {{Constants.draws}} values of in total
+              {{Constants.sample_size}} random lottery draws.
           {% else %}
-            Außerdem sehen Sie die {{Constants.draws}} zufällige Werte aus
-            ingesamt {{Constants.sample_size}} zufälligen Lotterieziehungen.
+            Moreover you see {{Constants.draws}} random values of in total
+              {{Constants.sample_size}} random lottery draws.
           {% endif %}
         {% endif %}
       </b>
@@ -22,7 +22,7 @@
     <table class="table" style="text-align: center">
       <thead>
         <tr class="table-primary">
-          <th>Lotterie</th>
+          <th>Lottery</th>
         </tr>
         <tr>
           <td> {{lottery_text}} </t>
@@ -31,27 +31,25 @@
     </table>
   </div>
 </div>
-
-
 {% if player.treatment == 'BEST' or player.treatment == 'FULL_BEST' %}
 <div class="row">
   <div class="col">
     <table class="table" style="text-align: center">
       <thead>
         <tr class="table-primary">
-          <th colspan="2">Lotteriezüge</th>
+          <th colspan="2">Lottery draws</th>
 
         </tr>
         <tr class="table-primary">
           <th class="w-50">#</th>
-          <th class="w-50">Wert</th>
+          <th class="w-50">Value</th>
         </tr>
       </thead>
       <tbody>
         {% for draw in subsample %}
         <tr>
-          <td class="w-60"> Zug {{ forloop.counter }} </td>
-          <td class="w-40"> {{draw}} Taler </td>
+          <td class="w-60"> Draw {{ forloop.counter }} </td>
+          <td class="w-40"> {{draw}} Coins </td>
         </tr>
         {% endfor %}
 

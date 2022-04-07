@@ -64,12 +64,12 @@ ROOMS = [
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
-LANGUAGE_CODE = 'de'
+LANGUAGE_CODE = 'en'
 
 # e.g. EUR, GBP, CNY, JPY
 REAL_WORLD_CURRENCY_CODE = 'EUR'
 USE_POINTS = True
-POINTS_CUSTOM_NAME = "Taler"
+POINTS_CUSTOM_NAME = "Coins"
 
 ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable

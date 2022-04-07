@@ -1,42 +1,37 @@
 {% load otree %}
 
-<h3> Instruktionen </h3>
+<h3> Instructions </h3>
 <p>
-    In dieser Studie geht es darum, dass Sie zehn unterschiedliche Lotterien kaufen können.
-    <b>Genauer gesagt fragen wir Sie nach dem Maximalpreis, den Sie für die jeweilige Lotterie zu zahlen bereit wären.</b>
-    Am Ende des Experiments wird eine der Lotterien, die Sie bewertet haben, zufällig für die zusätzliche Auszahlung
-    ausgewählt.
+    In this study you can buy ten different lotteries.
+    <b>More precisely, we will ask for the maximum price you are willing to pay for each lottery.</b>
+    At the end of the experiment, one of the lotteries you rated will be randomly selected for the additional payoff.
 </p>
 <p>
-    <b>Bitte geben Sie für jede Lotterie Ihren wahren Maximalpreis an.</b> Ein Auszahlungsmechanismus wird im Anschluss an das Experiment
-    Ihre genaue Auszahlung bestimmen.
-    <b>Beachten Sie, dass Sie durch den verwendeten Auszahlungsmechanismus einen Anreiz haben Ihren echten Maximalpreis zu nennen.</b>
-    Wenn Sie einen tieferen Maximalpreis angeben, erhalten Sie die Lotterie zu selten. 
-    Wenn Sie einen höheren Maximalpreis angeben, erhalten Sie die Lotterie zu oft. Die genauen Details zur Funktionsweise des
-    Auszahlungsmechanismus
-    können Sie sich bei Interesse am Ende der Seite einblenden lassen.
+    <b>Please indicate your true maximum price for each lottery.</b> A payment mechanism will determine your exact payoff following the experiment.
+    <b>Note that the payment mechanism used gives you an incentive to indicate your true maximum price.</b>
+    If you enter a lower maximum price, you will rarely receive the lottery.
+    If you enter a higher maximum price, you will receive the lottery too often. If you are interested, you can
+    view the exact details of how the payment mechanism works at the bottom of the page.
 </p>
 <p>
-    Im Experiment verwenden wir eine fiktive Geldeinheit namens Taler.
-    Im Anschluss an das Experiment werden die Taler in Euro umgerechnet und Ihnen ausgezahlt.
-    Dabei entsprechen {{exchange_rate}} Taler einem Euro.
+    In the experiment we use a fictitious monetary unit called coins.
+    After the experiment, the coins will be converted into euros and paid out to you.
+    Here {{exchange_rate}} coins are equivalent to one euro.
 </p>
 
 {% if player.treatment != "FULL" %}
 <p>
-    <b>Beachten Sie:</b>
+    <b>Note:</b>
 
     {% if player.treatment == "TRUNCATED"%}
-    Sie erhalten nicht die volle Information über die jeweiligen Lotterien. Sie erhalten jedoch eine Beschreibung der
-    Lotterien.
+    You do not get complete information about each lottery. However, you will get a description of the lotteries.
     {% elif player.treatment == "FULL_BEST" %}
-    Wir zeigen Ihnen vor jeder Entscheidung fünf Züge aus der jeweiligen Lotterie. 
-    Dies sind die fünf Züge mit der höchsten Auszahlung aus ingesamt 250 Zufallszügen.
+    Before each decision, we will show you five moves from the relevant lottery.
+    These are the five moves with the highest payoff out of a total of 250 random moves.
     {% else %}
-    Sie erhalten nicht die volle Information über die jeweiligen Lotterien. Sie erhalten jedoch eine Beschreibung der
-    Lotterien.
-    Außerdem zeigen wir Ihnen vor jeder Entscheidung fünf Züge aus der jeweiligen Lotterie. 
-    Dies sind die fünf Züge mit der höchsten Auszahlung aus ingesamt 250 Zufallszügen.    
+    You do not get complete information about each lottery. However, you will get a description of the lotteries.
+    Additionally, before each decision, we will show you five moves from the relevant lottery.
+    These are the five moves with the highest payoff out of a total of 250 random moves.
     {% endif %}
 </p>
 {% endif %}
