@@ -1,0 +1,26 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+Your thoughts on daylight savings<hr>
+{% endblock %}
+
+{% block content %}
+
+<p>
+    Please write <b>at least 15 words</b> describing <b>your opinion</b> about <b>daylight savings in the United States</b>. Whether you are in favor or against daylight savings does not affect your eligibility to participate in this study. However, we ask that you write at least 15 words on your thoughts about this topic.
+</p>
+
+<p>
+    <div class="justify-content-center text-center">
+
+        <textarea name="attention_check" cols="80" rows="8" required="required"></textarea>
+    </div>
+    <br/>
+<input type="hidden" id="attention_check"></p>
+
+<div style="text-align: right;">
+    {% next_button %}
+</div>
+
+{% endblock %}

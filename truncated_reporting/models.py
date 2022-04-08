@@ -21,6 +21,25 @@ doc = """
 Your app description
 """
 
+def create_lottery(q, x):
+    """
+    
+    Create the lottery that is played in the current round. Note that the lottery
+    always has the following structure:
+    L =(0 coins, 100- q - 1% ;
+        10 coins, q % ;
+        x coins, 1%)
+    
+    where *q* is the probability for the middle payoff state and x is the highest 
+    payoff state
+    """
+    lottery = {
+        0: 1 - q - 0.01,
+        10: q,
+        x: 0.01
+    }
+    return lottery
+
 # TODO: Moves those functions to separate utils file
 def sort_lottery(lottery):
     """
@@ -33,136 +52,14 @@ def sort_lottery(lottery):
     dict_items_sorted = sorted(lottery.items(), key=lambda x:x[0])
     return dict_items_sorted
 
-def get_highest_payoff_state(lottery):
-    """
-    Returns the highest payoff state for the given lottery.
-
-    Args:
-        lottery (dict): Lottery that is being used.
-    """
-    dict_items_sorted = sort_lottery(lottery)
-    dict_items_sorted_recaled = [(value, int(round(prob * 100))) for value, prob in dict_items_sorted] # TODO: Function?
-
-    if len(dict_items_sorted) != 3:
-        raise Exception("Only works for three part lotteries")
-    else:
-        return dict_items_sorted_recaled[2][0]
-
-def make_full_text(lottery):
-    # TODO: Add doc
-    dict_items_sorted = sort_lottery(lottery)
-    dict_items_sorted_recaled = [(value, int(round(prob * 100))) for value, prob in dict_items_sorted]
-    if len(dict_items_sorted) != 3:
-        raise Exception("Only works for three part lotteries")
-    else:
-        out_string = (f"The payoff of the lottery is either {dict_items_sorted_recaled[0][0]}, {dict_items_sorted_recaled[1][0]} or {dict_items_sorted_recaled[2][0]} coins. "
-                      f"The lottery pays with a probability of {dict_items_sorted_recaled[0][1]}% exactly {dict_items_sorted_recaled[0][0]} coins, "
-                      f"with {dict_items_sorted_recaled[1][1]}% exactly {dict_items_sorted_recaled[1][0]}"
-                      f" coins and with {dict_items_sorted_recaled[2][1]}% exactly {dict_items_sorted_recaled[2][0]} coins.")
-
-        return out_string
-def make_trunc_text(lottery):
-    """
-    A function to create a text that is displayed for
-    the given *lottery* in the truncated form
-
-    Args:
-        lottery (dict): Value: Payoff of the lottery
-                        Key: Probabilities
-
-    Returns:
-        String: Truncated description of the lottery
-    """
-    dict_items_sorted = sort_lottery(lottery)
-    if len(dict_items_sorted) != 3:
-        raise Exception("Only works for three part lotteries")
-    else:
-        two_last_probs = dict_items_sorted[-1][1] + dict_items_sorted[-2][1]
-        accumulate_last_probs= int(round(two_last_probs * 100))
-
-        out_string = (f"The payoff of the lottery is either {dict_items_sorted[0][0]}, {dict_items_sorted[1][0]} or {dict_items_sorted[2][0]} coins. "
-                      f"The probability of earning at least {dict_items_sorted[1][0]} coins is {accumulate_last_probs} %.")
-        return out_string
-
 class Constants(BaseConstants):
     name_in_url = 'trunlot_experiment'
     players_per_group = None
+    
+    max_payoff_states = [100, 120, 140, 160, 180]
+    mid_probabilites = [0.09, 0.19, 0.29, 0.39, 0.49]
 
-    all_lotteries = {
-        'lottery_1' : { 
-            'dist': {
-                0: 0.9,
-                90: 0.09,
-                100: 0.01,
-            }
-        },
-        'lottery_2': {  
-            'dist': {
-                0: 0.8,
-                80: 0.19,
-                100: 0.01,
-            }
-        },
-        'lottery_3': { 
-            'dist': {
-                0: 0.7,
-                70: 0.29,
-                100: 0.01,
-            }
-        },
-        'lottery_4': { 
-            'dist': {
-                0: 0.6,
-                60: 0.39,
-                100: 0.01,
-            }
-        },
-        'lottery_5': { 
-            'dist': {
-                0: 0.5,
-                50: 0.49,
-                100: 0.01,
-            }
-        },
-        'lottery_6': { 
-            'dist': {
-                0: 0.9,
-                90: 0.09,
-                110: 0.01,
-            },
-        },
-        'lottery_7': { 
-            'dist': {
-                0: 0.8,
-                90: 0.19,
-                110: 0.01,
-            }
-        },
-        'lottery_8': { 
-            'dist': {
-                0: 0.7,
-                90: 0.29,
-                120: 0.01,
-            }
-        },
-        'lottery_9': { 
-            'dist': {
-                0: 0.6,
-                90: 0.39,
-                130: 0.01,
-            }
-        },
-        'lottery_10': { 
-            'dist': {
-                0: 0.5,
-                90: 0.49,
-                140: 0.01,
-            }
-        }
-
-    }
-
-    num_rounds = len(all_lotteries)
+    num_rounds = 5
 
 
     sample_size = 250
@@ -196,30 +93,33 @@ class Subsession(BaseSubsession):
                 # Treatment is determined
                 p.participant.vars['treatment'] = next(treatment_cycle)
 
-                ## Randomly paid lottery is determined
-                # Create random lottery order for each participant
-                p.participant.vars['lottery_order'] = random.sample(
-                    list(
-                        Constants.all_lotteries.keys()
-                    ),
-                    len(Constants.all_lotteries)
-                )
+                # Create random shuffles of payoff states...
+                max_payoff_states_shuffled = Constants.max_payoff_states.copy()
+                random.shuffle(max_payoff_states_shuffled)
+                # .. and probabilities.
+                mid_probabilites_shuffled = Constants.mid_probabilites.copy()
+                random.shuffle(mid_probabilites_shuffled)
+
+                # Zip them together to get pairs and save it to participants
+                # variables.
+                p.participant.vars['payoff_probability_combinations'] = list(zip(max_payoff_states_shuffled,
+                                                                                 mid_probabilites_shuffled))
+
                 # Draw which round/lottery is paid
                 # Note: randint fully inclusive with bounds
                 p.participant.vars['paid_lottery_round'] = random.randint(1,Constants.num_rounds)
 
         # Write all info to the database for each round
         for p in all_players:
-            # Write the current lottery to database
-            p.lottery = p.participant.vars['lottery_order'][self.round_number-1]
+            # Write the current lottery values to database
+            p.max_payoff, p.mid_probability = p.participant.vars['payoff_probability_combinations'][self.round_number-1]
             
             # Write paid round/lottery to database for each round
             p.paid_lottery_round = p.participant.vars['paid_lottery_round']
 
             # Determine random price for lottery
             # Note randint is inclusive for upper and lower bound
-            ub_price = max(Constants.all_lotteries[p.lottery]['dist'].keys())
-            p.price_lottery = random.randint(0, ub_price)
+            p.price_lottery = random.randint(0, p.max_payoff)
 
 
             # Write treatment to database for each round
@@ -231,19 +131,16 @@ class Subsession(BaseSubsession):
                 p.draw_sample()
 
 
-            # In the last round of the experiment, we also ask for the belief over the probability
-            # for the first lottery that they have seen in the experiment.
-            if self.round_number == Constants.num_rounds:
-                # belief lottery will be the first lottery that he/she has seen
-                p.lottery_for_belief = p.participant.vars['lottery_order'][0]
-
-
 class Group(BaseGroup):
     pass
 
 
 class Player(BasePlayer):
-    lottery = models.StringField()
+
+    # Two variables define the lottery in the given period
+    max_payoff = models.IntegerField()
+    mid_probability = models.FloatField()
+
     wtp_lottery = models.CurrencyField(label="", min=0)
     price_lottery = models.CurrencyField()
     paid_lottery_round = models.IntegerField() # Indicator which lottery round is paid
@@ -260,8 +157,8 @@ class Player(BasePlayer):
     subsample = models.LongStringField()
 
 
-    # Prior over censored interval
-    lottery_for_belief = models.StringField() # Lottery for which we ask the belief
+    # Belief that is reported for each lottery for the 
+    # highest payoff state.
     belief = models.IntegerField(label="")
     belief_sequence = models.LongStringField(blank=True)
     belief_bonus_won = models.BooleanField()
@@ -269,34 +166,13 @@ class Player(BasePlayer):
     # Also save the probability to win the belief bonus.
     # Note that this is mostly for debugging purposes
     win_probability = models.FloatField()
-    
+
     def wtp_lottery_max(self):
         """ 
         Helper function to determine the maximum for the given 
         round dynamically as it differs by lottery."""
         
-        all_payoffs=  list(Constants.all_lotteries[self.lottery]['dist'].keys())
-        return max(all_payoffs)
-
-    def slider_max(self):
-        """
-
-        Retrieve the maximal value the slider should take for the belief elicitation.
-        """
-        relevant_lottery = Constants.all_lotteries[self.lottery_for_belief]['dist']
-        sorted_lottery = sort_lottery(relevant_lottery)
-        probability_lowest_state = sorted_lottery[0][1]
-        max_prob = int(round((1 - probability_lowest_state) * 100))
-        return max_prob
-
-    def belief_max(self):
-        """
-        
-        A function to limit the belief reporting also internally.
-        """
-        max_for_html = self.slider_max()
-        return max_for_html
-
+        return self.max_payoff
 
     def set_all_draws(self, x):
         self.all_draws = json.dumps(x)
@@ -317,7 +193,8 @@ class Player(BasePlayer):
         A method to draw a random sample from the lottery of which a subsample
         will be displayed to the participants.
         """
-        current_lottery_dist = Constants.all_lotteries[self.lottery]['dist']
+        current_lottery_dist = create_lottery(q=self.mid_probability,
+                                              x=self.max_payoff)
         total_sample = random.choices(population=list(current_lottery_dist.keys()),
                                       weights=list(current_lottery_dist.values()),
                                       k=Constants.sample_size)
@@ -346,63 +223,67 @@ class Player(BasePlayer):
             self.lottery_played = False
         else:
             # Else she plays the lottery
-            relevant_lottery_dist = Constants.all_lotteries[player_in_paid_round.lottery]['dist']
+            relevant_lottery_dist = create_lottery(q=player_in_paid_round.mid_probability,
+                                                   x=player_in_paid_round.max_payoff)
             self.lottery_payment = random.choices(population=list(relevant_lottery_dist.keys()),
                                                   weights=list(relevant_lottery_dist.values()),
                                                   k=1)[0]
             self.payoff = self.lottery_payment
             self.lottery_played = True
 
+        # TODO: Adjust the whole belief stuff to the new logic
         # Belief Bonus if in relevant treatment has to be added
         # Note that this belief bonus was calculated in the same round.
-        if self.treatment in ['TRUNCATED', 'BEST']:
-            if self.belief_bonus_won:
-                self.payoff += c(Constants.belief_bonus)
+        # if self.treatment in ['TRUNCATED', 'BEST']:
+        #     if self.belief_bonus_won:
+        #         self.payoff += c(Constants.belief_bonus)
 
-    def save_payoff_info(self):
-        """
+    # TODO: I guess I do not need this anymore given that
+    # we pay people ex-post?!
+    # def save_payoff_info(self):
+    #     """
         
-        Helper function to save the relevant payment information to
-        participant dict for the payment app to retrieve it.
-        """
+    #     Helper function to save the relevant payment information to
+    #     participant dict for the payment app to retrieve it.
+    #     """
 
-        player_in_paid_round = self.in_round(self.paid_lottery_round)
+    #     player_in_paid_round = self.in_round(self.paid_lottery_round)
         
-        # Info on the lottery show
-        paid_lottery_dist = Constants.all_lotteries[player_in_paid_round.lottery]['dist']
-        probs_scaled = [int(round(p * 100)) for p in paid_lottery_dist.values()]
-        payoffs = list(paid_lottery_dist.keys())
+    #     # Info on the lottery show
+    #     paid_lottery_dist = Constants.all_lotteries[player_in_paid_round.lottery]['dist']
+    #     probs_scaled = [int(round(p * 100)) for p in paid_lottery_dist.values()]
+    #     payoffs = list(paid_lottery_dist.keys())
         
-        # To display the table correctly for changing number of payoffs
-        colspan_table = len(payoffs)+1
+    #     # To display the table correctly for changing number of payoffs
+    #     colspan_table = len(payoffs)+1
 
-        # Some info on the relevant decision from the participant
-        relevant_wtp = player_in_paid_round.wtp_lottery
-        relevant_price = player_in_paid_round.price_lottery
+    #     # Some info on the relevant decision from the participant
+    #     relevant_wtp = player_in_paid_round.wtp_lottery
+    #     relevant_price = player_in_paid_round.price_lottery
 
-        all_payoff_info ={
-            'probs_scaled': probs_scaled,
-            'payoffs': payoffs,
-            'participant_payoff': self.participant.payoff,
-            'colspan_table': colspan_table,
-            'paid_lottery_round': self.paid_lottery_round,
-            'relevant_wtp': relevant_wtp,
-            'lottery_played': self.lottery_played,
-            'lottery_payment': self.lottery_payment,
-            'relevant_price': relevant_price,
-            'additional_money': self.payoff.to_real_world_currency(self.session),
-            'show_up': self.session.config['participation_fee'],
-            'total_money': self.participant.payoff_plus_participation_fee(),
-            'exchange_rate': int(1/self.session.config['real_world_currency_per_point']),
-            'treatment': self.treatment,
-            'win_probability': self.win_probability
-        }
-        # Add belief bonus from current round if needed
-        if self.treatment in ['BEST', 'TRUNCATED']:
-            all_payoff_info.update({'belief_bonus_taler': self.belief_bonus_won * Constants.belief_bonus })
+    #     all_payoff_info ={
+    #         'probs_scaled': probs_scaled,
+    #         'payoffs': payoffs,
+    #         'participant_payoff': self.participant.payoff,
+    #         'colspan_table': colspan_table,
+    #         'paid_lottery_round': self.paid_lottery_round,
+    #         'relevant_wtp': relevant_wtp,
+    #         'lottery_played': self.lottery_played,
+    #         'lottery_payment': self.lottery_payment,
+    #         'relevant_price': relevant_price,
+    #         'additional_money': self.payoff.to_real_world_currency(self.session),
+    #         'show_up': self.session.config['participation_fee'],
+    #         'total_money': self.participant.payoff_plus_participation_fee(),
+    #         'exchange_rate': int(1/self.session.config['real_world_currency_per_point']),
+    #         'treatment': self.treatment,
+    #         'win_probability': self.win_probability
+    #     }
+    #     # Add belief bonus from current round if needed
+    #     if self.treatment in ['BEST', 'TRUNCATED']:
+    #         all_payoff_info.update({'belief_bonus_taler': self.belief_bonus_won * Constants.belief_bonus })
 
 
-        self.participant.vars['all_payoff_info'] = all_payoff_info
+    #     self.participant.vars['all_payoff_info'] = all_payoff_info
 
     def get_general_instruction_vars(self):
         context = {
@@ -412,7 +293,7 @@ class Player(BasePlayer):
 
         return context
 
-
+    # TODO: Rework
     def calc_belief_bonus(self):
         """
 

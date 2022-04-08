@@ -2,45 +2,22 @@ from os import environ
 
 SESSION_CONFIGS = [
    dict(
-         name='SELF_2_x_BEST_FULL_BEST',
-         display_name="SELF_2_x_BEST_FULL_BEST",
-         num_demo_participants=50,
-         use_browser_bots=False,
-         expShortName='trunlot',
-         expId=1616578277,
-         treatment_list = ['FULL_BEST', 'BEST', 'BEST'],
-         app_sequence=['truncated_reporting', 'quiz', 'payment']
-      ),
-   dict(
-         name='BOT_2_x_BEST_FULL_BEST',
-         display_name="BOT_2_x_BEST_FULL_BEST",
-         num_demo_participants=50,
-         use_browser_bots=True,
-         expShortName='trunlot',
-         expId=1616578277,
-         treatment_list = ['FULL_BEST', 'BEST', 'BEST'],
-         app_sequence=['truncated_reporting', 'quiz', 'payment']
-      ),
-   dict(
          name='SELF_EXPERIMENT',
          display_name="SELF_EXPERIMENT",
          num_demo_participants=50,
          use_browser_bots=False,
-         expShortName='trunlot',
-         expId=1616578277,
          treatment_list = ['FULL', 'FULL_BEST', 'BEST', 'TRUNCATED'],
-         app_sequence=['truncated_reporting', 'quiz', 'payment']
+         app_sequence=['truncated_reporting']
       ),
-    dict(
-          name='BOT_EXPERIMENT',
-          display_name="BOT_EXPERIMENT",
-          num_demo_participants=50,
-          use_browser_bots=True,
-          expShortName='trunlot',
-          expId=1616578277,
-          treatment_list = ['FULL', 'FULL_BEST', 'BEST', 'TRUNCATED'],
-          app_sequence=['truncated_reporting', 'quiz', 'payment']
-       )
+   dict(
+         name='SELF_CENSORED',
+         display_name="SELF_CENSORED",
+         num_demo_participants=50,
+         use_browser_bots=False,
+         treatment_list = ['TRUNCATED'],
+         app_sequence=['truncated_reporting']
+      ),
+
 
 ]
 

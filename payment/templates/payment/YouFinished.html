@@ -1,0 +1,42 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+
+You have finished all tasks <hr>
+
+{% endblock %}
+
+
+
+{% block content %}
+        {% if participant.vars.comprehension_passed == False %}
+            <p>
+                You did not answer the comprehension questions correctly and did not participate in the main part of the study. <b>You will be paid a fixed reward of <u>{{ Constants.base_pay }}</u> and not receive a completion bonus for this study.</b>
+            </p>
+        {% else  %}
+            <p>
+                You have completed this study in its entirety. <b>You will receive the fixed reward of <u>{{ Constants.base_pay }}</u> credited to you Prolific account.</b>
+            </p>
+            <p>
+                You are eligable for the bonus payment. After the end of the entire study, one out every thirty subjects will be randomly selected to receive an additional bonus.
+                If you are selected for payment, your additional bonus will be determined as follows:
+            </p>
+            <p>
+                The computer will randomly select one choice list for payout, with equal probability. We then
+                randomly select one of your decisions from this choice list (with equal probability), and this
+                decision will be implemented for real payment.
+            </p>
+            <p>
+                <b>If you won the bonus, we will inform you in the next days using your Prolific-ID.</b>
+            </p>
+
+        {% endif %}
+
+
+<div style="text-align: right;">
+    {% next_button %}
+</div>
+
+{% endblock %}
+

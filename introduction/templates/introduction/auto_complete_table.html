@@ -1,0 +1,49 @@
+<table class="table table-bordered" style="border-spacing: 0; width: 80%; margin-top: 15px; margin-bottom: 15px;" >
+    <colgroup>
+        <col width="40%">
+        <col width="10%">
+        <col width="10%">
+        <col width="40%">
+    </colgroup>
+    <tr>
+        <td align="middle" style="padding-top: 5px; padding-bottom: 5px"><b>Option A</b></td>
+        <td style="border-right: 0px solid;"></td>
+        <td style="border-left: 0px solid;"></td>
+        <td align="middle" style="padding-top: 5px; padding-bottom: 5px"><b>Option B</b></td>
+    </tr>
+
+{% for amount in amount_RHS %}
+    <tr>
+    {% if forloop.counter == 1 %}
+        <td style="vertical-align: middle; text-align: center" rowspan="{{n_elements_RHS}}">
+            {% for lottery_tuple in current_lottery %}
+                <p>
+                {% if lottery_tuple.0 == min_value %}
+                    <span id="low_prob">With probability {{lottery_tuple.1}}%: Get ${{lottery_tuple.0}}</span>
+                {% else %}
+                    With probability {{lottery_tuple.1}}%: Get ${{lottery_tuple.0}}
+                {% endif %}
+                </p>
+            {% endfor %}
+        </td>
+    {% endif %}
+        <td class="MiddleTD" align="middle" style="padding-top: 0; padding-bottom: 0; border-right: 0px solid;">
+            <input class="MiddleRadios" type="radio" name="amount_{{ amount }}" value="left">
+        </td>
+    
+        <td class="MiddleTD" align="middle" style="padding-top: 0; padding-bottom: 0; border-left: 0px solid;">
+
+            <input class="MiddleRadios" type="radio" name="amount_{{ amount }}" value="right" data-amount="{{ amount }}">
+        </td>
+        <td align="middle" style="padding-top: 0; padding-bottom: 0">
+            With certainty: Get ${{ amount }}
+        </td>
+    </tr>
+{% endfor %}
+</table>
+
+<style>
+table{
+   margin: 0 auto
+}
+</style>

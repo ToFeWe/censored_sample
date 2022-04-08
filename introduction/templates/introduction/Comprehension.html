@@ -1,0 +1,67 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Comprehension questions<hr>
+{% endblock %}
+
+{% block content %}
+<p>
+    The questions below test your understanding of the instructions.
+</p>
+<p>
+    <b>Important:</b> If you fail to answer any one of these questions correctly, you will not be allowed to
+    participate in the rest of the study, and you will not be able to earn a bonus payment.
+</p>
+
+<div class="card">
+    <div class="card-header">
+        <b>1. Which one of the following statements is correct if the following lottery is played for you?  </b>
+    </div>
+
+    <div class="card-body">
+        <div class="text-center">
+            <ul style="margin-bottom: 0px;">
+                <li>With probability <b> 5%</b>: Get <b>$100</b></li>
+                <li>With probability <b> 60%</b>: Get <b>$50</b></li>
+                <li><span id="low_prob">With probability <b> 35%</b>: Get <b>$0</b></span></li>
+            </ul>
+        </div><br>
+        {% formfield player.comprehension_question_1 label="Please select one of the statements:"%}
+
+    </div>
+</div>
+<br>
+<div class="card">
+    <div class="card-header">
+        <b>2. Suppose a person made the decisions shown in the choice list below. Which of the following statements is correct regarding these decisions?</b>
+    </div>
+
+    <div class="card-body">
+        <div class="text-center">
+            <img src="{{ static 'lottery_example_question.png' }} " style=" max-width: 95%;"/>
+        </div><br>
+        {% formfield player.comprehension_question_2 label="Please select one of the statements:"%}
+
+    </div>
+
+</div>
+<br>
+
+
+
+
+
+ <div style="text-align: right;">
+    {% next_button %}
+</div>
+
+{% endblock %}
+
+<style>
+ul {
+  list-style-type: none;
+}
+
+</style>
+

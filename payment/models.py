@@ -8,10 +8,7 @@ from otree.api import (
     Currency as c,
     currency_range,
 )
-from .exception import PaymentKeyNotFound
-from .payout_url_generator import PayoutURLGenerator
-
-author = 'Your name here'
+from introduction.models import Constants as IntroConstants
 
 doc = """
 Your app description
@@ -22,53 +19,21 @@ class Constants(BaseConstants):
     name_in_url = 'payment'
     players_per_group = None
     num_rounds = 1
+    base_pay = IntroConstants.base_pay
+
 
 
 class Subsession(BaseSubsession):
+    prolific_url = models.StringField()
+
     def creating_session(self):
-        payment_keys = ['expId', 'expShortName']
-        for k in payment_keys:
-            if k not in self.session.config.keys():
-                raise PaymentKeyNotFound(k)
-
-
-    def vars_for_admin_report(self):
-        participants = self.session.get_participants()
-        total_payoff_all = sum([p.payoff.to_real_world_currency(self.session) for p in participants])
-        mean_payoff_all = total_payoff_all/self.session.num_participants
-
-        # base url added directly in template
-        urls_with_id = [
-                p._start_url() + "/?participant_label=[TEILNEHMER-ID_EINFÜGEN]"
-             for p in participants
-        ]
-
-        return {
-            'urls_with_id': urls_with_id,
-            'participants': participants,
-            'total_payoff_all': total_payoff_all,
-            'mean_payoff_all': mean_payoff_all
-        }
-
+        if "prolific_url" not in self.session.config:
+            raise Exception("Prolific URL is missing. Add it to the session config.")
+        self.prolific_url = self.session.config["prolific_url"]
 
 class Group(BaseGroup):
     pass
 
 
 class Player(BasePlayer):
-    orsee_id = models.StringField(label="Please enter your participant ID:")
-
-    def create_paymentURL(self):
-        """
-        
-        Small helper function to create a payment URL.
-        """
-        expShortName = self.session.config['expShortName']
-        expId = self.session.config['expId']
-        pid = self.participant.label
-        final_payoff = float(self.participant.payoff_plus_participation_fee())
-        paymentURL = PayoutURLGenerator(expShortName,
-                                        expId,
-                                        pid,
-                                        final_payoff).getPayoutURL()
-        return paymentURL
+    pass

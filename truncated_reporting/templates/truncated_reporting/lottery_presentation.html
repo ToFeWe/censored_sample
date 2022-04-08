@@ -17,20 +17,44 @@
   </div>
 </div>
 
+
 <div class="row">
   <div class="col">
-    <table class="table" style="text-align: center">
+    <table class="table table-bordered" style="text-align: center">
       <thead>
-        <tr class="table-primary">
-          <th>Lottery</th>
-        </tr>
-        <tr>
-          <td> {{lottery_text}} </t>
+        <tr class="table-primary" style="border-color: black">
+          <th colspan="4">Lottery</th>
         </tr>
       </thead>
+      <tbody>
+        <tr>
+          <th> Probability </th>
+          <td> {{ prob_low }} % </td>
+          {% if player.treatment == 'BEST' or player.treatment == 'TRUNCATED' %}
+            <td> {{ prob_upper_joint }} % </td>
+          {% else %}
+            <td> {{ prob_mid }} % </td>
+            <td> {{ prob_high }} % </td>
+        {% endif %}
+        </tr>
+        <tr>
+          <th> Payoff </th>
+          <td> {{ payoff_low }} coins </td>
+          {% if player.treatment == 'BEST' or player.treatment == 'TRUNCATED' %}
+            <td> either {{ payoff_mid }} coins or {{ payoff_high }} coins</td>
+          {% else %}
+          <td> {{ payoff_mid }} coins </td>
+          <td> {{ payoff_high }} coins </td>
+        {% endif %}
+        </tr>
+      <tbody>
     </table>
   </div>
 </div>
+
+
+
+
 {% if player.treatment == 'BEST' or player.treatment == 'FULL_BEST' %}
 <div class="row">
   <div class="col">

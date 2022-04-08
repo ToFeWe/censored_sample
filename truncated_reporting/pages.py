@@ -1,7 +1,7 @@
 from otree.api import Currency as c, currency_range
 from ._builtin import Page, WaitPage
 from .models import Constants
-from .models import make_trunc_text, make_full_text, get_highest_payoff_state
+from .models import sort_lottery, create_lottery
 
 class Introduction(Page):
     def is_displayed(self):
@@ -17,13 +17,35 @@ class Decision(Page):
     def vars_for_template(self):
         context = dict()
         
-        if self.player.treatment in ['FULL', 'FULL_BEST']:
-            lottery_text = make_full_text(Constants.all_lotteries[self.player.lottery]['dist'])
-        else:
-            lottery_text = make_trunc_text(Constants.all_lotteries[self.player.lottery]['dist'])
+        # Sort the lottery
+        current_sorted_lottery = sort_lottery(
+                                    create_lottery(
+                                       q=self.player.mid_probability,
+                                       x=self.player.max_payoff
+                                       )
+                                    )
+        sorted_payoffs, sorted_probs = zip(*current_sorted_lottery)
         
-        context['lottery_text'] = lottery_text
+        # Split
+        payoff_low, payoff_mid, payoff_high = sorted_payoffs
+        prob_low, prob_mid, prob_high = sorted_probs
         
+        # For the treatments with censoring we calculate the joint values
+        # directly here
+        prob_upper_joint = prob_mid + prob_high
+
+        # Add all variables to the context (quick and dirty)
+        context['payoff_low'] = payoff_low
+        context['payoff_mid'] = payoff_mid
+        context['payoff_high'] = payoff_high
+
+        # Scale also up and round due to floating points
+        context['prob_low'] = int(round(prob_low * 100))
+        context['prob_mid'] = int(round(prob_mid * 100))
+        context['prob_high'] = int(round(prob_high * 100))
+
+        context['prob_upper_joint'] = int(round(prob_upper_joint * 100))
+
         
         if self.player.treatment in ['BEST', 'FULL_BEST', 'RANDOM']:
             extend_dict = {
@@ -44,61 +66,6 @@ class Decision(Page):
             # In best and truncated we do this after the belief page
             if self.player.treatment not in ['BEST', 'TRUNCATED']:
                 self.player.calc_payoff()
-                self.player.save_payoff_info()
+                # self.player.save_payoff_info()
 
-
-class Belief(Page):
-    form_model = 'player'
-    form_fields = ['belief', 'belief_sequence']
-
-    def vars_for_template(self):
-        context = dict()
-        
-        if self.player.treatment == "FULL":
-            lottery_text = make_full_text(Constants.all_lotteries[self.player.lottery_for_belief]['dist'])
-        else:
-            lottery_text = make_trunc_text(Constants.all_lotteries[self.player.lottery_for_belief]['dist'])
-        
-        context['lottery_text'] = lottery_text
-        
-        
-        if self.player.treatment == 'BEST':
-            # Retrieve the sample he has seen in the first round
-            player_in_first_round = self.player.in_round(1)
-            extend_dict = {
-                'subsample': player_in_first_round.get_subsample(),
-                
-            }
-            context.update(extend_dict)
-            
-        # get other variables for instructions
-        context.update(self.player.get_general_instruction_vars())
-
-        # Get the highest payoff state for the given lottery
-        highest_payoff_state = get_highest_payoff_state(Constants.all_lotteries[
-                                                                    self.player.lottery_for_belief
-                                                                ]['dist'])
-        # GEt the highest possible prior a participant could report
-        max_value_slider = self.player.slider_max()
-
-        # Add both to context
-        context.update({
-            'highest_payoff_state': highest_payoff_state,
-            'max_value_slider': max_value_slider
-        })
-
-        return context
-
-    def is_displayed(self):
-        # Only shown in the last round and only if the probabilities have been censored
-        return ((self.round_number == Constants.num_rounds) and self.player.treatment in ['BEST','TRUNCATED'])
-
-
-    def before_next_page(self):
-        self.player.calc_belief_bonus()
-        # We need to calculate the final payoff. We have not done this on the page before
-        # for treatments in which we elicit beliefs
-        self.player.calc_payoff()
-        self.player.save_payoff_info()
-
-page_sequence = [Introduction, Decision, Belief]
+page_sequence = [Introduction, Decision]

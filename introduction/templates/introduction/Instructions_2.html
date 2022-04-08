@@ -1,0 +1,30 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Instructions (2/3) <hr>
+{% endblock %}
+
+{% block content %}
+<p>
+<b>Auto-completion:</b> The table auto-completes your choices so you don't have to click through all
+of the rows. You do not have to start at the top of the table. If you select Option A in any one
+row, we assume that you will also prefer Option A in all rows above that row. If you select Option
+B in any one row, we assume that you will also prefer Option B in all rows below that row.
+</p><br>
+
+<div class="card justify-content-center">
+  <div class="card-header">
+    <b>Example</b>
+  </div>
+        {% include "introduction/auto_complete_table.html"%}
+</div>
+<p>
+    <div style="text-align: right;">
+      {% next_button %}
+    </div>
+</p>
+{% endblock %}
+
+    <script src="{% static 'global/pricelist_disc.js' %}"></script>
+

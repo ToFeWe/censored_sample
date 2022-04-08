@@ -1,0 +1,101 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+Instructions (1/3) <hr>
+{% endblock %}
+
+{% block content %}
+<p>
+Please read these instructions carefully. There will be comprehension checks. If you fail these,
+you will be excluded from the study and only receive the fixed reward of {{Constants.base_pay}}.
+</p>
+<p>
+In this study, you will see various lotteries, all of which pay different amounts of money with different
+probabilities. An example lottery is:
+</p>
+<div class="card text-center" style="width: 20rem;">
+    <ul style="margin-bottom: 0px;">
+        <li>With probability <b> 5%</b>: Get <b>$100</b></li>
+        <li>With probability <b> 60%</b>: Get <b>$50</b></li>
+        <li><span id="low_prob">With probability <b> 35%</b>: Get <b>$0</b></span></li>
+    </ul>
+</div>
+
+<p>
+    This means that the lottery pays <b>either</b> $100 <b>or</b> $50 <b>or</b> $0 (with different probabilities), but a
+    lottery always only pays out one of the dollar amounts. The lotteries will actually be played out
+    by the computer and determine your earnings in exactly the way we describe on the following
+    pages.
+</p>
+<p>
+    In total, we have created <b>{{Constants.n_lotteries}} lotteries</b>. For each lottery, you will make various choices to indicate
+    how much this lottery is worth to you. Before you make your decisions for a given lottery, we will ask
+    you to indicate how difficult you find it to reach your decisions on this screen.
+</p>
+<p>
+    <b>Throughout the experiment, there are no right or wrong answers, because how much you
+    like a lottery depends on your personal taste.</b> We are only interested in learning about what
+    you prefer.
+</p>
+
+<br>
+<h2> Decision Screen </h2>
+
+<p>
+    You will be asked to choose which of two payment options you prefer. Specifically, you will see choice lists
+    such as the one below, where each row is a separate choice. In every list, the left-hand side
+    option (Option A) is one of the lotteries that we generated, which is identical in all rows. The
+    right-hand side option (Option B) is a safe amount that you would receive with certainty, so there
+    is no risk attached. The safe payment in Option B increases as you go down the list.
+</p>
+<p>
+    You should consider the choice in each row <b>independently</b> of all other rows, because in the
+    end one row will be randomly selected for payout and you will receive the option that you
+    selected in that row.
+</p>
+<p>
+    Usually, people start by preferring Option A for small certain amounts (at the top of the list).
+    At some point they switch to Option B as they proceed down the list, because the certain
+    amount associated with Option B increases, so that Option B becomes more attractive.
+    <b>Thus, an effective way to complete these choice lists is to determine in which row you
+    would like to switch from Option A to Option B.</b>
+</p>
+<p>
+    Based on your decisions in this choice list, we assess <b>how much the lottery is worth to you
+    by using those certain payments where you switch from Option A to Option B.</b> For
+    example, in the exemplary choice list below, the lottery would be worth between $70 and $75 to
+    you, because this is where switching occurs.
+</p>
+
+<div class="card mx-auto "  style=" max-width: 100%;">
+    <div class="card-header">
+        <b>Example</b>
+    </div>
+    <p>
+        <div class="text-center">
+        <img src="{{ static 'lottery_example.png' }} " style=" max-width: 95%;"/>
+        </div>
+    </p>
+</div>
+
+
+<p>
+ <div style="text-align: right;">
+    {% next_button %}
+</div>
+</p>
+{% endblock %}
+
+<style>
+ul {
+  list-style-type: none;
+}
+.card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+}
+
+</style>
+

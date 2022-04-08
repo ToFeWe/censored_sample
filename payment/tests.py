@@ -1,22 +1,16 @@
-from otree.api import Currency as c, currency_range, expect, Submission
+from otree.api import Currency as c, currency_range
 from . import pages
 from ._builtin import Bot
 from .models import Constants
-
+from otree.api import Submission
 
 class PlayerBot(Bot):
     def play_round(self):
-        if self.participant.label is None:
-            yield pages.OrseeID, dict(orsee_id="lollo")
-        
-
-        price = self.participant.vars['all_payoff_info']['relevant_price']
-        wtp = self.participant.vars['all_payoff_info']['relevant_wtp']
-        if price < wtp:
-            expect("Da der Preis kleiner oder", "in", self.html)
-        else:
-            expect("Da der Preis größer als Ihr Maximalpreis ist", "in", self.html)
-
-        # TODO maybe check belief bonus here too
-        expect(str(self.participant.payoff_plus_participation_fee()), "in", self.html)
-        yield Submission(pages.Payoff, check_html=False)
+        # If she fails the attention check she never arrives here
+        if self.participant.vars.get('failed_attention', False) is False:
+            if self.participant.vars['comprehension_passed'] is False:
+                assert "You did not answer the comprehension questions" in self.html
+            else:
+                assert "You have completed this study in its entirety" in self.html
+            yield pages.YouFinished
+            yield Submission(pages.ToProlific, check_html=False)

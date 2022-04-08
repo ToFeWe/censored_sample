@@ -1,0 +1,44 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+Welcome<hr>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+
+        <p>
+        Thank you for participating in this study.
+        </p>
+
+        <p>
+        This study will take approximately {{Constants.time_to_finish}} minutes to complete.
+        </p>
+
+        <p>
+        You will earn a fixed reward of {{Constants.base_pay}} for completing the study. To complete the study, you will
+        need to read all instructions carefully and answer the corresponding comprehension questions
+        correctly.
+        </p>
+
+        <p>
+        You have a chance to win an <b><i>additional</i> bonus</b> that depends on your decisions in this study.
+        </p>
+
+        <p>
+        {% formfield player.prolific_id label="Please enter your Prolific ID below to make sure that you will <b>receive your participant payment.</b>"%}
+        </p>
+    </div>
+</div>
+
+
+
+
+<div style="text-align: right;">
+    {% next_button %}
+</div>
+{% endblock %}
+
+

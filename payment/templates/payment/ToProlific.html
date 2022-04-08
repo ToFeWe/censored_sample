@@ -1,0 +1,16 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+Redirecting... <hr>
+{% endblock %}
+
+{% block content %}
+<p> You will be redirected to Prolific Completion Page. </p>
+<meta http-equiv="refresh" content="4; URL={{subsession.prolific_url}}" />
+<br>
+<p>If you are not redirected in five seconds, <a href="{{subsession.prolific_url}}">click here</a>.</p>
+
+{% endblock %}
+
+

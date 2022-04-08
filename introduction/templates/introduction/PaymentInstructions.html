@@ -1,0 +1,27 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Your payment<hr>
+{% endblock %}
+
+{% block content %}
+<p>
+    One out every thirty subjects will be randomly selected to receive an additional bonus. If you
+    are selected for payment, your additional bonus will be determined as follows:
+</p>
+<p>
+    The computer will randomly select one choice list for payout, with equal probability. We then
+    randomly select one of your decisions from this choice list (with equal probability), and this
+    decision will be implemented for real payment.
+</p>
+<p>
+    <b>Thus, you should take each decision independently of all other decisions as if it is the
+    one that counts, because it may be.</b>
+</p>
+<div style="text-align: right;">
+    {% next_button %}
+</div>
+{% endblock %}
+
+
