@@ -12,7 +12,7 @@ class Introduction(Page):
 
 class Decision(Page):
     form_model = 'player'
-    form_fields = ['wtp_lottery']
+    form_fields = ['wtp_lottery', 'belief_sequence', 'belief']
 
     def vars_for_template(self):
         context = dict()

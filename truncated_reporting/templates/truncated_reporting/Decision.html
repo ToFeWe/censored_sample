@@ -6,22 +6,46 @@ Please take a decision
 {% endblock %}
 
 {% block content %}
-  
+
 {% include "truncated_reporting/lottery_presentation.html" %}
 
 <div class="row">
   <div class="col">
-    <table class="table borderless" style="text-align: center">
-      <tr>
-        <td class="w-50 align-middle"> <b>How much are you willing to pay for this lottery?</b></td>
-        <td class="w-50 float-right"> {% formfield player.wtp_lottery%} </td>
-      </tr>
-      <tr>
-        <td colspan="2"> {% next_button %} </td>
-      </tr>
-    </table>
+    <div class="card">
+      <h5 class="card-header">
+        How often would you win this lottery?
+      </h5>
+      <div class="card-body">
+        <h5 style="color: red">TODO: Do we incentivize this? If so, how? ask question differently and BSR?</h5>
+
+        {% include "truncated_reporting/belief_elicitation.html" %}
+      </div>
+    </div>
+    
   </div>
 </div>
+
+<br>
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <h5 class="card-header">
+        How much are you willing to pay for this lottery?
+      </h5>
+      <div class="card-body">
+        {% include "truncated_reporting/wtp_elicitation.html" %}
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<table class="table borderless" style="text-align: center">
+  <tr>
+      <td colspan="2">
+      <button type="submit" class="btn btn-primary" id="confirm" disabled>Next</button>
+      </td>
+  </tr>
+</table>
 
 <div class="row">
   <div class="col">
@@ -29,15 +53,12 @@ Please take a decision
   </div>
 </div>
 
+<input type="hidden" name="belief_sequence" id="belief_sequence" />
+
+{% if form.belief_sequence.errors %}{{ form.belief_sequence.errors.0 }}{% endif %}
+{% if form.belief.errors %}{{ form.belief.errors.0 }}{% endif %}
 
 
-<style>
-  .borderless tr,
-  .borderless td,
-  .borderless th {
-    border: none !important;
-  }
-</style>
 
 
 

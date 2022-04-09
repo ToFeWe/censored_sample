@@ -1,0 +1,169 @@
+<table class="w3-table w3-white" style="border-spacing: 0; width: 100%" cellpadding="5">
+    <tr>
+      <td colspan="3">
+        Imagine you would play the lottery <b>100 times</b>. How many times do you think would you win <b>{{ payoff_high }} coins </b>?
+      </td>
+    </tr>
+    <tr>
+      <td style="width: 10%; text-align: center;"> <strong> 0 draws </strong></td>
+      <td style="width: 80%; text-align: center;">
+        <div class="form-group required">
+          <div class="controls  field-belief">
+            <input type="range" name="belief" id="id_belief_slider" class="slider2" style="width: 100%;" min="0"
+              max="100" value="100" />
+          </div>
+        </div>
+      </td>
+      <td style="width: 10%; text-align: center;"> <strong> 100 draws</strong></td>
+    </tr>
+
+    <tr>
+      <td colspan="3">
+
+        <span id="click_slider">
+          <h5 style="color: red">Please click on the slider to indicate your belief. You can still change your decision afterwards.</h5>
+        </span>
+        <span id="slider_clicked" style="display:none;">
+          <h5>I believe that I would win {{ payoff_high }} coins exactly <b style="color: red"> <span
+                id="text_belief">XX
+                times</span></b> if I would play the lottery 100 times.
+          </h5>
+        </span>
+
+      </td>
+    </tr>
+  </table>
+
+
+  <style>
+    /* The slider itself */
+    .slider {
+      -webkit-appearance: none;
+      /* Override default CSS styles */
+      appearance: none;
+      width: 25%;
+      /* Full-width */
+      height: 10px;
+      /* Specified height */
+      background: #d3d3d3;
+      /* Grey background */
+      outline: none;
+      /* Remove outline */
+      -webkit-transition: .2s;
+      /* 0.2 seconds transition on hover */
+    }
+  
+  
+  
+  
+  
+    /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      /* Override default look */
+      appearance: none;
+      width: 10px;
+      /* Set a specific slider handle width */
+      height: 25px;
+      /* Slider handle height */
+      background: #000000;
+    }
+  
+    .slider::-moz-range-thumb {
+      width: 10px;
+      /* Set a specific slider handle width */
+      height: 25px;
+      /* Slider handle height */
+      background: #000000;
+    }
+  
+  
+    /*An other class to make the thumb of the slider invisible*/
+    .slider2 {
+      -webkit-appearance: none;
+      /* Override default CSS styles */
+      appearance: none;
+      width: 25%;
+      /* Full-width */
+      height: 10px;
+      /* Specified height */
+      background: #d3d3d3;
+      /* Grey background */
+      outline: none;
+      /* Remove outline */
+    }
+  
+  
+  
+  
+  
+    /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+    .slider2::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      /* Override default look */
+      appearance: none;
+      width: 25px;
+      /* Set a specific slider handle width */
+      height: 25px;
+      /* Slider handle height */
+      background: #000000;
+      /* Green background */
+      visibility: hidden;
+    }
+  
+    .slider2::-moz-range-thumb {
+      width: 25px;
+      /* Set a specific slider handle width */
+      height: 25px;
+      /* Slider handle height */
+      background: #000000;
+      /* Green background */
+      visibility: hidden;
+  
+    }
+  </style>
+  
+  <script>
+  
+    var range_input = document.getElementById('id_belief_slider');
+    console.log(range_input.value)
+    var all_numbers = "";
+  
+    range_input.addEventListener('input', function () { updateValues('range') });
+  
+    function updateValues(i) {
+  
+      // Enable the button to advance after 1.5 seconds
+      // Note that this ensures that the person has to click
+      // the slider before advancing and hence, the inital value
+      // of the slider is never used.
+      setTimeout(function () {
+        document.getElementById("confirm").disabled = false;
+      }, 1500);
+  
+      // Show decision text and hidde the placerhold
+      document.getElementById("click_slider").style.display = "none";
+      document.getElementById("slider_clicked").style.display = "block";
+  
+  
+  
+      // Storing all numbers that the participant considered as a belief
+      all_numbers = all_numbers + ";" + range_input.value.toString()
+      document.getElementById("belief_sequence").value = all_numbers
+  
+      // If the participant does not report any value for the moment
+      // we hide the thumb of the slider to avoid any anchoring.
+      // Note that ranges default to the middle point between min and max (50 here) as a default value
+      // As the participant has to click on the slider to activate the button, 
+      // this default value will always be overwritten!
+      // Also, once the participant clicked on the slider, we will then show him/her only
+      // this value that was insert by the intial click!
+      document.getElementById("id_belief_slider").className = "slider"
+      document.getElementById("text_belief").textContent = range_input.value.toString() + " times"
+    }
+  
+  
+  
+  </script>
+  
+  

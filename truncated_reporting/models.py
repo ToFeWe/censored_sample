@@ -61,7 +61,6 @@ class Constants(BaseConstants):
 
     num_rounds = 5
 
-
     sample_size = 250
     draws = 5
 

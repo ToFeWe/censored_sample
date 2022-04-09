@@ -1,0 +1,17 @@
+{% load otree static %}
+
+<table class="table borderless" style="text-align: center">
+    <tr>
+        <td class="w-50 align-middle"> <b>How much are you willing to pay for this lottery?</b></td>
+        <td class="w-50 float-right"> {% formfield player.wtp_lottery%}</td>
+    </tr>
+</table>
+
+<style>
+    .borderless tr,
+    .borderless td,
+    .borderless th {
+      border: none !important;
+    }
+  
+</style>

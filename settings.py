@@ -10,8 +10,32 @@ SESSION_CONFIGS = [
          app_sequence=['truncated_reporting']
       ),
    dict(
-         name='SELF_CENSORED',
-         display_name="SELF_CENSORED",
+         name='SELF_FULL',
+         display_name="SELF_FULL",
+         num_demo_participants=50,
+         use_browser_bots=False,
+         treatment_list = ['FULL'],
+         app_sequence=['truncated_reporting']
+      ),
+   dict(
+         name='SELF_FULL_BEST',
+         display_name="SELF_FULL_BEST",
+         num_demo_participants=50,
+         use_browser_bots=False,
+         treatment_list = ['FULL_BEST'],
+         app_sequence=['truncated_reporting']
+      ),
+   dict(
+         name='SELF_BEST',
+         display_name="SELF_BEST",
+         num_demo_participants=50,
+         use_browser_bots=False,
+         treatment_list = ['BEST'],
+         app_sequence=['truncated_reporting']
+      ),
+   dict(
+         name='SELF_TRUNCATED',
+         display_name="SELF_TRUNCATED",
          num_demo_participants=50,
          use_browser_bots=False,
          treatment_list = ['TRUNCATED'],
