@@ -132,7 +132,28 @@
     range_input.addEventListener('input', function () { updateValues('range') });
   
     function updateValues(i) {
-  
+      
+      // If we have not activated the wtp field, we do it now
+      var wtp_field = document.getElementById("id_wtp_lottery");
+      if(wtp_field.disabled == true){
+
+        // Enable WTP elicitation
+        wtp_field.disabled = false;
+
+        // Change color on the body of the card
+        var card_wtp_body = document.getElementById("card_wtp_body");
+        card_wtp_body.style.backgroundColor = "#FFFFFF";
+        
+        // Turn off popover for the entire card
+        $('#card_wtp').popover('disable');
+
+
+      }
+
+      //card_wtp_body
+
+
+
       // Enable the button to advance after 1.5 seconds
       // Note that this ensures that the person has to click
       // the slider before advancing and hence, the inital value

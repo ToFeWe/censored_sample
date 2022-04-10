@@ -8,14 +8,14 @@ Please take a decision
 {% block content %}
 
 {% include "truncated_reporting/lottery_presentation.html" %}
-
+<br>
 <div class="row">
   <div class="col">
     <div class="card">
-      <h5 class="card-header">
+      <h5 class="card-header"  style="background-color:#e0e0e0;" >
         How often would you win this lottery?
       </h5>
-      <div class="card-body">
+      <div class="card-body" >
         <h5 style="color: red">TODO: Do we incentivize this? If so, how? ask question differently and BSR?</h5>
 
         {% include "truncated_reporting/belief_elicitation.html" %}
@@ -26,26 +26,32 @@ Please take a decision
 </div>
 
 <br>
-<div class="row">
-  <div class="col">
-    <div class="card">
-      <h5 class="card-header">
-        How much are you willing to pay for this lottery?
-      </h5>
-      <div class="card-body">
-        {% include "truncated_reporting/wtp_elicitation.html" %}
+
+  <div class="row">
+    <div class="col">
+      <div class="card" tabindex="0" data-bs-trigger="hover focus" 
+        id="card_wtp"
+        data-bs-content="Please answer the questions above first." >
+        <h5 class="card-header"  style="background-color:#e0e0e0;" >
+          How much are you willing to pay for this lottery?
+        </h5>
+        <div class="card-body" style="background-color:#e0e0e0;" id="card_wtp_body">
+          {% include "truncated_reporting/wtp_elicitation.html" %}
+        </div>
       </div>
     </div>
   </div>
-</div>
-<br>
-<table class="table borderless" style="text-align: center">
-  <tr>
-      <td colspan="2">
-      <button type="submit" class="btn btn-primary" id="confirm" disabled>Next</button>
-      </td>
-  </tr>
-</table>
+  <div class="row">
+    <div class="col">
+      <table class="table borderless" style="text-align: center">
+        <tr>
+            <td colspan="2">
+                <button type="submit" class="btn btn-primary" id="confirm" disabled>Next</button>
+            </td>
+        </tr>
+      </table>
+    </div>
+  </div>
 
 <div class="row">
   <div class="col">
@@ -59,8 +65,18 @@ Please take a decision
 {% if form.belief.errors %}{{ form.belief.errors.0 }}{% endif %}
 
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
+<script>
+
+    // Turn on popover for button element
+    var btn_span = document.getElementById("card_wtp");
+    var popover_btn = new bootstrap.Popover(btn_span)
+
+</script>  
 
 
 
 {% endblock %}
+
+

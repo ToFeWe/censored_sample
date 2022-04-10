@@ -45,7 +45,7 @@ class Decision(Page):
         context['prob_high'] = int(round(prob_high * 100))
 
         context['prob_upper_joint'] = int(round(prob_upper_joint * 100))
-
+        
         
         if self.player.treatment in ['BEST', 'FULL_BEST', 'RANDOM']:
             extend_dict = {
