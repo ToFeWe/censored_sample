@@ -40,6 +40,16 @@ SESSION_CONFIGS = [
          treatment_list = ['TRUNCATED'],
          app_sequence=['truncated_reporting']
       ),
+   dict(
+         name='EXPERIMENT',
+         display_name="EXPERIMENT",
+         num_demo_participants=50,
+         use_browser_bots=False,
+         treatment_list = ['TRUNCATED'],
+         app_sequence=['introduction', 'truncated_reporting', 'payment'],
+        prolific_url="https://google.com" # TODO: Replace
+      ),
+
 
 
 ]
