@@ -2,10 +2,12 @@
 {% load otree static %}
 
 {% block title %}
-    Comprehension questions<hr>
+    Comprehension questions
 {% endblock %}
 
 {% block content %}
+<hr>
+
 <p>
     The questions below test your understanding of the instructions.
 </p>
@@ -16,17 +18,33 @@
 
 <div class="card">
     <div class="card-header">
-        <b>1. Which one of the following statements is correct if the following lottery is played for you?  </b>
+        <b>1. Which payoffs are possible for the following lottery?  </b>
     </div>
 
     <div class="card-body">
         <div class="text-center">
-            <ul style="margin-bottom: 0px;">
-                <li>With probability <b> 5%</b>: Get <b>$100</b></li>
-                <li>With probability <b> 60%</b>: Get <b>$50</b></li>
-                <li><span id="low_prob">With probability <b> 35%</b>: Get <b>$0</b></span></li>
-            </ul>
-        </div><br>
+            <table class="table table-bordered" style="text-align: center">
+                <thead>
+                    <tr class="table-primary" style="border-color: black">
+                        <th colspan="4">Lottery</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th> Probability </th>
+                        <td> 20 % </td>
+                        <td> 40 % </td>
+                        <td> 40 % </td>
+                    </tr>
+                    <tr>
+                        <th> Payoff </th>
+                        <td> 0 coins </td>
+                        <td> 30 coins </td>
+                        <td> 80 coins </td>
+                    </tr>
+                <tbody>
+            </table>
+                </div><br>
         {% formfield player.comprehension_question_1 label="Please select one of the statements:"%}
 
     </div>
@@ -34,12 +52,33 @@
 <br>
 <div class="card">
     <div class="card-header">
-        <b>2. Suppose a person made the decisions shown in the choice list below. Which of the following statements is correct regarding these decisions?</b>
+        <b>2. What is the probability to get a payoff of 30 coins for the following lottery?</b>
     </div>
 
     <div class="card-body">
         <div class="text-center">
-            <img src="{{ static 'lottery_example_question.png' }} " style=" max-width: 95%;"/>
+            <table class="table table-bordered" style="text-align: center">
+                <thead>
+                    <tr class="table-primary" style="border-color: black">
+                        <th colspan="4">Lottery</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th> Probability </th>
+                        <td> 50 % </td>
+                        <td> 40 % </td>
+                        <td> 10 % </td>
+                    </tr>
+                    <tr>
+                        <th> Payoff </th>
+                        <td> 0 coins </td>
+                        <td> 30 coins </td>
+                        <td> 200 coins </td>
+                    </tr>
+                <tbody>
+            </table>
+
         </div><br>
         {% formfield player.comprehension_question_2 label="Please select one of the statements:"%}
 

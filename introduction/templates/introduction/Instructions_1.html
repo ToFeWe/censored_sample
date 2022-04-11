@@ -2,100 +2,132 @@
 {% load otree static %}
 
 {% block title %}
-Instructions (1/3) <hr>
+Instructions
 {% endblock %}
 
 {% block content %}
-<p>
-Please read these instructions carefully. There will be comprehension checks. If you fail these,
-you will be excluded from the study and only receive the fixed reward of {{Constants.base_pay}}.
-</p>
-<p>
-In this study, you will see various lotteries, all of which pay different amounts of money with different
-probabilities. An example lottery is:
-</p>
-<div class="card text-center" style="width: 20rem;">
-    <ul style="margin-bottom: 0px;">
-        <li>With probability <b> 5%</b>: Get <b>$100</b></li>
-        <li>With probability <b> 60%</b>: Get <b>$50</b></li>
-        <li><span id="low_prob">With probability <b> 35%</b>: Get <b>$0</b></span></li>
-    </ul>
-</div>
+<hr>
 
 <p>
-    This means that the lottery pays <b>either</b> $100 <b>or</b> $50 <b>or</b> $0 (with different probabilities), but a
-    lottery always only pays out one of the dollar amounts. The lotteries will actually be played out
-    by the computer and determine your earnings in exactly the way we describe on the following
+    Please read these instructions carefully. There will be comprehension checks. If you fail these,
+    you will be excluded from the study and only receive the fixed reward of {{Constants.base_pay}} dollar.
+</p>
+<p>
+    In this study, you will see various lotteries, all of which pay different amounts
+    of money with different probabilities.
+</p>
+<p>
+    For the lottery decisions, we use a fictitious monetary unit called coins.
+    After the experiment, the coins will be converted into US-dollar.
+    Here {{exchange_rate}} coins are equivalent to one US-dollar.
+</p>
+<p>
+    An example lottery is:
+</p>
+<p>
+    <table class="table table-bordered" style="text-align: center">
+        <thead>
+            <tr class="table-primary" style="border-color: black">
+                <th colspan="4">Lottery</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th> Probability </th>
+                <td> 40 % </td>
+                <td> 30 % </td>
+                <td> 30 % </td>
+            </tr>
+            <tr>
+                <th> Payoff </th>
+                <td> 20 coins </td>
+                <td> 40 coins </td>
+                <td> 60 coins </td>
+            </tr>
+        <tbody>
+    </table>
+</p>
+
+<p>
+    This means that the lottery pays <b>either</b> 20 coins <b>or</b> 40 coins <b>or</b> 60 coins
+    (with different probabilities), but a
+    lottery always only pays out one of the amounts. The lotteries will actually be played out
+    by the computer and determine your earnings in exactly the way we describe below
     pages.
 </p>
 <p>
-    In total, we have created <b>{{Constants.n_lotteries}} lotteries</b>. For each lottery, you will make various choices to indicate
-    how much this lottery is worth to you. Before you make your decisions for a given lottery, we will ask
-    you to indicate how difficult you find it to reach your decisions on this screen.
+    In total, we have created <b>{{Constants.n_lotteries}} lotteries</b>. For each lottery, we will ask you two questions.
+    First, we will ask you <b>how often you think you would win the highest payoff</b> of the lottery.
+    After that, we will ask you for the <b>maximum price you are willing to pay</b> for each lottery.    
 </p>
 <p>
-    <b>Throughout the experiment, there are no right or wrong answers, because how much you
-    like a lottery depends on your personal taste.</b> We are only interested in learning about what
-    you prefer.
+    <b>Please indicate your true maximum price for each lottery.</b> A payment 
+    mechanism will determine your exact payoff following the experiment.
+    <b>Note that the payment mechanism used gives you an incentive to indicate 
+    your true maximum price.</b> If you enter a lower maximum price, you will 
+    rarely receive the lottery. If you enter a higher maximum price, you will 
+    receive the lottery too often. If you are interested, you can view the exact
+    details of how the payment mechanism works at the bottom of the page.
 </p>
 
-<br>
-<h2> Decision Screen </h2>
+<p>
+    At the end of the experiment, one of the lotteries you rated will be randomly
+    selected for the additional payoff. One out every thirty subjects will be 
+    randomly selected to receive an additional bonus.
+</p>
+{% if player.treatment != "FULL" %}
+<p>
+    <b>Note:</b>
+
+    {% if player.treatment == "TRUNCATED"%}
+    You do not get complete information about each lottery. However, you will get a description of the lotteries.
+    {% elif player.treatment == "FULL_BEST" %}
+    Before each decision, we will show you five draws from the relevant lottery.
+    These are the five draws with the highest payoff out of a total of 250 random draws.
+    {% else %}
+    You do not get complete information about each lottery. However, you will get a description of the lotteries.
+    Additionally, before each decision, we will show you five draws from the relevant lottery.
+    These are the five draws with the highest payoff out of a total of 250 random draws.
+    {% endif %}
+</p>
+{% endif %}
+
 
 <p>
-    You will be asked to choose which of two payment options you prefer. Specifically, you will see choice lists
-    such as the one below, where each row is a separate choice. In every list, the left-hand side
-    option (Option A) is one of the lotteries that we generated, which is identical in all rows. The
-    right-hand side option (Option B) is a safe amount that you would receive with certainty, so there
-    is no risk attached. The safe payment in Option B increases as you go down the list.
-</p>
-<p>
-    You should consider the choice in each row <b>independently</b> of all other rows, because in the
-    end one row will be randomly selected for payout and you will receive the option that you
-    selected in that row.
-</p>
-<p>
-    Usually, people start by preferring Option A for small certain amounts (at the top of the list).
-    At some point they switch to Option B as they proceed down the list, because the certain
-    amount associated with Option B increases, so that Option B becomes more attractive.
-    <b>Thus, an effective way to complete these choice lists is to determine in which row you
-    would like to switch from Option A to Option B.</b>
-</p>
-<p>
-    Based on your decisions in this choice list, we assess <b>how much the lottery is worth to you
-    by using those certain payments where you switch from Option A to Option B.</b> For
-    example, in the exemplary choice list below, the lottery would be worth between $70 and $75 to
-    you, because this is where switching occurs.
-</p>
-
-<div class="card mx-auto "  style=" max-width: 100%;">
-    <div class="card-header">
-        <b>Example</b>
+    <table width="100%">
+        <tr>
+          <td class="align-top">
+            <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#paymentMechanism"
+              aria-expanded="false" aria-controls="paymentMechanism">
+              Details on the payment mechanism
+            </button>
+          </td>
+          <td>
+            <div style="text-align: right;">
+                {% next_button %}
+            </div>
+            </td>
+        </tr>
+      </table>
+</div>
+<div class="collapse" id="paymentMechanism">
+    <div class="card card-body">
+      {% include "truncated_reporting/payment_details.html" %}
+      {% include  "truncated_reporting/payment_examples.html" %}
+  
     </div>
-    <p>
-        <div class="text-center">
-        <img src="{{ static 'lottery_example.png' }} " style=" max-width: 95%;"/>
-        </div>
-    </p>
-</div>
-
-
-<p>
- <div style="text-align: right;">
-    {% next_button %}
-</div>
+  </div>
+  
 </p>
 {% endblock %}
 
 <style>
-ul {
-  list-style-type: none;
-}
-.card {
-        margin: 0 auto; /* Added */
-        float: none; /* Added */
-        margin-bottom: 10px; /* Added */
-}
-
+    .card {
+        margin: 0 auto;
+        /* Added */
+        float: none;
+        /* Added */
+        margin-bottom: 10px;
+        /* Added */
+    }
 </style>
-

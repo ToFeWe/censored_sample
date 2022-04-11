@@ -2,12 +2,11 @@ from os import environ
 
 SESSION_CONFIGS = [
    dict(
-         name='SELF_EXPERIMENT',
-         display_name="SELF_EXPERIMENT",
+         name='intro',
+         display_name="intro",
          num_demo_participants=50,
          use_browser_bots=False,
-         treatment_list = ['FULL', 'FULL_BEST', 'BEST', 'TRUNCATED'],
-         app_sequence=['truncated_reporting']
+         app_sequence=['introduction']
       ),
    dict(
          name='SELF_FULL',

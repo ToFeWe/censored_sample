@@ -29,25 +29,8 @@ class Welcome(Page):
 
 
 class Instructions_1(Page):
-    pass
-
-class Instructions_2(Page):
-
-    def vars_for_template(self): 
-
-        # Variable for the autoclick lottery example     
-        all_vars = dict(current_lottery=Constants.auto_click_lottery,
-                    amount_RHS=Constants.auto_click_rhs,
-                    n_elements_RHS=len(Constants.auto_click_rhs),
-                    min_value=min(Constants.auto_click_lottery, key=lambda x: x[0])[0]
-        )
-        return all_vars
-
-class Instructions_3(Page):
-    pass
-
-class PaymentInstructions(Page):
-    pass
+    def vars_for_template(self):
+        return self.player.get_general_instruction_vars()
 
 class Comprehension(Page):
     form_model = 'player'
@@ -78,7 +61,6 @@ class StartExperiment(Page):
         return self.player.comprehension_passed
 
 page_sequence = [AttentionCheck, AttentionCheckFail, 
-                 Welcome, Instructions_1, Instructions_2,
-                 Instructions_3, PaymentInstructions,
+                 Welcome, Instructions_1, 
                  Comprehension, ComprehensionFail,
                  StartExperiment]

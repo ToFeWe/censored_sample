@@ -8,7 +8,8 @@ from otree.api import (
     Currency as c,
     currency_range,
 )
-
+from itertools import cycle
+import random
 
 doc = """
 Your app description
@@ -19,16 +20,36 @@ class Constants(BaseConstants):
     name_in_url = 'introduction'
     players_per_group = None
     num_rounds = 1
-    time_to_finish = 8 # Minutes
-    base_pay =  c(1.50)
+    time_to_finish = 20 # Minutes
+    base_pay =  4 # in Dollar
     n_lotteries = 5
 
-    # Some example lotteries
-    auto_click_lottery = [(100,5), (50,60), (0,35)]
-    auto_click_rhs = list(range(0,105,5))
+    all_treatments = ['FULL', 'TRUNCATED', 'BEST', 'FULL_BEST']
+
 
 class Subsession(BaseSubsession):
-    pass
+    def creating_session(self):
+        all_players = self.get_players()
+
+        # Determine treatment in the first round,
+        # the paid lottery and the lottery order.
+        # This info will be used below for each round.
+        if self.round_number == 1:
+            # If the treatment is not specified in the session config,
+            # we balance across the session
+            treatments_to_cycle = self.session.config.get('treatment_list', Constants.all_treatments.copy())
+
+            # Random shuffle the list before creating the cycle 
+            random.shuffle(treatments_to_cycle)
+            print(treatments_to_cycle)
+
+            # Create the cycle
+            treatment_cycle = cycle(treatments_to_cycle)
+
+            for p in all_players:
+                # Treatment is determined
+                p.participant.vars['treatment'] = next(treatment_cycle)
+                p.treatment = p.participant.vars['treatment']
 
 class Group(BaseGroup):
     pass
@@ -42,18 +63,21 @@ class Player(BasePlayer):
     prolific_id = models.StringField(label="Your Prolific-ID:")
 
 
+    # We already assign treatments in this app
+    treatment = models.StringField()
+
     # Comprehension questions
 
-    comprehension_question_1 = models.IntegerField(label="", #1. Which one of the following statements is correct if the following lottery is played for you?
-                                                  choices=[[1, "It is possible that I get paid both $100 and $50, i.e., I may receive a total amount of $150 from this lottery."],
-                                                           [2, "I receive EITHER $100 OR $50 OR $0 from this lottery."],
+    comprehension_question_1 = models.IntegerField(label="", #1. Which payoffs are possible for the following lottery?
+                                                  choices=[[1, "It is possible that I get paid both 30 coins and 80 coins, i.e., I may receive a total amount of 110 coins from this lottery."],
+                                                           [2, "I receive EITHER 30 coins OR 80 coins OR 0 coins from this lottery."],
                                                            [3, "I will receive at least some money with certainty."]], 
                                                   widget=widgets.RadioSelect)
 
-    comprehension_question_2 = models.IntegerField(label="", #2. Suppose a person made the decisions shown in the choice list below. Which of the following statements is correct regarding these decisions?
-                                                  choices=[[1, "This person indicated that the lottery is worth more to them than $65."],
-                                                           [2, "This person indicated that the lottery is worth between $50 and $55 to them."],
-                                                           [3, "This person indicated that the lottery is worth between $15 and $30 to them."]], 
+    comprehension_question_2 = models.IntegerField(label="", #2. What is the probability to get a payoff of 30 coins for the following lottery?
+                                                  choices=[[1, "The probability to receive 30 coins is 60 %."],
+                                                           [2, "The probability to receive 30 coins is 40 %."],
+                                                           [3, "The probability to receive 30 coins is 0 %."]], 
                                                   widget=widgets.RadioSelect)
     comprehension_passed = models.BooleanField() 
 
@@ -67,4 +91,10 @@ class Player(BasePlayer):
         # the attention check as the player would not arrive to the next app if he failed
 
         self.participant.vars['comprehension_passed'] = both_correct
-        
+
+    def get_general_instruction_vars(self):
+        context = {
+            'exchange_rate': int(1/self.session.config['real_world_currency_per_point']),
+        }
+
+        return context

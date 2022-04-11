@@ -4,19 +4,12 @@
   <div class="col">
     <br>
     <p>
-      <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#Instruct" aria-expanded="false" aria-controls="Instruct"> Show instructions
+      <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#Instruct" aria-expanded="false" aria-controls="Instruct"> Details on the payment mechanism
       </button><br>
     </p>
     <p>
     <div class="collapse" id="Instruct">
       <div class="card card-body">
-      <p>
-        <b>Note:</b> If you have any questions during the experiment, use the chat function in the Webex conference
-          to reach out to the administrator.
-      </p>
-      {% include "truncated_reporting/explanation.html" %}
-
-      <h3> Details on the payment mechanism </h3>
       {% include "truncated_reporting/payment_details.html" %}
       {% include  "truncated_reporting/payment_examples.html" %}
 

@@ -14,6 +14,7 @@ import json
 import random
 import math
 import numpy as np
+import warnings
 
 author = 'Your name here'
 
@@ -73,25 +74,11 @@ class Subsession(BaseSubsession):
     def creating_session(self):
         all_players = self.get_players()
 
-        # Determine treatment in the first round,
-        # the paid lottery and the lottery order.
+        # Determine the lotteries.
         # This info will be used below for each round.
         if self.round_number == 1:
-            # If the treatment is not specified in the session config,
-            # we balance across the session
-            treatments_to_cycle = self.session.config.get('treatment_list', Constants.all_treatments)
-
-            # Random shuffle the list before creating the cycle 
-            random.shuffle(treatments_to_cycle)
-            print(treatments_to_cycle)
-
-            # Create the cycle
-            treatment_cycle = cycle(treatments_to_cycle)
 
             for p in all_players:
-                # Treatment is determined
-                p.participant.vars['treatment'] = next(treatment_cycle)
-
                 # Create random shuffles of payoff states...
                 max_payoff_states_shuffled = Constants.max_payoff_states.copy()
                 random.shuffle(max_payoff_states_shuffled)
@@ -122,8 +109,16 @@ class Subsession(BaseSubsession):
 
 
             # Write treatment to database for each round
-            p.treatment = p.participant.vars['treatment']
-            assert p.treatment in Constants.all_treatments, "Unknown treatment indicator."
+            # Note that the treatment has been assigned in the introduction 
+            # app.
+            if 'treatment' not in p.participant.vars:
+                # In case we use the app without the intro app.
+                warnings.warn('The treatment variable has not been assigned.'
+                              'Defaults to random treatment')
+                p.treatment = random.choice(Constants.all_treatments)
+            else:
+                p.treatment = p.participant.vars['treatment']
+                assert p.treatment in Constants.all_treatments, "Unknown treatment indicator."
 
             # Draw sample if needed
             if p.treatment in ['BEST', 'FULL_BEST']:
