@@ -3,12 +3,6 @@ from ._builtin import Page, WaitPage
 from .models import Constants
 from .models import sort_lottery, create_lottery
 
-class Introduction(Page):
-    def is_displayed(self):
-        return self.round_number == 1
-
-    def vars_for_template(self):
-        return self.player.get_general_instruction_vars()
 
 class Decision(Page):
     form_model = 'player'
@@ -68,4 +62,4 @@ class Decision(Page):
                 self.player.calc_payoff()
                 # self.player.save_payoff_info()
 
-page_sequence = [Introduction, Decision]
+page_sequence = [Decision]
