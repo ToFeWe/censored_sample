@@ -62,7 +62,7 @@ class Constants(BaseConstants):
 
     num_rounds = 5
 
-    sample_size = 250
+    sample_size = 400
     draws = 5
 
     all_treatments = ['FULL', 'TRUNCATED', 'BEST', 'FULL_BEST']
