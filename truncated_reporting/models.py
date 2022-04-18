@@ -112,10 +112,12 @@ class Subsession(BaseSubsession):
             # Note that the treatment has been assigned in the introduction 
             # app.
             if 'treatment' not in p.participant.vars:
-                # In case we use the app without the intro app.
-                warnings.warn('The treatment variable has not been assigned.'
-                              'Defaults to random treatment')
-                p.treatment = random.choice(Constants.all_treatments)
+                if p.round_number == 1:
+                    warnings.warn('The treatment variable has not been assigned.'
+                                'Defaults to random treatment')
+                    p.participant.vars['treatment'] = random.choice(Constants.all_treatments)
+                else:
+                    p.treatment = p.participant.vars['treatment']
             else:
                 p.treatment = p.participant.vars['treatment']
                 assert p.treatment in Constants.all_treatments, "Unknown treatment indicator."
