@@ -71,7 +71,7 @@ class Player(BasePlayer):
     comprehension_question_1 = models.IntegerField(label="", #1. Which payoffs are possible for the following lottery?
                                                   choices=[[1, "It is possible that I get paid both 30 coins and 80 coins, i.e., I may receive a total amount of 110 coins from this lottery."],
                                                            [2, "I receive EITHER 30 coins OR 80 coins OR 0 coins from this lottery."],
-                                                           [3, "I will receive at least some money with certainty."]], 
+                                                           [3, "I will receive at least some coins with certainty."]], 
                                                   widget=widgets.RadioSelect)
 
     comprehension_question_2 = models.IntegerField(label="", #2. What is the probability to get a payoff of 30 coins for the following lottery?
