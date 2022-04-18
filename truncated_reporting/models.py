@@ -116,6 +116,7 @@ class Subsession(BaseSubsession):
                     warnings.warn('The treatment variable has not been assigned.'
                                 'Defaults to random treatment')
                     p.participant.vars['treatment'] = random.choice(Constants.all_treatments)
+                    p.treatment = p.participant.vars['treatment']
                 else:
                     p.treatment = p.participant.vars['treatment']
             else:
