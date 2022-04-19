@@ -42,7 +42,7 @@ class Player(BasePlayer):
     q_study_level = models.StringField(
         choices=[
             "Secondary school not completed",
-            "High school graduation (Abitur)",
+            "High school graduation",
             "Professional qualification",
             "Bachelor's degree",
             "Master's degree",
@@ -51,56 +51,90 @@ class Player(BasePlayer):
         label='What is your highest level of education')
 
     q_study_field = models.StringField(label='What do you study? / What is your occupation?')
-    q_semester = models.IntegerField(label='If you are studying: In which semester are you studying?', blank=True, min=0)
-    q_n_experiment = models.IntegerField(label='How many experiments have you (roughly) already participated in?', max=500, min=0)
 
-    q_abitur = models.FloatField(label="What was the final grade of your last graduation (1,0 - 4,0)?", min=1.0, max=6.0)
-    q_math = models.FloatField(label="What was your last math grade (1,0 - 6,0)?", min=1.0, max=6.0)
     q_budget = models.IntegerField(label="How much money do you have available each month (after deducting fixed costs such as rent, insurance, etc.)?",
                                    min=0, max=1000000)
-    q_spending = models.IntegerField(label="How much money do you spend each month (after deducting fixed costs such as rent, insurance, etc.)?",
-                                   min=0, max=1000000)
-    
-    # Falk Questions
-    # Risk
-    q_falk_risk = models.IntegerField(
-        initial=None,
-        choices=list(range(11)), # gar nicht risikobereit - sehr risikobereit
-        label='Are you in general a person who is willing to take risks or do you try to avoid them?',
-        widget=widgets.RadioSelectHorizontal())
 
-    # Time
-    q_falk_time = models.IntegerField(
-        initial=None,
-        choices=list(range(11)), # gar nicht bereit zu verzichten - sehr bereit zu verzichten
-        label='Compared to others, are you generally willing to give up something today in order to benefit in the future, or compared to others, are you unwilling to do so?',
-        widget=widgets.RadioSelectHorizontal())
 
-    # Trust
-    q_falk_trust = models.IntegerField(
-        initial=None,
-        choices=list(range(11)), # trifft gar nicht zu - trifft voll zu
-        label='Unless I am convinced otherwise, I always assume other people to have the best in mind.',
-        widget=widgets.RadioSelectHorizontal())
+    ### Loot box questions ###
+    q_loot_box_what = models.BooleanField(label="Have you ever heard of loot boxes in videogames before?")
+    q_videogame_time = models.FloatField(label="How many hours do you spend playing videogames per day on average?",
+                                         min=0, max=24)
 
-    # Neg. Rec.
-    q_falk_neg_rec = models.IntegerField(
-        initial=None,
-        choices=list(range(11)), # gar nicht bereit zu bestrafen - sehr bereit zu bestrafen
-        label='Are you a person who is generally willing to punish someone for unfair behavior, even at cost for you, or are you not willing to do so?',
-        widget=widgets.RadioSelectHorizontal())
 
-    # Pos. Rec.
-    q_falk_pos_rec = models.IntegerField(
-        initial=None,
-        choices=list(range(11)), # trifft gar nicht zu - trifft voll zu
-        label='If someone does me a favor, I am willing to return it.',
-        widget=widgets.RadioSelectHorizontal())
+    q_loot_box_spending = models.FloatField(label="How much did you spend on loot boxes during the last year on average? (in US-Dollar)")
+    q_loot_box_more_than_planned = models.BooleanField(label="Have you ever spend more than you planned to on loot boxes?")
 
-    # Altruism
-    q_falk_altruism = models.IntegerField(
-        initial=None,
-        min=0,
-        max=1000,
-        label='Imagine the following situation: you won €1,000 in a competition. In your current situation, how much would you donate to charity?',
-        )
+
+    ### Self Control survey ###  
+    q_self_control_1 = models.IntegerField(label = "I am good at resisting temptation.",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[1, 2, 3, 4])
+    q_self_control_2 = models.IntegerField(label = "I have a hard time breaking bad habits.",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[1, 2, 3, 4])
+    q_self_control_3 = models.IntegerField(label = "I am lazy.",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[1, 2, 3, 4])
+    q_self_control_4 = models.IntegerField(label = "I say inappropriate things.",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[1, 2, 3, 4])
+    q_self_control_5 = models.IntegerField(label = "I do certain things that are bad for me, if they are fun.",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[1, 2, 3, 4])
+    q_self_control_6 = models.IntegerField(label = "I refuse things that are bad for me.",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[1, 2, 3, 4])
+    q_self_control_7 = models.IntegerField(label = "I wish I had more self-discipline.",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[1, 2, 3, 4])
+    q_self_control_8 = models.IntegerField(label = "People would say that I have iron self-discipline.",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[1, 2, 3, 4])
+    q_self_control_9 = models.IntegerField(label = "Pleasure and fun sometimes keep me from getting work done.",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[1, 2, 3, 4])
+    q_self_control_10 = models.IntegerField(label = "I have trouble concentrating.",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[1, 2, 3, 4])
+    q_self_control_11 = models.IntegerField(label = "I am able to work effectively toward long-term goals.",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[1, 2, 3, 4])
+    q_self_control_12 = models.IntegerField(label = "Sometimes I can’t stop myself from doing something, even if I know it is wrong.",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[1, 2, 3, 4])
+    q_self_control_13 = models.IntegerField(label = "I often act without thinking through all the alternatives.",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[1, 2, 3, 4])
+
+
+    ### Problem Gambling Severity Index ###
+    q_gambling_1 = models.IntegerField(label = "Have you bet more than you could really afford to lose?",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[(0, "Never"), (1, "Sometimes"), (2, "Most of the time"), (3, "Always")])
+    q_gambling_2 = models.IntegerField(label = "Have you needed to gamble with larger amounts of money to get the same feeling of excitement?",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[(0, "Never"), (1, "Sometimes"), (2, "Most of the time"), (3, "Always")])
+    q_gambling_3 = models.IntegerField(label = "Have you gone back on another day to try to win back the money you lost?",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[(0, "Never"), (1, "Sometimes"), (2, "Most of the time"), (3, "Always")])
+    q_gambling_4 = models.IntegerField(label = "Have you borrowed money or sold anything to gamble?",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[(0, "Never"), (1, "Sometimes"), (2, "Most of the time"), (3, "Always")])
+    q_gambling_5 = models.IntegerField(label = "Have you felt that you might have a problem with gambling?",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[(0, "Never"), (1, "Sometimes"), (2, "Most of the time"), (3, "Always")])
+    q_gambling_6 = models.IntegerField(label = "Have people criticised your betting or told you that you had a gambling problem, whether or not you thought it was true?",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[(0, "Never"), (1, "Sometimes"), (2, "Most of the time"), (3, "Always")])
+    q_gambling_7 = models.IntegerField(label = "Have you felt guilty about the way you gamble or what happens when you gamble?",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[(0, "Never"), (1, "Sometimes"), (2, "Most of the time"), (3, "Always")])
+    q_gambling_8 = models.IntegerField(label = "Has gambling caused you any health problems, including stress or anxiety?",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[(0, "Never"), (1, "Sometimes"), (2, "Most of the time"), (3, "Always")])
+    q_gambling_9 = models.IntegerField(label = "Has your gambling caused any financial problems for you or your household?",
+                                        widget=widgets.RadioSelect(),
+                                        choices=[(0, "Never"), (1, "Sometimes"), (2, "Most of the time"), (3, "Always")])
+
+

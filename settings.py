@@ -2,19 +2,14 @@ from os import environ
 
 SESSION_CONFIGS = [
    dict(
-         name='intro',
-         display_name="intro",
-         num_demo_participants=50,
-         use_browser_bots=False,
-         app_sequence=['introduction']
-      ),
-   dict(
          name='SELF_FULL',
          display_name="SELF_FULL",
          num_demo_participants=50,
          use_browser_bots=False,
          treatment_list = ['FULL'],
-         app_sequence=['truncated_reporting']
+         app_sequence=['introduction', 'truncated_reporting', 'quiz', 'payment'],
+         prolific_url="https://google.com" # TODO: Replace
+
       ),
    dict(
          name='SELF_FULL_BEST',
@@ -22,7 +17,8 @@ SESSION_CONFIGS = [
          num_demo_participants=50,
          use_browser_bots=False,
          treatment_list = ['FULL_BEST'],
-         app_sequence=['truncated_reporting']
+         app_sequence=['introduction', 'truncated_reporting', 'quiz', 'payment'],
+         prolific_url="https://google.com" # TODO: Replace
       ),
    dict(
          name='SELF_BEST',
@@ -30,7 +26,8 @@ SESSION_CONFIGS = [
          num_demo_participants=50,
          use_browser_bots=False,
          treatment_list = ['BEST'],
-         app_sequence=['truncated_reporting']
+         app_sequence=['introduction', 'truncated_reporting', 'quiz', 'payment'],
+         prolific_url="https://google.com" # TODO: Replace
       ),
    dict(
          name='SELF_TRUNCATED',
@@ -38,20 +35,10 @@ SESSION_CONFIGS = [
          num_demo_participants=50,
          use_browser_bots=False,
          treatment_list = ['TRUNCATED'],
-         app_sequence=['truncated_reporting']
-      ),
-   dict(
-         name='EXPERIMENT',
-         display_name="EXPERIMENT",
-         num_demo_participants=50,
-         use_browser_bots=False,
-         treatment_list = ['TRUNCATED'],
-         app_sequence=['introduction', 'truncated_reporting', 'payment'],
-        prolific_url="https://google.com" # TODO: Replace
-      ),
+         app_sequence=['introduction', 'truncated_reporting', 'quiz', 'payment'],
+         prolific_url="https://google.com" # TODO: Replace
 
-
-
+      )
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs

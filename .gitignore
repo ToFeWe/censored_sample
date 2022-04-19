@@ -12,3 +12,4 @@ __pycache__/
 .DS_Store
 *.otreezip
 env_trunc
+env_censored

@@ -1,0 +1,28 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Please answer the following questions
+{% endblock %}
+
+{% block content %}
+<p>
+    <h5>
+    In this part, we are interested in your gambling behavior.<br><br>
+    Thinking about the last 12 months … </h5>
+</p>
+    <table class="table"  style="text-align: center; vertical-align: middle; table-layout: fixed;">
+
+        {% for field in form %}
+            <tr>
+                <th>{{ field.label }}</th>
+                {% for choice in field %}
+                    <td>{{ choice }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+        
+    {% next_button %}
+
+{% endblock %}

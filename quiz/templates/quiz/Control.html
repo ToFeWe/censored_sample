@@ -1,0 +1,32 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Please answer the following questions
+{% endblock %}
+
+{% block content %}
+<p>
+    <b>Using the scale provided, please indicate how much each of the following statements reflects how you typically are.</b>
+</p>
+    <table class="table"  style="text-align: center; vertical-align: middle; table-layout: fixed ;">
+        <tr>
+            <th> </th>
+            <th> Not at all</th>
+            <th> </th>
+            <th> </th>
+            <th> Very much </th>
+        </tr>
+        {% for field in form %}
+            <tr>
+                <th>{{ field.label }}</th>
+                {% for choice in field %}
+                    <td>{{ choice }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+        
+    {% next_button %}
+
+{% endblock %}

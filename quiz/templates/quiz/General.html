@@ -2,14 +2,19 @@
 {% load otree static %}
 
 {% block title %}
-    Please answer the following questions (Page 1 of 2)
+    Please answer the following questions
 {% endblock %}
 
 {% block content %}
-<b>Thank you for participating. The experiment ends now. Please answer the following questions.
-You will then receive your payment.</b>
-
+<p>
+<b>Thank you for participating. Please answer the following questions. The survey will last approximately for another 10 minutes.
+   Afterwards, you will receive your payment.
+</b>
+</p>
     {% formfields %}
+
+
+        
     {% next_button %}
 
 {% endblock %}
