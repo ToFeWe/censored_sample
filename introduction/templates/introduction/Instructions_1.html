@@ -9,20 +9,15 @@ Instructions
 <hr>
 
 <p>
-    Please read these instructions carefully. There will be comprehension checks. If you fail these,
-    you will be excluded from the study and only receive the fixed reward of ${{Constants.base_pay}}.
+    Please read these instructions carefully. There will be comprehension checks. 
+    If you fail these comprehension checks, you will be excluded from the study, and you will only receive the fixed reward of ${{Constants.base_pay}}.
 </p>
+<br>
+<h5> The Lotteries </h5>
 <p>
-    In this study, you will see various lotteries, all of which pay different amounts
-    of money with different probabilities.
-</p>
-<p>
-    For the lottery decisions, we use a fictitious monetary unit called coins.
-    After the experiment, the coins will be converted into US-dollar.
-    Here {{exchange_rate}} coins are equivalent to one US-dollar.
-</p>
-<p>
-    An example lottery is:
+    In this study, we will ask you about your perception of, and preferences toward, different lotteries.
+    Each lottery offers the chance to win different monetary prizes. The probabilities of these prizes may differ.
+    You can find an example below:
 </p>
 <p>
     <table class="table table-bordered" style="text-align: center">
@@ -47,32 +42,35 @@ Instructions
         <tbody>
     </table>
 </p>
-
 <p>
-    This means that the lottery pays <b>either</b> 20 coins <b>or</b> 40 coins <b>or</b> 60 coins
-    (with different probabilities), but a
-    lottery always only pays out one of the amounts. The lotteries will actually be played out
-    by the computer and determine your earnings in exactly the way we describe below.
+    Here, the lottery pays either 20 coins with 40% probability or 40 coins with 30% probability or 60 coins with 30% probability.
+    Importantly, a lottery always only pays out one of the amounts; that is, it pays <b>either</b> 20 coins <b>or</b> 40 coins <b>or</b> 60 coins.
 </p>
+<br>
+<h5> The Decisions and Bonus Payment </h5>
 <p>
-    In total, we have created <b>{{Constants.n_lotteries}} lotteries</b>. For each lottery, we will ask you two questions.
-    First, we will ask you <b>how often you think you would win the highest payoff</b> of the lottery.
-    After that, we will ask you for the <b>maximum price you are willing to pay</b> for each lottery.    
-</p>
-<p>
-    <b>Please indicate your true maximum price for each lottery.</b> A payment 
-    mechanism will determine your exact payoff following the experiment.
-    <b>Note that the payment mechanism used gives you an incentive to indicate 
-    your true maximum price.</b> If you enter a lower maximum price, you will 
-    rarely receive the lottery. If you enter a higher maximum price, you will 
-    receive the lottery too often. If you are interested, you can view the exact
-    details of how the payment mechanism works at the bottom of the page.
+    In total, you will see <b>{{Constants.n_lotteries}} lotteries</b>. For each lottery, we will ask you two questions.
+    First, we will ask you <b>how often you think you would win the highest prize</b> of the lottery (i.e., 60 coins in the example above).
+    After that, we will ask you for your <b>willingness to pay</b> for each lottery;
+    that is, for the maximum amount of money you would pay to participate in this lottery.
 </p>
 
 <p>
-    At the end of the experiment, one of the lotteries you rated will be randomly
-    selected for the additional payoff. One out every thirty subjects will be 
-    randomly selected to receive an additional bonus.
+    Please indicate your <b>true</b> willingness to pay for each lottery. A payment mechanism will determine your potential bonus
+    payment based on your stated willingness to pay. <b>The payment mechanism is designed in a way that gives you an incentive
+    to indicate your true willingness to pay.</b> If you are interested in the details, you can find a complete description of
+    the payment mechanism at the bottom of the page.
+</p>
+
+<p>
+    At the end of the experiment, the computer will randomly select one of the 5 lotteries for payment. 
+    The computer will then determine, based on your stated willingness to pay, your potential bonus payment.
+    One out of every 30 subjects will be randomly selected to receive this additional bonus.
+</p>
+
+<p>
+    During the experiment, we use a fictitious currency called coins. 
+    For the bonus payment coins will be converted into US-dollar at a rate of {{exchange_rate}} coins = 1 US-Dollar.
 </p>
 {% if player.treatment != "FULL" %}
 <p>
