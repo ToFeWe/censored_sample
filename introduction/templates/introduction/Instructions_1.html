@@ -65,27 +65,19 @@ Instructions
 <p>
     At the end of the experiment, the computer will randomly select one of the 5 lotteries for payment. 
     The computer will then determine, based on your stated willingness to pay, your potential bonus payment.
-    One out of every 30 subjects will be randomly selected to receive this additional bonus.
+    One out of every 3 subjects will be randomly selected to receive this additional bonus.
 </p>
 
 <p>
     During the experiment, we use a fictitious currency called coins. 
     For the bonus payment coins will be converted into US-dollar at a rate of {{exchange_rate}} coins = 1 US-Dollar.
 </p>
-{% if player.treatment != "FULL" %}
+{% if player.treatment == "FULL_BEST" or player.treatment == "BEST"%}
 <p>
     <b>Note:</b>
 
-    {% if player.treatment == "TRUNCATED"%}
-    You do not get complete information about each lottery. However, you will get a description of the lotteries.
-    {% elif player.treatment == "FULL_BEST" %}
     Before each decision, we will show you five draws from the relevant lottery.
     These are the five draws with the highest payoff out of a total of 400 random draws.
-    {% else %}
-    You do not get complete information about each lottery. However, you will get a description of the lotteries.
-    Additionally, before each decision, we will show you five draws from the relevant lottery.
-    These are the five draws with the highest payoff out of a total of 400 random draws.
-    {% endif %}
 </p>
 {% endif %}
 
@@ -111,7 +103,6 @@ Instructions
     <div class="card card-body">
       {% include "truncated_reporting/payment_details.html" %}
       {% include  "truncated_reporting/payment_examples.html" %}
-  
     </div>
   </div>
   

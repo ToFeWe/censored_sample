@@ -10,7 +10,7 @@
         <div class="form-group required">
           <div class="controls  field-belief">
             <input type="range" name="belief" id="id_belief_slider" class="slider2" style="width: 100%;" min="0"
-              max="100" value="100" />
+              max="100" value="100" disabled/>
           </div>
         </div>
       </td>
@@ -147,20 +147,14 @@
         // Turn off popover for the entire card
         $('#card_wtp').popover('disable');
 
+        //Enable button
+        document.getElementById("confirm").disabled = false;
+
 
       }
 
       //card_wtp_body
 
-
-
-      // Enable the button to advance after 1.5 seconds
-      // Note that this ensures that the person has to click
-      // the slider before advancing and hence, the inital value
-      // of the slider is never used.
-      setTimeout(function () {
-        document.getElementById("confirm").disabled = false;
-      }, 1500);
   
       // Show decision text and hidde the placerhold
       document.getElementById("click_slider").style.display = "none";

@@ -11,11 +11,10 @@ Please take a decision
 <br>
 <div class="row">
   <div class="col">
-    <div class="card">
-      <h5 class="card-header"  style="background-color:#e0e0e0;" >
-        How often do you think would you win {{ payoff_high }} coins?
-      </h5>
-      <div class="card-body" >
+    <div class="card" tabindex="0" data-bs-trigger="hover focus" 
+    id="card_belief"
+    data-bs-content="Please carefully think about the lottery above. You can answer the question after 5 seconds have passed">
+      <div class="card-body" style="background-color:#e0e0e0;"  id="card_belief_body">
         {% include "truncated_reporting/belief_elicitation.html" %}
       </div>
     </div>
@@ -29,10 +28,7 @@ Please take a decision
     <div class="col">
       <div class="card" tabindex="0" data-bs-trigger="hover focus" 
         id="card_wtp"
-        data-bs-content="Please answer the questions above first." >
-        <h5 class="card-header"  style="background-color:#e0e0e0;" >
-          How much are you willing to pay for this lottery?
-        </h5>
+        data-bs-content="Please answer the question above first." >
         <div class="card-body" style="background-color:#e0e0e0;" id="card_wtp_body">
           {% include "truncated_reporting/wtp_elicitation.html" %}
         </div>
@@ -61,16 +57,31 @@ Please take a decision
 
 {% if form.belief_sequence.errors %}{{ form.belief_sequence.errors.0 }}{% endif %}
 {% if form.belief.errors %}{{ form.belief.errors.0 }}{% endif %}
-
+{% if form.wtp_lottery.errors %}{{ form.wtp_lottery.errors.0 }}{% endif %}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 <script>
 
-    // Turn on popover for button element
-    var btn_span = document.getElementById("card_wtp");
-    var popover_btn = new bootstrap.Popover(btn_span)
+    // Turn on popover for elements
+    var div_wtp = document.getElementById("card_wtp");
+    var popover_wtp = new bootstrap.Popover(div_wtp)
 
+    var div_belief = document.getElementById("card_belief");
+    var popover_belief = new bootstrap.Popover(div_belief)
+    
+    // Enable slider after 5 seconds and change color
+    setTimeout(function () {
+      // Enable slider
+      document.getElementById("id_belief_slider").disabled = false;
+
+      // Change color of belief card
+      var card_belief_body = document.getElementById("card_belief_body");
+      card_belief_body.style.backgroundColor = "#FFFFFF";
+      
+      // Turn off popover for the entire card
+      $('#card_belief').popover('disable');
+    }, 5000);
 </script>  
 
 
