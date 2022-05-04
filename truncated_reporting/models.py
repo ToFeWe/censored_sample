@@ -228,59 +228,6 @@ class Player(BasePlayer):
             self.payoff = self.lottery_payment
             self.lottery_played = True
 
-        # TODO: Adjust the whole belief stuff to the new logic
-        # Belief Bonus if in relevant treatment has to be added
-        # Note that this belief bonus was calculated in the same round.
-        # if self.treatment in ['TRUNCATED', 'BEST']:
-        #     if self.belief_bonus_won:
-        #         self.payoff += c(Constants.belief_bonus)
-
-    # TODO: I guess I do not need this anymore given that
-    # we pay people ex-post?!
-    # def save_payoff_info(self):
-    #     """
-        
-    #     Helper function to save the relevant payment information to
-    #     participant dict for the payment app to retrieve it.
-    #     """
-
-    #     player_in_paid_round = self.in_round(self.paid_lottery_round)
-        
-    #     # Info on the lottery show
-    #     paid_lottery_dist = Constants.all_lotteries[player_in_paid_round.lottery]['dist']
-    #     probs_scaled = [int(round(p * 100)) for p in paid_lottery_dist.values()]
-    #     payoffs = list(paid_lottery_dist.keys())
-        
-    #     # To display the table correctly for changing number of payoffs
-    #     colspan_table = len(payoffs)+1
-
-    #     # Some info on the relevant decision from the participant
-    #     relevant_wtp = player_in_paid_round.wtp_lottery
-    #     relevant_price = player_in_paid_round.price_lottery
-
-    #     all_payoff_info ={
-    #         'probs_scaled': probs_scaled,
-    #         'payoffs': payoffs,
-    #         'participant_payoff': self.participant.payoff,
-    #         'colspan_table': colspan_table,
-    #         'paid_lottery_round': self.paid_lottery_round,
-    #         'relevant_wtp': relevant_wtp,
-    #         'lottery_played': self.lottery_played,
-    #         'lottery_payment': self.lottery_payment,
-    #         'relevant_price': relevant_price,
-    #         'additional_money': self.payoff.to_real_world_currency(self.session),
-    #         'show_up': self.session.config['participation_fee'],
-    #         'total_money': self.participant.payoff_plus_participation_fee(),
-    #         'exchange_rate': int(1/self.session.config['real_world_currency_per_point']),
-    #         'treatment': self.treatment,
-    #         'win_probability': self.win_probability
-    #     }
-    #     # Add belief bonus from current round if needed
-    #     if self.treatment in ['BEST', 'TRUNCATED']:
-    #         all_payoff_info.update({'belief_bonus_taler': self.belief_bonus_won * Constants.belief_bonus })
-
-
-    #     self.participant.vars['all_payoff_info'] = all_payoff_info
 
     def get_general_instruction_vars(self):
         context = {
@@ -289,19 +236,3 @@ class Player(BasePlayer):
         }
 
         return context
-
-    # TODO: Rework
-    def calc_belief_bonus(self):
-        """
-
-        Calculate the belief bonus given the BSR.
-        """
-        relevant_lottery = Constants.all_lotteries[self.lottery_for_belief]['dist']
-        sorted_lottery = sort_lottery(relevant_lottery)
-
-        probability_highest_state_scaled_up = sorted_lottery[-1][1] * 100
-        probability_lowest_state = sorted_lottery[0][1]
-
-        max_prob_can_report_scaled_up = int(round((1 - probability_lowest_state) * 100))
-        self.win_probability = 1 - abs((self.belief - probability_highest_state_scaled_up) / max_prob_can_report_scaled_up)
-        self.belief_bonus_won = np.random.choice([True, False], p=[self.win_probability, 1-self.win_probability])

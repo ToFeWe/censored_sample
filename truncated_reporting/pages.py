@@ -54,12 +54,9 @@ class Decision(Page):
 
     def before_next_page(self):
         # In the last round calculate payoffs
-        # and save all info about payment
-        # to participant dict
         if self.round_number == Constants.num_rounds:
-            # In best and truncated we do this after the belief page
-            if self.player.treatment not in ['BEST', 'TRUNCATED']:
-                self.player.calc_payoff()
-                # self.player.save_payoff_info()
+            # Note that we draw the participants that 
+            # actually receive the bonus in a separate script
+            self.player.calc_payoff()
 
 page_sequence = [Decision]
