@@ -20,8 +20,8 @@ class Constants(BaseConstants):
     name_in_url = 'introduction'
     players_per_group = None
     num_rounds = 1
-    time_to_finish = 20 # Minutes
-    base_pay =  4 # in Dollar
+    time_to_finish = 15 # Minutes
+    base_pay =  3 # in Dollar
     n_lotteries = 5
 
     all_treatments = ['FULL', 'TRUNCATED', 'BEST', 'FULL_BEST']
