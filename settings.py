@@ -2,6 +2,14 @@ from os import environ
 
 SESSION_CONFIGS = [
    dict(
+         name='SELF_EXPERIMENT',
+         display_name="SELF_EXPERIMENT",
+         num_demo_participants=50,
+         use_browser_bots=False,
+         app_sequence=['introduction', 'truncated_reporting', 'quiz', 'payment'],
+         prolific_url="https://app.prolific.co/submissions/complete?cc=124BCF2A"
+   ),
+   dict(
          name='SELF_FULL',
          display_name="SELF_FULL",
          num_demo_participants=50,
@@ -37,7 +45,6 @@ SESSION_CONFIGS = [
          treatment_list = ['TRUNCATED'],
          app_sequence=['introduction', 'truncated_reporting', 'quiz', 'payment'],
          prolific_url="https://google.com" # TODO: Replace
-
       )
 ]
 
@@ -64,7 +71,7 @@ ROOMS = [
 LANGUAGE_CODE = 'en'
 
 # e.g. EUR, GBP, CNY, JPY
-REAL_WORLD_CURRENCY_CODE = 'EUR'
+REAL_WORLD_CURRENCY_CODE = 'GBP'
 USE_POINTS = True
 POINTS_CUSTOM_NAME = "Coins"
 

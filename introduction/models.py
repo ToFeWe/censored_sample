@@ -21,7 +21,7 @@ class Constants(BaseConstants):
     players_per_group = None
     num_rounds = 1
     time_to_finish = 15 # Minutes
-    base_pay =  3 # in Dollar
+    base_pay =  2 # in Pfund
     n_lotteries = 5
 
     all_treatments = ['FULL', 'TRUNCATED', 'BEST', 'FULL_BEST']

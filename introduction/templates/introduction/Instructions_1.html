@@ -10,7 +10,7 @@ Instructions
 
 <p>
     Please read these instructions carefully. There will be comprehension checks. 
-    If you fail these comprehension checks, you will be excluded from the study, and you will only receive the fixed reward of ${{Constants.base_pay}}.
+    If you fail these comprehension checks, you will be excluded from the study, and you will only receive the fixed reward of £{{Constants.base_pay}}.
 </p>
 <br>
 <h5> The Lotteries </h5>
@@ -46,6 +46,14 @@ Instructions
     Here, the lottery pays either 20 coins with 40% probability or 40 coins with 30% probability or 60 coins with 30% probability.
     Importantly, a lottery always only pays out one of the amounts; that is, it pays <b>either</b> 20 coins <b>or</b> 40 coins <b>or</b> 60 coins.
 </p>
+{% if player.treatment == "FULL_BEST" or player.treatment == "BEST"%}
+<p>
+    <b>Note:</b>
+
+    Before each decision, we will show you five draws from the relevant lottery.
+    These are the five draws with the highest payoff out of a total of 400 random draws.
+</p>
+{% endif %}
 <br>
 <h5> The Decisions and Bonus Payment </h5>
 <p>
@@ -70,16 +78,9 @@ Instructions
 
 <p>
     During the experiment, we use a fictitious currency called coins. 
-    For the bonus payment coins will be converted into US-dollar at a rate of {{exchange_rate}} coins = 1 US-Dollar.
+    For the bonus payment coins will be converted into British pound at a rate of {{exchange_rate}} coins = 1 British pound.
 </p>
-{% if player.treatment == "FULL_BEST" or player.treatment == "BEST"%}
-<p>
-    <b>Note:</b>
 
-    Before each decision, we will show you five draws from the relevant lottery.
-    These are the five draws with the highest payoff out of a total of 400 random draws.
-</p>
-{% endif %}
 
 
 <p>

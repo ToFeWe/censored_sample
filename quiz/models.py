@@ -52,7 +52,7 @@ class Player(BasePlayer):
 
     q_study_field = models.StringField(label='What do you study? / What is your occupation?')
 
-    q_budget = models.IntegerField(label="How much money do you have available each month (after deducting fixed costs such as rent, insurance, etc.)?",
+    q_budget = models.IntegerField(label="How much money do you have available each month (after deducting fixed costs such as rent, insurance, etc., British pound)?",
                                    min=0, max=1000000)
 
 
@@ -62,7 +62,7 @@ class Player(BasePlayer):
                                          min=0, max=24)
 
 
-    q_loot_box_spending = models.FloatField(label="How much did you spend on loot boxes during the last year on average? (in US-Dollar)")
+    q_loot_box_spending = models.FloatField(label="How much did you spend on loot boxes during the last year on average? (in British pound)")
     q_loot_box_more_than_planned = models.BooleanField(label="Have you ever spend more than you planned to on loot boxes?")
 
 

@@ -14,11 +14,11 @@ You have finished all tasks
         {% if participant.vars.comprehension_passed == False %}
             <p>
                 You did not answer the comprehension questions correctly and did not participate in the main part of the study.
-                <b>You will be paid a fixed reward of <u>${{ Constants.base_pay }}</u> and not receive a completion bonus for this study.</b>
+                <b>You will be paid a fixed reward of <u>£{{ Constants.base_pay }}</u> and not receive a completion bonus for this study.</b>
             </p>
         {% else  %}
             <p>
-                You have completed this study in its entirety. <b>You will receive the fixed reward of <u>${{ Constants.base_pay }}</u> credited to your Prolific account.</b>
+                You have completed this study in its entirety. <b>You will receive the fixed reward of <u>£{{ Constants.base_pay }}</u> credited to your Prolific account.</b>
             </p>
             <p>
                 You are eligable for the bonus payment. After the end of the entire study, one out of every 3 subjects will be randomly selected to receive an additional bonus.

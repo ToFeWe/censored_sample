@@ -158,11 +158,6 @@ class Player(BasePlayer):
     # highest payoff state.
     belief = models.IntegerField(label="")
     belief_sequence = models.LongStringField(blank=True)
-    belief_bonus_won = models.BooleanField()
-
-    # Also save the probability to win the belief bonus.
-    # Note that this is mostly for debugging purposes
-    win_probability = models.FloatField()
 
     def wtp_lottery_max(self):
         """ 
