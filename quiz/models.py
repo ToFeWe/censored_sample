@@ -62,7 +62,8 @@ class Player(BasePlayer):
                                          min=0, max=24)
 
 
-    q_loot_box_spending = models.FloatField(label="How much did you spend on loot boxes during the last year on average? (in British pound)")
+    q_loot_box_spending = models.FloatField(label="How much did you spend on loot boxes during the last year on average? (in British pound)",
+                                            min=0)
     q_loot_box_more_than_planned = models.BooleanField(label="Have you ever spend more than you planned to on loot boxes?")
 
 
