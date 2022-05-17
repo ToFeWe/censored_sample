@@ -70,43 +70,43 @@ class Player(BasePlayer):
     ### Self Control survey ###  
     q_self_control_1 = models.IntegerField(label = "I am good at resisting temptation.",
                                         widget=widgets.RadioSelect(),
-                                        choices=[1, 2, 3, 4])
+                                        choices=[1, 2, 3, 4, 5])
     q_self_control_2 = models.IntegerField(label = "I have a hard time breaking bad habits.",
                                         widget=widgets.RadioSelect(),
-                                        choices=[1, 2, 3, 4])
+                                        choices=[1, 2, 3, 4, 5])
     q_self_control_3 = models.IntegerField(label = "I am lazy.",
                                         widget=widgets.RadioSelect(),
-                                        choices=[1, 2, 3, 4])
+                                        choices=[1, 2, 3, 4, 5])
     q_self_control_4 = models.IntegerField(label = "I say inappropriate things.",
                                         widget=widgets.RadioSelect(),
-                                        choices=[1, 2, 3, 4])
+                                        choices=[1, 2, 3, 4, 5])
     q_self_control_5 = models.IntegerField(label = "I do certain things that are bad for me, if they are fun.",
                                         widget=widgets.RadioSelect(),
-                                        choices=[1, 2, 3, 4])
+                                        choices=[1, 2, 3, 4, 5])
     q_self_control_6 = models.IntegerField(label = "I refuse things that are bad for me.",
                                         widget=widgets.RadioSelect(),
-                                        choices=[1, 2, 3, 4])
+                                        choices=[1, 2, 3, 4, 5])
     q_self_control_7 = models.IntegerField(label = "I wish I had more self-discipline.",
                                         widget=widgets.RadioSelect(),
-                                        choices=[1, 2, 3, 4])
+                                        choices=[1, 2, 3, 4, 5])
     q_self_control_8 = models.IntegerField(label = "People would say that I have iron self-discipline.",
                                         widget=widgets.RadioSelect(),
-                                        choices=[1, 2, 3, 4])
+                                        choices=[1, 2, 3, 4, 5])
     q_self_control_9 = models.IntegerField(label = "Pleasure and fun sometimes keep me from getting work done.",
                                         widget=widgets.RadioSelect(),
-                                        choices=[1, 2, 3, 4])
+                                        choices=[1, 2, 3, 4, 5])
     q_self_control_10 = models.IntegerField(label = "I have trouble concentrating.",
                                         widget=widgets.RadioSelect(),
-                                        choices=[1, 2, 3, 4])
+                                        choices=[1, 2, 3, 4, 5])
     q_self_control_11 = models.IntegerField(label = "I am able to work effectively toward long-term goals.",
                                         widget=widgets.RadioSelect(),
-                                        choices=[1, 2, 3, 4])
+                                        choices=[1, 2, 3, 4, 5])
     q_self_control_12 = models.IntegerField(label = "Sometimes I can’t stop myself from doing something, even if I know it is wrong.",
                                         widget=widgets.RadioSelect(),
-                                        choices=[1, 2, 3, 4])
+                                        choices=[1, 2, 3, 4, 5])
     q_self_control_13 = models.IntegerField(label = "I often act without thinking through all the alternatives.",
                                         widget=widgets.RadioSelect(),
-                                        choices=[1, 2, 3, 4])
+                                        choices=[1, 2, 3, 4, 5])
 
 
     ### Problem Gambling Severity Index ###
