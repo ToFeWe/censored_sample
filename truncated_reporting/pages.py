@@ -41,7 +41,7 @@ class Decision(Page):
         context['prob_upper_joint'] = int(round(prob_upper_joint * 100))
         
         
-        if self.player.treatment in ['BEST', 'FULL_BEST', 'RANDOM']:
+        if self.player.treatment in ['BEST', 'BEST_NUDGE', 'BEST_INFO']:
             extend_dict = {
                 'subsample': self.player.get_subsample(),
                 

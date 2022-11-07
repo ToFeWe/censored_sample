@@ -65,8 +65,7 @@ class Constants(BaseConstants):
     sample_size = 400
     draws = 5
 
-    all_treatments = ['FULL', 'TRUNCATED', 'BEST', 'FULL_BEST']
-    
+    all_treatments = ['FULL', 'BEST', 'BEST_NUDGE', 'BEST_INFO']
     belief_bonus = 13
 
 class Subsession(BaseSubsession):
@@ -124,7 +123,7 @@ class Subsession(BaseSubsession):
                 assert p.treatment in Constants.all_treatments, "Unknown treatment indicator."
 
             # Draw sample if needed
-            if p.treatment in ['BEST', 'FULL_BEST']:
+            if p.treatment in ['BEST', 'BEST_NUDGE', 'BEST_INFO']:
                 p.draw_sample()
 
 
@@ -190,7 +189,7 @@ class Player(BasePlayer):
         total_sample = random.choices(population=list(current_lottery_dist.keys()),
                                       weights=list(current_lottery_dist.values()),
                                       k=Constants.sample_size)
-        if self.treatment in ['BEST', 'FULL_BEST']:
+        if self.treatment in ['BEST', 'BEST_NUDGE', 'BEST_INFO']:
             subsample = sorted(total_sample, reverse=True)[:Constants.draws]
         else:
             raise Exception(f'There is no sampling in the treatment {self.treatment}.')

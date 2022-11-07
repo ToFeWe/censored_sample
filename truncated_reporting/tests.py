@@ -7,14 +7,8 @@ import random
 class PlayerBot(Bot):
     def play_round(self):
         if self.round_number == 1:
-            if self.player.treatment == 'BEST':
+            if self.player.treatment == 'BEST' or self.player.treatment == 'BEST_INFO' or self.player.treatment == 'BEST_NUDGE':
                 expect('Sie erhalten nicht die volle Information', 'in', self.html)
-                expect('fünf Züge aus der jeweiligen Lotterie', 'in', self.html)
-            elif self.player.treatment == 'TRUNCATED':
-                expect('Sie erhalten nicht die volle Information', 'in', self.html)
-                expect('fünf Züge aus der jeweiligen Lotterie', 'not in', self.html)
-            elif self.player.treatment == 'FULL_BEST':
-                expect('Sie erhalten nicht die volle Information', 'not in', self.html)
                 expect('fünf Züge aus der jeweiligen Lotterie', 'in', self.html)
             elif self.player.treatment == 'FULL':
                 expect('Sie erhalten nicht die volle Information', 'not in', self.html)
@@ -29,7 +23,7 @@ class PlayerBot(Bot):
         min_pay = min(Constants.all_lotteries[current_lottery]['dist'].keys())
         ev = int(sum(k*v for k,v in Constants.all_lotteries[current_lottery]['dist'].items()))
         sum_probs = sum(v for v in Constants.all_lotteries[current_lottery]['dist'].values())
-        assert sum_probs == 1, "probabilities dont sum up"
+        assert sum_probs == 1, "probabilities don't sum up"
 
         rand_error = random.randint(-10,10)
         wtp_submission = ev + rand_error
@@ -41,7 +35,7 @@ class PlayerBot(Bot):
         elif self.player.treatment == 'BEST':
             expect('fünf Züge mit der höchsten', 'in', self.html)
             wtp_submission += 15
-        elif self.player.treatment == 'FULL_BEST':
+        elif self.player.treatment == 'BEST_INFO' or self.player.treatment == 'BEST_NUDGE':
             expect('fünf Züge mit der höchsten', 'in', self.html)
             wtp_submission += 8
 
@@ -59,10 +53,8 @@ class PlayerBot(Bot):
         yield SubmissionMustFail(pages.Decision, dict(wtp_lottery=min_pay-1))
         yield pages.Decision, dict(wtp_lottery=wtp_submission)
 
-        # If the player is in the TRUNCATED or the BEST treatment
-        # she has to answer the belief question as well.
         if self.round_number == Constants.num_rounds:
-            if self.player.treatment in ['TRUNCATED', 'BEST']:
+            if self.player.treatment in ['BEST', 'BEST_NUDGE', 'BEST_INFO']:
                 # First lottery should be the same as the belief lottery
                 assert self.player.in_round(1).lottery == self.player.lottery_for_belief
 

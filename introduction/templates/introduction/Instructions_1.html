@@ -45,7 +45,7 @@ Instructions
     Here, the lottery pays either 20 coins with 40% probability or 40 coins with 30% probability or 60 coins with 30% probability.
     Importantly, a lottery always only pays out one of the amounts; that is, it pays <b>either</b> 20 coins <b>or</b> 40 coins <b>or</b> 60 coins.
 </p>
-{% if player.treatment == "FULL_BEST" or player.treatment == "BEST"%}
+{% if player.treatment == "BEST" or player.treatment == "BEST_NUDGE" or player.treatment == "BEST_INFO"%}
 <p>
     <b>Note:</b>
 

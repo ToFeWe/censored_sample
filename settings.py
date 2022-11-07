@@ -7,7 +7,7 @@ SESSION_CONFIGS = [
          num_demo_participants=50,
          use_browser_bots=False,
          app_sequence=['introduction', 'truncated_reporting', 'quiz', 'payment'],
-         prolific_url="https://app.prolific.co/submissions/complete?cc=124BCF2A"
+         prolific_url="https://app.prolific.co/submissions/complete?cc=124BCF2A" # TODO Replace
    ),
    dict(
          name='SELF_FULL',
@@ -20,11 +20,21 @@ SESSION_CONFIGS = [
 
       ),
    dict(
-         name='SELF_FULL_BEST',
-         display_name="SELF_FULL_BEST",
+         name='SELF_BEST_NUDGE',
+         display_name="SELF_BEST_NUDGE",
          num_demo_participants=50,
          use_browser_bots=False,
-         treatment_list = ['FULL_BEST'],
+         treatment_list = ['BEST_NUDGE'],
+         app_sequence=['introduction', 'truncated_reporting', 'quiz', 'payment'],
+         prolific_url="https://google.com" # TODO: Replace
+
+      ),
+   dict(
+         name='SELF_BEST_INFO',
+         display_name="SELF_BEST_INFO",
+         num_demo_participants=50,
+         use_browser_bots=False,
+         treatment_list = ['BEST_INFO'],
          app_sequence=['introduction', 'truncated_reporting', 'quiz', 'payment'],
          prolific_url="https://google.com" # TODO: Replace
       ),
@@ -34,15 +44,6 @@ SESSION_CONFIGS = [
          num_demo_participants=50,
          use_browser_bots=False,
          treatment_list = ['BEST'],
-         app_sequence=['introduction', 'truncated_reporting', 'quiz', 'payment'],
-         prolific_url="https://google.com" # TODO: Replace
-      ),
-   dict(
-         name='SELF_TRUNCATED',
-         display_name="SELF_TRUNCATED",
-         num_demo_participants=50,
-         use_browser_bots=False,
-         treatment_list = ['TRUNCATED'],
          app_sequence=['introduction', 'truncated_reporting', 'quiz', 'payment'],
          prolific_url="https://google.com" # TODO: Replace
       )
