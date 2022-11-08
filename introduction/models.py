@@ -24,7 +24,7 @@ class Constants(BaseConstants):
     base_pay =  1.5 # in Pfund
     n_lotteries = 5
 
-    all_treatments = ['FULL', 'BEST', 'BEST_NUDGE', 'BEST_INFO']
+    all_treatments = ['FULL', 'BEST', 'BEST_NUDGE']
 
 
 class Subsession(BaseSubsession):

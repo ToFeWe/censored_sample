@@ -10,7 +10,11 @@ Please take a decision
 {% include "truncated_reporting/lottery_presentation.html" %}
 <br>
 
-<div class="row">
+{% if player.treatment == 'BEST_INFO' or player.treatment == 'BEST_NUDGE'%}
+  {% include "truncated_reporting/nudge_info.html" %}
+{% endif %}
+
+<div class="row" id="id_decision_area">
   <div class="col">
     <div class="row">
       <div class="col">
@@ -70,8 +74,16 @@ Please take a decision
   
   
 </style>
-
 <script>
+
+  var treatment = "{{player.treatment}}"
+  // hide inputs if we nudge first
+  if (treatment == "BEST_NUDGE"){
+    document.getElementById('id_decision_area').style.display = 'none';
+  } else {
+    // If we are not in the nudge treatment, we start the timer right away
+    start_decision_timeout()
+  }
 
   // Slider Stuff
   var range_input = document.getElementById('id_belief_slider');
@@ -135,7 +147,9 @@ Please take a decision
   var popover_belief = new bootstrap.Popover(div_belief)
 
   // Enable slider after 5 seconds and change color
-  setTimeout(function () {
+function start_decision_timeout (){
+
+    setTimeout(function () {
     // Enable slider
     document.getElementById("id_belief_slider").disabled = false;
 
@@ -146,6 +160,7 @@ Please take a decision
     // Turn off popover for the entire card
     $('#card_belief').popover('disable');
   }, 5000);
+}
 </script>
 
 

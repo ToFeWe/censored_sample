@@ -6,6 +6,7 @@ SESSION_CONFIGS = [
          display_name="SELF_EXPERIMENT",
          num_demo_participants=50,
          use_browser_bots=False,
+         treatment_list = ['FULL', 'BEST', 'BEST_NUDGE'],
          app_sequence=['introduction', 'truncated_reporting', 'quiz', 'payment'],
          prolific_url="https://app.prolific.co/submissions/complete?cc=124BCF2A" # TODO Replace
    ),
@@ -28,15 +29,6 @@ SESSION_CONFIGS = [
          app_sequence=['introduction', 'truncated_reporting', 'quiz', 'payment'],
          prolific_url="https://google.com" # TODO: Replace
 
-      ),
-   dict(
-         name='SELF_BEST_INFO',
-         display_name="SELF_BEST_INFO",
-         num_demo_participants=50,
-         use_browser_bots=False,
-         treatment_list = ['BEST_INFO'],
-         app_sequence=['introduction', 'truncated_reporting', 'quiz', 'payment'],
-         prolific_url="https://google.com" # TODO: Replace
       ),
    dict(
          name='SELF_BEST',

@@ -65,7 +65,7 @@ class Constants(BaseConstants):
     sample_size = 400
     draws = 5
 
-    all_treatments = ['FULL', 'BEST', 'BEST_NUDGE', 'BEST_INFO']
+    all_treatments = ['FULL', 'BEST', 'BEST_NUDGE']
     belief_bonus = 13
 
 class Subsession(BaseSubsession):
