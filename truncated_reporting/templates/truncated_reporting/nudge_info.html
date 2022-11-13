@@ -1,16 +1,16 @@
 <div class="row" id="id_nudge">
     <div class="col">
-      <div class="card border border-danger" >
+      <div class="card border" >
         <div class="card-body " style="text-align: center; vertical-align: middle;">
           <p>
             <b>Note: </b>
           </p>
           <p>
-            The sample is not representative, and {{ payoff_mid }} and {{ payoff_high }} coins need not be equally likely.
+            The 5 draws are not representative, and {{ payoff_mid }} and {{ payoff_high }} coins need not be equally likely.
           <p>
           <br>
           <span id="id_wait_for_decision" style=" font-style: italic"> 
-            You will be able to enter your belief and your willingness to pay in <span id='id_sec_timer'>5</span> seconds.
+            You will be able to enter your belief and your willingness to pay in <span id='id_sec_timer'>10</span> seconds.
           </span>
           <button class="btn btn-primary" type="button" onclick="hide_nudge()" id='id_button_nudge' style="display: none">
             To the decision
@@ -22,7 +22,7 @@
   </div>
 
 <script>
-var counter = 5;
+var counter = 10;
 var interval = setInterval(function() {
     counter--;
     document.getElementById("id_sec_timer").innerHTML = counter; 
