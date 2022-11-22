@@ -44,7 +44,9 @@ class Decision(Page):
         if self.player.treatment in ['BEST', 'BEST_NUDGE', 'BEST_INFO']:
             extend_dict = {
                 'subsample': self.player.get_subsample(),
-                
+                'x_mid_draws': self.player.x_mid_draws,
+                'y_high_draws': self.player.y_high_draws
+
             }
             context.update(extend_dict)
             

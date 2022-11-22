@@ -65,6 +65,8 @@ class Constants(BaseConstants):
     sample_size = 400
     draws = 5
 
+    last_n_draws = 50
+
     all_treatments = ['FULL', 'BEST', 'BEST_NUDGE']
     belief_bonus = 13
 
@@ -153,6 +155,10 @@ class Player(BasePlayer):
     subsample = models.LongStringField()
 
 
+    # Lottery variables for the nudge treatment
+    x_mid_draws = models.IntegerField()
+    y_high_draws = models.IntegerField()
+
     # Belief that is reported for each lottery for the 
     # highest payoff state.
     belief = models.IntegerField(label="")
@@ -189,6 +195,14 @@ class Player(BasePlayer):
         total_sample = random.choices(population=list(current_lottery_dist.keys()),
                                       weights=list(current_lottery_dist.values()),
                                       k=Constants.sample_size)
+
+        # If we consider a policy treatment, we also check for the
+        # last draws of the sample     
+        if self.treatment in ['BEST_NUDGE', 'BEST_INFO']:
+            last_draws = total_sample[-Constants.last_n_draws:]
+            self.x_mid_draws = last_draws.count(10) # mid payoff is always ten!
+            self.y_high_draws = last_draws.count(self.max_payoff)
+        
         if self.treatment in ['BEST', 'BEST_NUDGE', 'BEST_INFO']:
             subsample = sorted(total_sample, reverse=True)[:Constants.draws]
         else:

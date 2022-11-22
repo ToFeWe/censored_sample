@@ -5,12 +5,13 @@
           <p>
             <b>Note: </b>
           </p>
-          <p>
-            The 5 draws are not representative, and {{ payoff_mid }} and {{ payoff_high }} coins need not be equally likely.
-          <p>
-          <br>
+          <ul>
+            <li>{{ payoff_mid }} and {{ payoff_high }} coins are <b>not equally likely.</b></li>
+            <li>Of the last {{Constants.last_n_draws}} random lottery draws, <b>{{x_mid_draws}} draws were equal
+               to {{ payoff_mid }}</b> and <b>{{y_high_draws}} draws were equal to {{ payoff_high }}.</b></li>
+          </ul>          
           <span id="id_wait_for_decision" style=" font-style: italic"> 
-            You will be able to enter your belief and your willingness to pay in <span id='id_sec_timer'>10</span> seconds.
+            You will be able to enter your belief and your willingness to pay in <span id='id_sec_timer'>15</span> seconds.
           </span>
           <button class="btn btn-primary" type="button" onclick="hide_nudge()" id='id_button_nudge' style="display: none">
             To the decision
@@ -22,7 +23,7 @@
   </div>
 
 <script>
-var counter = 10;
+var counter = 15;
 var interval = setInterval(function() {
     counter--;
     document.getElementById("id_sec_timer").innerHTML = counter; 
@@ -47,3 +48,11 @@ function hide_nudge() {
 
 
 </script>
+
+<style>
+  ul {
+    text-align: center;
+    list-style-position: inside;
+}
+
+</style>
