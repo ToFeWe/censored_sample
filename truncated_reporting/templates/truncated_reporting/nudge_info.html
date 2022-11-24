@@ -13,9 +13,7 @@
           <span id="id_wait_for_decision" style=" font-style: italic"> 
             You will be able to enter your belief and your willingness to pay in <span id='id_sec_timer'>15</span> seconds.
           </span>
-          <button class="btn btn-primary" type="button" onclick="hide_nudge()" id='id_button_nudge' style="display: none">
-            To the decision
-        </button>
+
         
         </div>
       </div>
@@ -31,19 +29,15 @@ var interval = setInterval(function() {
     if (counter == 0) {
         // Display a login box
         clearInterval(interval);
-        document.getElementById("id_button_nudge").style.display = 'inline';
-        document.getElementById("id_wait_for_decision").style.display = 'none';       
+        document.getElementById("id_decision_area").style.display = 'inline'; 
+        document.getElementById("id_wait_for_decision").style.display = 'none';
+
+        // Start belief decision timer
+        start_decision_timeout()
+
     }
 }, 1000);
     
-// Hide the nudge and show the decision part
-function hide_nudge() {
-    document.getElementById("id_nudge").style.display = 'none'; 
-    document.getElementById("id_decision_area").style.display = 'inline'; 
-
-    // Start the timer after I clicked the button
-    start_decision_timeout()
-}
 
 
 
