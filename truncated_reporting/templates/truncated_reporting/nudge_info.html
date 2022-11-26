@@ -11,7 +11,7 @@
                to {{ payoff_mid }} coins</b> and <b>{{y_high_draws}} draws were equal to {{ payoff_high }} coins.</b></li>
           </ul>          
           <span id="id_wait_for_decision" style=" font-style: italic"> 
-            You will be able to enter your belief and your willingness to pay in <span id='id_sec_timer'>15</span> seconds.
+            You will be able to enter your belief and your willingness to pay after <span id='id_sec_timer'>15</span> seconds.
           </span>
 
         
@@ -24,7 +24,7 @@
 var counter = 15;
 var interval = setInterval(function() {
     counter--;
-    document.getElementById("id_sec_timer").innerHTML = counter; 
+    //document.getElementById("id_sec_timer").innerHTML = counter; 
     // Display 'counter' wherever you want to display it.
     if (counter == 0) {
         // Display a login box
